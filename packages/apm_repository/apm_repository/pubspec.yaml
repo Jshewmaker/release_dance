@@ -1,0 +1,11 @@
+name: apm_repository
+description: Package which manages the application performance monitoring.
+publish_to: none
+
+environment:
+  sdk: ^3.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^5.1.0

@@ -1,0 +1,15 @@
+name: fake_apm_repository
+description: A fake implementation of `package:apm_repository`.
+publish_to: none
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  apm_repository:
+    path: ../apm_repository
+  meta: ^1.11.0
+
+dev_dependencies:
+  test: ^1.25.2
+  very_good_analysis: ^5.1.0

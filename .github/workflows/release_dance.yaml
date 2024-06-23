@@ -1,0 +1,73 @@
+name: "release_dance"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "packages/**"
+      - "pubspec.yaml"
+      - ".github/workflows/release_dance.yaml"
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: "."
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.22.0"
+          cache: true
+
+      - name: 📦 Install Dependencies
+        run: |
+          flutter pub global activate very_good_cli
+          very_good packages get --recursive
+
+      - name: ✨ Format
+        run: dart format --set-exit-if-changed lib test
+
+      - name: 🔎 Analyze
+        run: flutter analyze lib test
+
+      - name: ✅ Verify
+        run: flutter test -t ensure-build --run-skipped
+
+      - name: 🧪 Run tests
+        run: very_good test -x ensure-build --coverage --test-randomize-ordering-seed random
+
+      - name: 📊 Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2.2.0
+        with:
+          exclude: "**/*.g.dart **/*.gen.dart **/l10n/*.dart **/l10n/**/*.dart **/main/bootstrap.dart"
+          path: coverage/lcov.info
+
+      - name: 🏙 Generate Visual Architecture
+        env:
+          FLUTTER_DART_HOME: $/bin/cache/dart-sdk/bin
+          FLUTTER_PUB_CACHE: $/.pub-cache/bin
+        run: |
+          flutter pub global activate pubviz
+          export PATH=$PATH:$FLUTTER_DART_HOME
+          export PATH=$PATH:$FLUTTER_PUB_CACHE
+          pubviz print -d > pubviz.html
+
+      - name: ☁️ Upload Visual Architecture Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-architecture-report
+          path: ./pubviz.html

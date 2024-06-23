@@ -1,0 +1,4 @@
+tags:
+  ensure-build:
+    skip: "Runs on CI to ensure committed generated Dart code using `package:build` is up-to-date."
+    description: "Ensures generated Dart code is up-to-date when using `package:build`."

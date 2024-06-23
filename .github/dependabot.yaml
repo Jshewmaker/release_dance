@@ -1,0 +1,75 @@
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "."
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/app_ui/gallery"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/app_ui"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/api_client"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/authentication_client/authentication_client"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/connectivity_repository"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/app_config_repository/app_config_repository"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/app_config_repository/fake_app_config_repository/example"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/app_config_repository/fake_app_config_repository"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/form_inputs"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/storage/storage"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/storage/secure_storage"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/apm_repository/fake_apm_repository"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/apm_repository/apm_repository"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/app_support_repository"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/user_repository"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "packages/analytics_repository/analytics_repository"
+    schedule:
+      interval: "daily"

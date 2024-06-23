@@ -1,0 +1,9 @@
+# other phrases that are not words but are getting flagged. Typically contained in localization files or urls
+abcdefghijklmnopqrstuvwxyz
+apiaryio
+contador
+cret
+grygezt
+mostrado
+página
+texto

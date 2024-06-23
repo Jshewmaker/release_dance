@@ -1,0 +1,23 @@
+name: "license_release_dance"
+
+concurrency:
+  group: $-$
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - "."
+      - ".github/workflows/license_release_dance.yaml"
+  push:
+    branches:
+      - main
+    paths:
+      - "."
+      - ".github/workflows/license_release_dance.yaml"
+
+jobs:
+  license_check:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/license_check.yml@v1
+    with:
+      working_directory: "."

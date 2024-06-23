@@ -1,0 +1,52 @@
+name: app_ui
+description: App UI Component Library
+publish_to: none
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.10+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^5.1.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Futura
+      fonts:
+        - asset: assets/fonts/Futura-Bold.otf
+          weight: 900
+        - asset: assets/fonts/Futura-Bold-Italic.otf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/Futura-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Futura-Bold-Italic.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Futura-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Futura-Medium-Italic.otf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Futura-Medium.otf
+          weight: 400
+        - asset: assets/fonts/Futura-Medium-Italic.otf
+          weight: 400
+          style: italic
+
+flutter_gen:
+  assets:
+    outputs:
+      package_parameter_enabled: true
+  output: lib/src/generated/
+  line_length: 80
+
+  integrations:
+    flutter_svg: true

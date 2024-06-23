@@ -1,0 +1,224 @@
+{
+  "downForMaintenanceTitle": "We Are Currently Experiencing Difficulties.",
+  "@downForMaintenanceTitle": {
+    "description": "Title shown when app is down for maintenance.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "downForMaintenanceSubtitle": "Our app is currently offline. Please check back later or contact customer support.",
+  "@downForMaintenanceSubtitle": {
+    "description": "Subtitle shown when app is down for maintenance.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "forceUpgradeTitle": "Update Your App",
+  "@forceUpgradeTitle": {
+    "description": "Title shown when force upgrade is required.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "forceUpgradeSubtitle": "You are using an unsupported app version. Please update your app from the App Store to continue.",
+  "@forceUpgradeSubtitle": {
+    "description": "Subtitle shown when force upgrade is required.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "forceUpgradeButtonText": "GO TO APP STORE",
+  "@forceUpgradeButtonText": {
+    "description": "Text on button when an upgrade is required.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Label for logging out users",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inAppReview": "In App Review",
+  "@inAppReview": {
+    "description": "Title for the in app review button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inAppReviewUnavailable": "In App Review is not available",
+  "@inAppReviewUnavailable": {
+    "description": "Message shown when there is an error when requesting app review",
+    "type": "text",
+    "placeholders": {}
+  },
+  "authenticationFailure": "Authentication failure",
+  "@authenticationFailure": {
+    "description": "Message shown when there is an error at login",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createAccountButtonText": "CREATE AN ACCOUNT",
+  "@createAccountButtonText": {
+    "description": "Button text for create account button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordInputLabelText": "Password",
+  "@passwordInputLabelText": {
+    "description": "Password label on login form",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidPasswordInputErrorText": "Invalid password",
+  "@invalidPasswordInputErrorText": {
+    "description": "Password error text on login form when password is invalid",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailInputLabelText": "Email",
+  "@emailInputLabelText": {
+    "description": "Email label on sign up form",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidEmailInputErrorText": "Invalid email",
+  "@invalidEmailInputErrorText": {
+    "description": "Email error text on sign up form when email is invalid",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginWelcomeText": "Welcome to\nVery Good Start",
+  "@loginWelcomeText": {
+    "description": "Greeting shown on the login page.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginButtonText": "LOGIN",
+  "@loginButtonText": {
+    "description": "Login Button Text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signUpAppBarTitle": "Create Account",
+  "@signUpAppBarTitle": {
+    "description": "App bar title shown on Sign Up page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signInWithGoogleButtonText": "Sign in with Google",
+  "@signInWithGoogleButtonText": {
+    "description": "Sign in with Google Button Text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signInWithAppleButtonText": "Sign in with Apple",
+  "@signInWithAppleButtonText": {
+    "description": "Sign in with Apple Button Text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signUpButtonText": "Sign Up",
+  "@signUpButtonText": {
+    "description": "Sign Up button title shown on Sign Up page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signUpFailure": "Unable to create an account",
+  "@signUpFailure": {
+    "description": "Message shown when there is an error creating an account",
+    "type": "text",
+    "placeholders": {}
+  },
+  "resetPasswordSubmitText": "If an account is registered with the provided email, we will send a link to reset your password",
+  "@resetPasswordSubmitText" : {
+    "description": "Message shown when a valid email is submitted for a password reset",
+    "type": "text",
+    "placeholders": {}
+  },
+  "resetPasswordTitle": "Reset Password",
+  "@resetPasswordTitle": {
+    "description": "Reset Password page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "forgotPasswordText": "Forgot Password?",
+  "@forgotPasswordText": {
+    "description": "Forgot password button title shown on Login page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "submitButtonText": "Submit",
+  "@submitButtonText": {
+    "description": "Submit button title shown on Reset Password page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "systemOption": "System",
+  "@systemOption": {
+    "description": "The option to use system-wide theme in the theme selector menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lightModeOption": "Light",
+  "@lightModeOption": {
+    "description": "The option for light mode in the theme selector menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "darkModeOption": "Dark",
+  "@darkModeOption": {
+    "description": "The option for dark mode in the theme selector menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "counterAppBarTitle": "COUNTER",
+  "@counterAppBarTitle": {
+    "description": "App bar title shown on the counter page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsAppBarTitle": "Settings",
+  "@settingsAppBarTitle": {
+    "description": "App bar title shown on the settings page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsThemeListItemTitle": "Theme",
+  "@settingsThemeListItemTitle": {
+    "description": "Theme list item title shown on the settings page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingWelcomeTitle": "Say hello to your\ngenerated app\nand codebase!",
+  "@onboardingWelcomeTitle": {
+    "description": "Title text shown on first onboarding page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingWelcomeSubtitle": "We built a very good foundation so you\ncan start building features right away.",
+  "@onboardingWelcomeSubtitle": {
+    "description": "Subtitle text shown on first onboarding page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingFeaturesTitle": "Here are some of\nthe features you get\nout of the box",
+  "@onboardingFeaturesTitle": {
+    "description": "Title text shown on second onboarding page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingSummaryTitle": "You're off to a\nVery Good Start!",
+  "@onboardingSummaryTitle": {
+    "description": "Title text shown on second onboarding page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingNextButtonText": "NEXT",
+  "@onboardingNextButtonText": {
+    "description": "Button text on next button in onboarding pages",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noNetworkConnectionText": "No Network Connection.",
+  "@noNetworkConnectionText": {
+    "description": "No Network Connection text shown on the bottom OverlayEntry when connectivity is offline",
+    "type": "text",
+    "placeholders": {}
+  }
+}
