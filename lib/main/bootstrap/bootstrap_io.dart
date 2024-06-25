@@ -3,7 +3,6 @@
 
 import 'dart:async';
 
-import 'package:fake_apm_repository/fake_apm_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/widgets.dart';

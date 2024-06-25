@@ -65,5 +65,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'release-dev-8c507.appspot.com',
     iosBundleId: 'com.yetiproductions.app',
   );
-
 }

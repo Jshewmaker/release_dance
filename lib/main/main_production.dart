@@ -15,7 +15,8 @@ void main() {
       final appSupportRepository = AppSupportRepository();
       final connectivityRepository = ConnectivityRepository();
       final authenticationClient = FirebaseAuthenticationClient();
-      final userRepository = UserRepository(authenticationClient: authenticationClient);
+      final userRepository =
+          UserRepository(authenticationClient: authenticationClient);
 
       final appConfigRepository = FakeAppConfigRepository();
 

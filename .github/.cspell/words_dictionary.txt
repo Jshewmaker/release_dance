@@ -1,5 +1,7 @@
 # actual english words (or common abbreviations) missing from CSpell
+appbar
 appicon
+appspot
 archs
 assetcatalog
 autocorrect
@@ -12,6 +14,7 @@ crashlytics
 dependabot
 deserializes
 devstorage
+Dhoz
 endtemplate
 excalidraw
 encodable
@@ -31,12 +34,14 @@ intellij
 iphoneos
 iphonesimulator
 keychain
+Koee
 lbird
 lcov
 libc
 lightbridge
 localizable
 loopback
+Ltfau
 ltrb
 macos
 mkdir
@@ -61,6 +66,7 @@ routable
 runpath
 runtimes
 scrollable
+scrollables
 sdkroot
 serializable
 templating
@@ -72,7 +78,9 @@ verygood
 vgstart
 vgvbot
 wholemodule
+widgetbook
 wifi
+wireframe
 xcassets
 xcbuild
 xcconfig
@@ -85,3 +93,4 @@ xcworkspace
 xxlg
 xxxlg
 xxxs
+yetiproductions
