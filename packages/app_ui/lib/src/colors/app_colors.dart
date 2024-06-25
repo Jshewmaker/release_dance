@@ -39,5 +39,7 @@ abstract class AppColors {
   static const MaterialColor red = Colors.red;
 
   /// The grey primary color and swatch.
-  static const Color grey = Color(0xFFe6e6e6);
+  static const Color greyPrimary = Color(0xFFe6e6e6);
+
+  static const Color greySecondary = Color(0XFFcdcdcd);
 }

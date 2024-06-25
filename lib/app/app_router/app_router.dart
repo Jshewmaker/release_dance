@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/go_router_refresh_stream.dart';
+import 'package:release_dance/app/app_router/scaffold_with_nested_navigation.dart';
 import 'package:release_dance/counter/counter.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
@@ -14,6 +15,12 @@ import 'package:release_dance/onboarding/onboarding.dart';
 import 'package:release_dance/reset_password/reset_password.dart';
 import 'package:release_dance/settings/settings.dart';
 import 'package:release_dance/sign_up/sign_up.dart';
+
+// private navigators
+final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'home');
+final _shellNavigatorSettingsKey = GlobalKey<NavigatorState>(debugLabel: 'settings');
+final _shellNavigatorYouKey = GlobalKey<NavigatorState>(debugLabel: 'you');
+final _shellNavigatorEventKey = GlobalKey<NavigatorState>(debugLabel: 'event');
 
 class AppRouter {
   AppRouter({
@@ -51,6 +58,59 @@ class AppRouter {
         router.go(_currentStatus.route);
       },
       routes: [
+        StatefulShellRoute.indexedStack(
+          builder: (context, state, navigationShell) {
+            return ScaffoldWithNestedNavigation(
+              navigationShell: navigationShell,
+            );
+          },
+          branches: [
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorHomeKey,
+              routes: [
+                AppRoute(
+                  name: CounterPage.routeName,
+                  path: CounterPage.routeName,
+                  pageBuilder: (context, state) => NoTransitionPage(
+                    name: CounterPage.routeName,
+                    child: CounterPage.pageBuilder(context, state),
+                  ),
+                  routes: [],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorSettingsKey,
+              routes: [
+                AppRoute(
+                  name: SettingsPage.routeName,
+                  path: SettingsPage.routeName,
+                  builder: SettingsPage.pageBuilder,
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorYouKey,
+              routes: [
+                AppRoute(
+                  //   name: SettingsPage.routeName,
+                  path: '/you',
+                  builder: SettingsPage.pageBuilder,
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorEventKey,
+              routes: [
+                AppRoute(
+                  //   name: SettingsPage.routeName,
+                  path: '/events',
+                  builder: SettingsPage.pageBuilder,
+                ),
+              ],
+            ),
+          ],
+        ),
         AppRoute(
           name: OnboardingPage.routeName,
           path: OnboardingPage.routeName,
@@ -98,21 +158,6 @@ class AppRouter {
               path: ResetPasswordPage.routeName,
               appStatus: AppStatus.unauthenticated,
               builder: ResetPasswordPage.pageBuilder,
-            ),
-          ],
-        ),
-        AppRoute(
-          name: CounterPage.routeName,
-          path: CounterPage.routeName,
-          pageBuilder: (context, state) => NoTransitionPage(
-            name: CounterPage.routeName,
-            child: CounterPage.pageBuilder(context, state),
-          ),
-          routes: [
-            AppRoute(
-              name: SettingsPage.routeName,
-              path: SettingsPage.routeName,
-              builder: SettingsPage.pageBuilder,
             ),
           ],
         ),

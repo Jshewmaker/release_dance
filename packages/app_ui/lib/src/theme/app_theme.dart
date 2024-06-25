@@ -15,11 +15,12 @@ class AppTheme {
   ThemeData get themeData {
     return ThemeData(
       primaryColor: AppColors.yellow,
-      canvasColor: _backgroundColor,
+      canvasColor: AppColors.white,
       scaffoldBackgroundColor: _backgroundColor,
       iconTheme: _iconTheme,
       appBarTheme: _appBarTheme,
       dividerTheme: _dividerTheme,
+      bottomNavigationBarTheme: _navigationBarTheme,
       textTheme: _textTheme,
       inputDecorationTheme: _inputDecorationTheme,
       buttonTheme: _buttonTheme,
@@ -32,9 +33,9 @@ class AppTheme {
   }
 
   ColorScheme get _colorScheme {
-    return ColorScheme.light(
-      primary: AppColors.blue,
-      secondary: AppColors.lightBlue.shade300,
+    return const ColorScheme.light(
+      primary: AppColors.greyPrimary,
+      secondary: AppColors.greySecondary,
     );
   }
 
@@ -53,19 +54,30 @@ class AppTheme {
     );
   }
 
-  Color get _backgroundColor => AppColors.grey;
+  Color get _backgroundColor => AppColors.greyPrimary;
 
   AppBarTheme get _appBarTheme {
     return AppBarTheme(
       iconTheme: _iconTheme,
       titleTextStyle: _textTheme.titleLarge,
       elevation: 0,
-      backgroundColor: AppColors.transparent,
+      //  backgroundColor: AppColors.transparent,
     );
   }
 
   IconThemeData get _iconTheme {
     return const IconThemeData(color: AppColors.black);
+  }
+
+  BottomNavigationBarThemeData get _navigationBarTheme {
+    return BottomNavigationBarThemeData(
+        // backgroundColor: AppColors.black,
+        selectedItemColor: AppColors.black,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedLabelStyle: _textTheme.labelLarge,
+        unselectedLabelStyle: _textTheme.labelLarge,
+        unselectedItemColor: AppColors.greySecondary);
   }
 
   DividerThemeData get _dividerTheme {
@@ -102,7 +114,7 @@ class AppTheme {
 
   InputDecorationTheme get _inputDecorationTheme {
     return const InputDecorationTheme(
-      hintStyle: TextStyle(color: AppColors.grey),
+      hintStyle: TextStyle(color: AppColors.greyPrimary),
     );
   }
 
@@ -175,7 +187,7 @@ class AppDarkTheme extends AppTheme {
         borderRadius: BorderRadius.circular(AppSpacing.sm),
       ),
       actionTextColor: AppColors.lightBlue.shade300,
-      backgroundColor: AppColors.grey,
+      backgroundColor: AppColors.greyPrimary,
       elevation: 4,
       behavior: SnackBarBehavior.floating,
     );
@@ -194,7 +206,7 @@ class AppDarkTheme extends AppTheme {
   }
 
   @override
-  Color get _backgroundColor => AppColors.grey;
+  Color get _backgroundColor => AppColors.greyPrimary;
 
   @override
   IconThemeData get _iconTheme {

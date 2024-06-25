@@ -21,7 +21,7 @@ class CounterPage extends StatelessWidget {
     );
   }
 
-  static const routeName = '/';
+  static const routeName = '/home';
 
   @override
   Widget build(BuildContext context) {
@@ -86,14 +86,6 @@ class CounterView extends StatelessWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: NavigationBar(
-    selectedIndex: /* TODO: where does this come from? */,
-    destinations: const [
-      // the appearance of each tab is defined with a [NavigationDestination] widget
-      NavigationDestination(label: 'Section A', icon: Icon(Icons.home)),
-      NavigationDestination(label: 'Section B', icon: Icon(Icons.settings)),
-    ],
-    onDestinationSelected: (index) { /* TODO: move to the tab at index */ },
           ),
         ],
       ),
