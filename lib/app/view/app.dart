@@ -14,7 +14,6 @@ import 'package:release_dance/l10n/l10n.dart';
 import 'package:release_dance/theme_selector/theme_selector.dart';
 import 'package:user_repository/user_repository.dart';
 
-
 class App extends StatelessWidget {
   const App({
     required AppConfigRepository appConfigRepository,
@@ -80,7 +79,6 @@ class _AppViewState extends State<AppView> {
     _appRouter = AppRouter(
       appBloc: context.read<AppBloc>(),
       navigatorKey: _navigatorKey,
-
     );
   }
 
