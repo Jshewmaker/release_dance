@@ -40,6 +40,11 @@ flutter:
         - asset: assets/fonts/Futura-Medium-Italic.otf
           weight: 400
           style: italic
+    - family: SourceSansPro
+      fonts:
+        - asset: assets/fonts/source-sans-pro.ttf
+          weight: 100
+       
 
 flutter_gen:
   assets:

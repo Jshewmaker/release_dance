@@ -10,7 +10,7 @@ abstract class AppTextStyle {
     fontWeight: AppFontWeight.regular,
     height: 1.5,
     package: 'app_ui',
-    fontFamily: 'Futura',
+    fontFamily: 'SourceSansPro',
   );
 
   /// Headline 1 Text Style

@@ -178,6 +178,8 @@ class FirebaseAuthenticationClient implements AuthenticationClient {
     } on LogInWithGoogleCanceled {
       rethrow;
     } catch (error, stackTrace) {
+      print(error);
+      print(stackTrace);
       Error.throwWithStackTrace(LogInWithGoogleFailure(error), stackTrace);
     }
   }
