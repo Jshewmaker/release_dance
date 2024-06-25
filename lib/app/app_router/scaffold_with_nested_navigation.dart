@@ -37,7 +37,8 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
               Icons.calendar_month,
             ),
           ),
-          BottomNavigationBarItem(label: 'Settings', icon: Icon(Icons.settings)),
+          BottomNavigationBarItem(
+              label: 'Settings', icon: Icon(Icons.settings)),
         ],
         onTap: _goBranch,
       ),
