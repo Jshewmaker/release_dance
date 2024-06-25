@@ -170,21 +170,6 @@ class _LogoutButton extends StatelessWidget {
   }
 }
 
-class _DeleteAccountButton extends StatelessWidget {
-  const _DeleteAccountButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      key: const Key('counterPage_deleteAccount_iconButton'),
-      icon: const Icon(Icons.delete),
-      onPressed: () => context.read<AppBloc>().add(
-            const AppUserAccountDeleted(),
-          ),
-    );
-  }
-}
-
 class _AppStoreReviewButton extends StatelessWidget {
   const _AppStoreReviewButton();
 

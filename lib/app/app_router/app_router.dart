@@ -18,8 +18,9 @@ import 'package:release_dance/sign_up/sign_up.dart';
 
 // private navigators
 final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'home');
-final _shellNavigatorSettingsKey =
-    GlobalKey<NavigatorState>(debugLabel: 'settings');
+final _shellNavigatorSettingsKey = GlobalKey<NavigatorState>(
+  debugLabel: 'settings',
+);
 final _shellNavigatorYouKey = GlobalKey<NavigatorState>(debugLabel: 'you');
 final _shellNavigatorEventKey = GlobalKey<NavigatorState>(debugLabel: 'event');
 
@@ -76,7 +77,6 @@ class AppRouter {
                     name: CounterPage.routeName,
                     child: CounterPage.pageBuilder(context, state),
                   ),
-                  routes: [],
                 ),
               ],
             ),

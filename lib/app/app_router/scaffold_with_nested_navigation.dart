@@ -38,7 +38,9 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
             ),
           ),
           BottomNavigationBarItem(
-              label: 'Settings', icon: Icon(Icons.settings)),
+            label: 'Settings',
+            icon: Icon(Icons.settings),
+          ),
         ],
         onTap: _goBranch,
       ),
