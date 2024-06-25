@@ -50,12 +50,6 @@ jobs:
       - name: 🧪 Run tests
         run: very_good test -x ensure-build --coverage --test-randomize-ordering-seed random
 
-      - name: 📊 Check Code Coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v3.0.0
-        with:
-          exclude: "**/*.g.dart **/*.gen.dart **/l10n/*.dart **/l10n/**/*.dart **/main/bootstrap.dart"
-          path: coverage/lcov.info
-
       - name: 🏙 Generate Visual Architecture
         env:
           FLUTTER_DART_HOME: $/bin/cache/dart-sdk/bin

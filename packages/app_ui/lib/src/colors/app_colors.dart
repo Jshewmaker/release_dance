@@ -14,9 +14,6 @@ abstract class AppColors {
   /// Transparent
   static const Color transparent = Color(0x00000000);
 
-  /// The grey primary color and swatch.
-  static const MaterialColor grey = Colors.grey;
-
   /// The green primary color and swatch.
   static const MaterialColor green = Colors.green;
 
@@ -40,4 +37,9 @@ abstract class AppColors {
 
   /// The red primary color and swatch.
   static const MaterialColor red = Colors.red;
+
+  /// The grey primary color and swatch.
+  static const Color greyPrimary = Color(0xFFe6e6e6);
+
+  static const Color greySecondary = Color(0XFFcdcdcd);
 }

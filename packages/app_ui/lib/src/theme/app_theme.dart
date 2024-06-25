@@ -14,12 +14,13 @@ class AppTheme {
   /// Default `ThemeData` for App UI.
   ThemeData get themeData {
     return ThemeData(
-      primaryColor: AppColors.blue,
-      canvasColor: _backgroundColor,
+      primaryColor: AppColors.yellow,
+      canvasColor: AppColors.white,
       scaffoldBackgroundColor: _backgroundColor,
       iconTheme: _iconTheme,
       appBarTheme: _appBarTheme,
       dividerTheme: _dividerTheme,
+      bottomNavigationBarTheme: _navigationBarTheme,
       textTheme: _textTheme,
       inputDecorationTheme: _inputDecorationTheme,
       buttonTheme: _buttonTheme,
@@ -32,9 +33,9 @@ class AppTheme {
   }
 
   ColorScheme get _colorScheme {
-    return ColorScheme.light(
-      primary: AppColors.blue,
-      secondary: AppColors.lightBlue.shade300,
+    return const ColorScheme.light(
+      primary: AppColors.greyPrimary,
+      secondary: AppColors.greySecondary,
     );
   }
 
@@ -53,14 +54,14 @@ class AppTheme {
     );
   }
 
-  Color get _backgroundColor => AppColors.white;
+  Color get _backgroundColor => AppColors.greyPrimary;
 
   AppBarTheme get _appBarTheme {
     return AppBarTheme(
       iconTheme: _iconTheme,
       titleTextStyle: _textTheme.titleLarge,
       elevation: 0,
-      backgroundColor: AppColors.transparent,
+      //  backgroundColor: AppColors.transparent,
     );
   }
 
@@ -68,9 +69,20 @@ class AppTheme {
     return const IconThemeData(color: AppColors.black);
   }
 
+  BottomNavigationBarThemeData get _navigationBarTheme {
+    return BottomNavigationBarThemeData(
+        // backgroundColor: AppColors.black,
+        selectedItemColor: AppColors.black,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedLabelStyle: _textTheme.labelLarge,
+        unselectedLabelStyle: _textTheme.labelLarge,
+        unselectedItemColor: AppColors.greySecondary);
+  }
+
   DividerThemeData get _dividerTheme {
-    return DividerThemeData(
-      color: AppColors.grey.shade200,
+    return const DividerThemeData(
+      color: AppColors.black,
       space: AppSpacing.xxxs,
       thickness: AppSpacing.xxxs,
       indent: 56,
@@ -101,8 +113,8 @@ class AppTheme {
   }
 
   InputDecorationTheme get _inputDecorationTheme {
-    return InputDecorationTheme(
-      hintStyle: TextStyle(color: AppColors.grey.shade500),
+    return const InputDecorationTheme(
+      hintStyle: TextStyle(color: AppColors.greyPrimary),
     );
   }
 
@@ -175,7 +187,7 @@ class AppDarkTheme extends AppTheme {
         borderRadius: BorderRadius.circular(AppSpacing.sm),
       ),
       actionTextColor: AppColors.lightBlue.shade300,
-      backgroundColor: AppColors.grey.shade300,
+      backgroundColor: AppColors.greyPrimary,
       elevation: 4,
       behavior: SnackBarBehavior.floating,
     );
@@ -194,7 +206,7 @@ class AppDarkTheme extends AppTheme {
   }
 
   @override
-  Color get _backgroundColor => AppColors.grey.shade900;
+  Color get _backgroundColor => AppColors.greyPrimary;
 
   @override
   IconThemeData get _iconTheme {
@@ -203,8 +215,8 @@ class AppDarkTheme extends AppTheme {
 
   @override
   DividerThemeData get _dividerTheme {
-    return DividerThemeData(
-      color: AppColors.grey.shade700,
+    return const DividerThemeData(
+      color: AppColors.black,
       space: AppSpacing.xxxs,
       thickness: AppSpacing.xxxs,
       indent: 56,

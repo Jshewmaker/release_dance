@@ -21,7 +21,7 @@ class CounterPage extends StatelessWidget {
     );
   }
 
-  static const routeName = '/';
+  static const routeName = '/home';
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,6 @@ class CounterView extends StatelessWidget {
       },
       child: Stack(
         children: [
-          const _GradientBackground(),
           Scaffold(
             appBar: AppBar(
               iconTheme: theme.iconTheme.copyWith(color: AppColors.white),
@@ -68,7 +67,6 @@ class CounterView extends StatelessWidget {
               actions: const <Widget>[
                 _AppStoreReviewButton(),
                 _SettingsButton(),
-                _DeleteAccountButton(),
               ],
               title: Text(
                 l10n.counterAppBarTitle,
@@ -77,7 +75,6 @@ class CounterView extends StatelessWidget {
                 ),
               ),
             ),
-            backgroundColor: AppColors.transparent,
             body: const Center(
               child: ScrollableColumn(
                 children: [
@@ -135,26 +132,6 @@ class _CounterButtonRow extends StatelessWidget {
   }
 }
 
-class _GradientBackground extends StatelessWidget {
-  const _GradientBackground();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox.expand(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0, 1],
-            colors: [AppColors.skyBlue, AppColors.oceanBlue],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _CounterButton extends StatelessWidget {
   const _CounterButton({
     required this.child,
@@ -189,21 +166,6 @@ class _LogoutButton extends StatelessWidget {
       key: const Key('counterPage_logout_iconButton'),
       icon: const Icon(Icons.logout),
       onPressed: () => context.read<AppBloc>().add(const AppLogoutRequested()),
-    );
-  }
-}
-
-class _DeleteAccountButton extends StatelessWidget {
-  const _DeleteAccountButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      key: const Key('counterPage_deleteAccount_iconButton'),
-      icon: const Icon(Icons.delete),
-      onPressed: () => context.read<AppBloc>().add(
-            const AppUserAccountDeleted(),
-          ),
     );
   }
 }

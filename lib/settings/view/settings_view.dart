@@ -3,6 +3,8 @@
 
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:release_dance/app/app.dart';
 import 'package:release_dance/l10n/l10n.dart';
 import 'package:release_dance/theme_selector/theme_selector.dart';
 
@@ -32,9 +34,25 @@ class SettingsView extends StatelessWidget {
               title: Text(l10n.settingsThemeListItemTitle),
               trailing: const ThemeSelector(),
             ),
+            const _DeleteAccountButton(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DeleteAccountButton extends StatelessWidget {
+  const _DeleteAccountButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      key: const Key('counterPage_deleteAccount_iconButton'),
+      icon: const Icon(Icons.delete),
+      onPressed: () => context.read<AppBloc>().add(
+            const AppUserAccountDeleted(),
+          ),
     );
   }
 }
