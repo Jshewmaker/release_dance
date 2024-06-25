@@ -14,7 +14,7 @@ class AppTheme {
   /// Default `ThemeData` for App UI.
   ThemeData get themeData {
     return ThemeData(
-      primaryColor: AppColors.blue,
+      primaryColor: AppColors.yellow,
       canvasColor: _backgroundColor,
       scaffoldBackgroundColor: _backgroundColor,
       iconTheme: _iconTheme,
@@ -53,7 +53,7 @@ class AppTheme {
     );
   }
 
-  Color get _backgroundColor => AppColors.white;
+  Color get _backgroundColor => AppColors.grey;
 
   AppBarTheme get _appBarTheme {
     return AppBarTheme(
@@ -69,8 +69,8 @@ class AppTheme {
   }
 
   DividerThemeData get _dividerTheme {
-    return DividerThemeData(
-      color: AppColors.grey.shade200,
+    return const DividerThemeData(
+      color: AppColors.black,
       space: AppSpacing.xxxs,
       thickness: AppSpacing.xxxs,
       indent: 56,
@@ -101,8 +101,8 @@ class AppTheme {
   }
 
   InputDecorationTheme get _inputDecorationTheme {
-    return InputDecorationTheme(
-      hintStyle: TextStyle(color: AppColors.grey.shade500),
+    return const InputDecorationTheme(
+      hintStyle: TextStyle(color: AppColors.grey),
     );
   }
 
@@ -175,7 +175,7 @@ class AppDarkTheme extends AppTheme {
         borderRadius: BorderRadius.circular(AppSpacing.sm),
       ),
       actionTextColor: AppColors.lightBlue.shade300,
-      backgroundColor: AppColors.grey.shade300,
+      backgroundColor: AppColors.grey,
       elevation: 4,
       behavior: SnackBarBehavior.floating,
     );
@@ -194,7 +194,7 @@ class AppDarkTheme extends AppTheme {
   }
 
   @override
-  Color get _backgroundColor => AppColors.grey.shade900;
+  Color get _backgroundColor => AppColors.grey;
 
   @override
   IconThemeData get _iconTheme {
@@ -203,8 +203,8 @@ class AppDarkTheme extends AppTheme {
 
   @override
   DividerThemeData get _dividerTheme {
-    return DividerThemeData(
-      color: AppColors.grey.shade700,
+    return const DividerThemeData(
+      color: AppColors.black,
       space: AppSpacing.xxxs,
       thickness: AppSpacing.xxxs,
       indent: 56,

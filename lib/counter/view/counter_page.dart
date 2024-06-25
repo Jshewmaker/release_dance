@@ -59,7 +59,6 @@ class CounterView extends StatelessWidget {
       },
       child: Stack(
         children: [
-          const _GradientBackground(),
           Scaffold(
             appBar: AppBar(
               iconTheme: theme.iconTheme.copyWith(color: AppColors.white),
@@ -68,7 +67,6 @@ class CounterView extends StatelessWidget {
               actions: const <Widget>[
                 _AppStoreReviewButton(),
                 _SettingsButton(),
-                _DeleteAccountButton(),
               ],
               title: Text(
                 l10n.counterAppBarTitle,
@@ -77,7 +75,6 @@ class CounterView extends StatelessWidget {
                 ),
               ),
             ),
-            backgroundColor: AppColors.transparent,
             body: const Center(
               child: ScrollableColumn(
                 children: [
@@ -89,6 +86,14 @@ class CounterView extends StatelessWidget {
                 ],
               ),
             ),
+            bottomNavigationBar: NavigationBar(
+    selectedIndex: /* TODO: where does this come from? */,
+    destinations: const [
+      // the appearance of each tab is defined with a [NavigationDestination] widget
+      NavigationDestination(label: 'Section A', icon: Icon(Icons.home)),
+      NavigationDestination(label: 'Section B', icon: Icon(Icons.settings)),
+    ],
+    onDestinationSelected: (index) { /* TODO: move to the tab at index */ },
           ),
         ],
       ),
@@ -131,26 +136,6 @@ class _CounterButtonRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [decrementButton, incrementButton],
-    );
-  }
-}
-
-class _GradientBackground extends StatelessWidget {
-  const _GradientBackground();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox.expand(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0, 1],
-            colors: [AppColors.skyBlue, AppColors.oceanBlue],
-          ),
-        ),
-      ),
     );
   }
 }
