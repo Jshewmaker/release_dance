@@ -19,7 +19,7 @@ dependencies:
   widgetbook: ^3.8.0
 
 dev_dependencies:
-  very_good_analysis: ^5.1.0
+  very_good_analysis: ^6.0.0
 
 flutter:
   uses-material-design: true
