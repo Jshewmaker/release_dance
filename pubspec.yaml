@@ -28,7 +28,7 @@ dependencies:
     path: packages/app_config_repository/fake_app_config_repository
   firebase_authentication_client:
     path: packages/authentication_client/firebase_authentication_client
-  firebase_core: ^3.1.0
+  firebase_core: ^3.1.1
   flow_builder: ^0.1.0
   flutter:
     sdk: flutter
