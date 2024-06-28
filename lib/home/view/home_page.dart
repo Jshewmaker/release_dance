@@ -29,15 +29,23 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           l10n.releaseAppBarTitle,
-          style: theme.textTheme.displayMedium,
         ),
+        actions: [
+          MaterialButton(
+            height: 20,
+            shape: const CircleBorder(),
+            color: AppColors.greyPrimary,
+            textColor: AppColors.black,
+            onPressed: () {},
+            child: const Text('3'),
+          ),
+        ],
       ),
       body: const Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
@@ -45,8 +53,8 @@ class HomeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _WelcomeHeader(),
-            SizedBox(height: AppSpacing.xlg),
-            _SectionHeader(text: 'Upcoming'),
+            SizedBox(height: AppSpacing.xxlg),
+            _SectionHeader(text: 'Your Classes'),
             SizedBox(height: AppSpacing.sm),
             _ClassCard(),
             SizedBox(height: AppSpacing.xlg),

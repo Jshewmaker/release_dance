@@ -30,9 +30,10 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
         currentIndex: navigationShell.currentIndex,
         items: const [
           BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: 'You', icon: Icon(Icons.person)),
           BottomNavigationBarItem(
-            label: 'Events',
+              label: 'My Release', icon: Icon(Icons.person)),
+          BottomNavigationBarItem(
+            label: 'Classes',
             icon: Icon(
               Icons.calendar_month,
             ),

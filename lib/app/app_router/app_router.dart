@@ -15,6 +15,7 @@ import 'package:release_dance/onboarding/onboarding.dart';
 import 'package:release_dance/reset_password/reset_password.dart';
 import 'package:release_dance/settings/settings.dart';
 import 'package:release_dance/sign_up/sign_up.dart';
+import 'package:release_dance/my_release/view/my_release_page.dart';
 
 // private navigators
 final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'home');
@@ -81,21 +82,21 @@ class AppRouter {
               ],
             ),
             StatefulShellBranch(
+              navigatorKey: _shellNavigatorYouKey,
+              routes: [
+                AppRoute(
+                  name: MyReleasePage.routeName,
+                  path: MyReleasePage.routeName,
+                  builder: MyReleasePage.pageBuilder,
+                ),
+              ],
+            ),
+            StatefulShellBranch(
               navigatorKey: _shellNavigatorSettingsKey,
               routes: [
                 AppRoute(
                   name: SettingsPage.routeName,
                   path: SettingsPage.routeName,
-                  builder: SettingsPage.pageBuilder,
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: _shellNavigatorYouKey,
-              routes: [
-                AppRoute(
-                  //   name: SettingsPage.routeName,
-                  path: '/you',
                   builder: SettingsPage.pageBuilder,
                 ),
               ],

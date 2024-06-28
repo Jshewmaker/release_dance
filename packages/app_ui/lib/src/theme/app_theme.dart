@@ -59,7 +59,7 @@ class AppTheme {
   AppBarTheme get _appBarTheme {
     return AppBarTheme(
       iconTheme: _iconTheme,
-      titleTextStyle: _textTheme.titleLarge,
+      titleTextStyle: _textTheme.displayMedium,
       elevation: 0,
       backgroundColor: AppColors.transparent,
     );
