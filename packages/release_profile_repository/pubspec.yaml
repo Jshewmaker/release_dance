@@ -1,0 +1,17 @@
+name: release_profile_repository
+description: Repository for gathering data about a release user.
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: "^3.3.0"
+
+dependencies:
+  cloud_firestore_client:
+    path: ../cloud_firestore_client
+  equatable: ^2.0.5
+
+dev_dependencies:
+  mocktail: ^1.0.3
+  test: ^1.25.2
+  very_good_analysis: ^5.1.0
