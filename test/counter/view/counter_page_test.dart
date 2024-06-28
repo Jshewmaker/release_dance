@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app_store_review/app_store_review.dart';
-import 'package:release_dance/counter/counter.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/settings/settings.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -39,12 +39,12 @@ void main() {
   });
   group('CounterPage', () {
     test('pageBuilder returns a CounterPage', () {
-      expect(CounterPage.pageBuilder(null, null), isA<CounterPage>());
+      expect(HomePage.pageBuilder(null, null), isA<HomePage>());
     });
 
     testWidgets('renders CounterView', (tester) async {
-      await tester.pumpApp(const CounterPage());
-      expect(find.byType(CounterView), findsOneWidget);
+      await tester.pumpApp(const HomePage());
+      expect(find.byType(HomeView), findsOneWidget);
     });
   });
 
@@ -74,7 +74,7 @@ void main() {
             BlocProvider.value(value: counterBloc),
             BlocProvider.value(value: appStoreReviewBloc),
           ],
-          child: const CounterView(),
+          child: const HomeView(),
         ),
       );
       expect(find.text('$state'), findsOneWidget);
@@ -92,7 +92,7 @@ void main() {
             BlocProvider.value(value: counterBloc),
             BlocProvider.value(value: appStoreReviewBloc),
           ],
-          child: const CounterView(),
+          child: const HomeView(),
         ),
       );
       await tester.tap(find.byKey(incrementButtonKey));
@@ -111,7 +111,7 @@ void main() {
             BlocProvider.value(value: counterBloc),
             BlocProvider.value(value: appStoreReviewBloc),
           ],
-          child: const CounterView(),
+          child: const HomeView(),
         ),
       );
       await tester.tap(find.byKey(decrementButtonKey));
@@ -120,7 +120,7 @@ void main() {
 
     testWidgets('adds AppLogoutRequested when logout is pressed',
         (tester) async {
-      await tester.pumpApp(const CounterPage(), appBloc: appBloc);
+      await tester.pumpApp(const HomePage(), appBloc: appBloc);
       await tester.tap(find.byKey(logoutButtonKey));
       verify(() => appBloc.add(const AppLogoutRequested())).called(1);
     });
@@ -128,7 +128,7 @@ void main() {
     testWidgets(
         'adds AppUserAccountDeleted when deleteAccount button is pressed',
         (tester) async {
-      await tester.pumpApp(const CounterPage(), appBloc: appBloc);
+      await tester.pumpApp(const HomePage(), appBloc: appBloc);
       await tester.tap(find.byKey(deleteAccountButtonKey));
       verify(() => appBloc.add(const AppUserAccountDeleted())).called(1);
     });
@@ -146,7 +146,7 @@ void main() {
               BlocProvider.value(value: counterBloc),
               BlocProvider.value(value: appStoreReviewBloc),
             ],
-            child: const CounterView(),
+            child: const HomeView(),
           ),
           appBloc: appBloc,
         );
@@ -161,7 +161,7 @@ void main() {
         (tester) async {
       final goRouter = MockGoRouter();
       await tester.pumpApp(
-        const CounterPage(),
+        const HomePage(),
         appBloc: appBloc,
         goRouter: goRouter,
       );
@@ -187,7 +187,7 @@ void main() {
               BlocProvider.value(value: counterBloc),
               BlocProvider.value(value: appStoreReviewBloc),
             ],
-            child: const CounterView(),
+            child: const HomeView(),
           ),
         );
         await tester.pump();

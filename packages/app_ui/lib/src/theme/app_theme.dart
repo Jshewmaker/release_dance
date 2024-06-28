@@ -34,8 +34,8 @@ class AppTheme {
 
   ColorScheme get _colorScheme {
     return const ColorScheme.light(
-      primary: AppColors.greyPrimary,
-      secondary: AppColors.greySecondary,
+      primary: AppColors.white,
+      secondary: AppColors.white,
     );
   }
 
@@ -54,25 +54,25 @@ class AppTheme {
     );
   }
 
-  Color get _backgroundColor => AppColors.greyPrimary;
+  Color get _backgroundColor => AppColors.black;
 
   AppBarTheme get _appBarTheme {
     return AppBarTheme(
       iconTheme: _iconTheme,
       titleTextStyle: _textTheme.titleLarge,
       elevation: 0,
-      //  backgroundColor: AppColors.transparent,
+      backgroundColor: AppColors.transparent,
     );
   }
 
   IconThemeData get _iconTheme {
-    return const IconThemeData(color: AppColors.black);
+    return const IconThemeData(color: AppColors.greyPrimary);
   }
 
   BottomNavigationBarThemeData get _navigationBarTheme {
     return BottomNavigationBarThemeData(
-        // backgroundColor: AppColors.black,
-        selectedItemColor: AppColors.black,
+        backgroundColor: AppColors.black,
+        selectedItemColor: AppColors.white,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         selectedLabelStyle: _textTheme.labelLarge,
@@ -82,7 +82,7 @@ class AppTheme {
 
   DividerThemeData get _dividerTheme {
     return const DividerThemeData(
-      color: AppColors.black,
+      color: AppColors.greySecondary,
       space: AppSpacing.xxxs,
       thickness: AppSpacing.xxxs,
       indent: 56,
@@ -106,9 +106,9 @@ class AppTheme {
       bodySmall: AppTextStyle.caption,
       labelSmall: AppTextStyle.overline,
     ).apply(
-      bodyColor: AppColors.black,
-      displayColor: AppColors.black,
-      decorationColor: AppColors.black,
+      bodyColor: AppColors.greyPrimary,
+      displayColor: AppColors.greyPrimary,
+      decorationColor: AppColors.greyPrimary,
     );
   }
 
@@ -147,7 +147,7 @@ class AppTheme {
         textStyle: _textTheme.labelLarge?.copyWith(
           fontWeight: AppFontWeight.light,
         ),
-        foregroundColor: AppColors.black,
+        foregroundColor: AppColors.white,
       ),
     );
   }
@@ -206,7 +206,7 @@ class AppDarkTheme extends AppTheme {
   }
 
   @override
-  Color get _backgroundColor => AppColors.greyPrimary;
+  Color get _backgroundColor => AppColors.black;
 
   @override
   IconThemeData get _iconTheme {
@@ -216,7 +216,7 @@ class AppDarkTheme extends AppTheme {
   @override
   DividerThemeData get _dividerTheme {
     return const DividerThemeData(
-      color: AppColors.black,
+      color: AppColors.white,
       space: AppSpacing.xxxs,
       thickness: AppSpacing.xxxs,
       indent: 56,

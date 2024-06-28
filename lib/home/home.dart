@@ -2,4 +2,4 @@
 // https://verygood.ventures
 
 export 'bloc/counter_bloc.dart';
-export 'view/counter_page.dart';
+export 'view/home_page.dart';

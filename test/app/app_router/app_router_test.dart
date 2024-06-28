@@ -13,7 +13,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/app_router.dart';
-import 'package:release_dance/counter/counter.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
 import 'package:release_dance/login/login.dart';
@@ -131,7 +131,7 @@ void main() {
         'to CounterPage',
         AppState.authenticated(_MockUser()),
         AppState.unauthenticated(),
-        CounterPage,
+        HomePage,
       );
 
       testRedirect(

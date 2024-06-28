@@ -8,7 +8,7 @@ import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:release_dance/app/app.dart';
-import 'package:release_dance/counter/counter.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
 import 'package:release_dance/login/login.dart';
@@ -142,7 +142,7 @@ void main() {
         userRepository: userRepository,
       );
       await tester.pumpAndSettle();
-      expect(find.byType(CounterPage), findsOneWidget);
+      expect(find.byType(HomePage), findsOneWidget);
     });
   });
 }

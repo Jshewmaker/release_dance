@@ -167,9 +167,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "counterAppBarTitle": "COUNTER",
-  "@counterAppBarTitle": {
-    "description": "App bar title shown on the counter page",
+  "releaseAppBarTitle": "RELEASE",
+  "@releaseAppBarTitle": {
+    "description": "App bar title",
     "type": "text",
     "placeholders": {}
   },

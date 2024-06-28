@@ -3,7 +3,7 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:release_dance/counter/counter.dart';
+import 'package:release_dance/home/home.dart';
 
 void main() {
   group('CounterBloc', () {

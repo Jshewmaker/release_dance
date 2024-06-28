@@ -41,5 +41,8 @@ abstract class AppColors {
   /// The grey primary color and swatch.
   static const Color greyPrimary = Color(0xFFe6e6e6);
 
+  /// The grey secondary color and swatch.
   static const Color greySecondary = Color(0XFFcdcdcd);
+
+  static const Color greyTernary = Color(0xFF505050);
 }

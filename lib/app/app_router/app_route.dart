@@ -4,7 +4,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:release_dance/app/app.dart';
-import 'package:release_dance/counter/counter.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
 import 'package:release_dance/login/login.dart';
@@ -16,7 +16,7 @@ extension AppStatusRoute on AppStatus {
       case AppStatus.onboardingRequired:
         return OnboardingPage.routeName;
       case AppStatus.authenticated:
-        return CounterPage.routeName;
+        return HomePage.routeName;
       case AppStatus.downForMaintenance:
         return DownForMaintenancePage.routeName;
       case AppStatus.forceUpgradeRequired:

@@ -12,6 +12,10 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/dancer-silhouette.png
+  AssetGenImage get dancerSilhouette =>
+      const AssetGenImage('assets/images/dancer-silhouette.png');
+
   /// File path: assets/images/onboarding-features.png
   AssetGenImage get onboardingFeatures =>
       const AssetGenImage('assets/images/onboarding-features.png');
@@ -24,15 +28,31 @@ class $AssetsImagesGen {
   AssetGenImage get onboardingWelcome =>
       const AssetGenImage('assets/images/onboarding-welcome.png');
 
+  /// File path: assets/images/pride-promo.png
+  AssetGenImage get pridePromo =>
+      const AssetGenImage('assets/images/pride-promo.png');
+
+  /// File path: assets/images/release-studio.png
+  AssetGenImage get releaseStudio =>
+      const AssetGenImage('assets/images/release-studio.png');
+
+  /// File path: assets/images/summer-giveaway.png
+  AssetGenImage get summerGiveaway =>
+      const AssetGenImage('assets/images/summer-giveaway.png');
+
   /// File path: assets/images/unicorn-vgv-black.png
   AssetGenImage get unicornVgvBlack =>
       const AssetGenImage('assets/images/unicorn-vgv-black.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        dancerSilhouette,
         onboardingFeatures,
         onboardingSummary,
         onboardingWelcome,
+        pridePromo,
+        releaseStudio,
+        summerGiveaway,
         unicornVgvBlack
       ];
 }
@@ -44,11 +64,16 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName, {this.size = null});
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
 
   final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,

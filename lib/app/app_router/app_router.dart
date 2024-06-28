@@ -7,7 +7,7 @@ import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/go_router_refresh_stream.dart';
 import 'package:release_dance/app/app_router/scaffold_with_nested_navigation.dart';
-import 'package:release_dance/counter/counter.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
 import 'package:release_dance/login/login.dart';
@@ -71,11 +71,11 @@ class AppRouter {
               navigatorKey: _shellNavigatorHomeKey,
               routes: [
                 AppRoute(
-                  name: CounterPage.routeName,
-                  path: CounterPage.routeName,
+                  name: HomePage.routeName,
+                  path: HomePage.routeName,
                   pageBuilder: (context, state) => NoTransitionPage(
-                    name: CounterPage.routeName,
-                    child: CounterPage.pageBuilder(context, state),
+                    name: HomePage.routeName,
+                    child: HomePage.pageBuilder(context, state),
                   ),
                 ),
               ],
