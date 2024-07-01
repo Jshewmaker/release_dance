@@ -2,6 +2,8 @@
 // https://verygood.ventures
 
 import 'package:app_support_repository/app_support_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:fake_app_config_repository/fake_app_config_repository.dart';
 import 'package:firebase_authentication_client/firebase_authentication_client.dart';
@@ -11,8 +13,10 @@ import 'package:user_repository/user_repository.dart';
 
 void main() {
   bootstrap(
-    () async {
+    (FirebaseFirestore firebaseFirestore) async {
       final appSupportRepository = AppSupportRepository();
+      final cloudFirestoreClient =
+          CloudFirestoreClient(firebaseFirestore: firebaseFirestore);
       final connectivityRepository = ConnectivityRepository();
       final authenticationClient = FirebaseAuthenticationClient();
       final userRepository =
@@ -25,6 +29,7 @@ void main() {
         appSupportRepository: appSupportRepository,
         userRepository: userRepository,
         connectivityRepository: connectivityRepository,
+        cloudFirestoreClient: cloudFirestoreClient,
         user: user,
       );
     },

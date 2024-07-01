@@ -4,6 +4,7 @@
 import 'package:app_config_repository/app_config_repository.dart';
 import 'package:app_support_repository/app_support_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -23,6 +24,8 @@ class _MockUserRepository extends Mock implements UserRepository {}
 
 class _MockAppConfigRepository extends Mock implements AppConfigRepository {}
 
+class _MockCloudFirestoreClient extends Mock implements CloudFirestoreClient {}
+
 class _MockAppSupportRepository extends Mock implements AppSupportRepository {}
 
 class _MockConnectivityRepository extends Mock
@@ -36,12 +39,14 @@ void main() {
     late AppSupportRepository appSupportRepository;
     late ConnectivityRepository connectivityRepository;
     late UserRepository userRepository;
+    late CloudFirestoreClient cloudFirestoreClient;
     late User user;
 
     setUpAll(mockHydratedStorage);
 
     setUp(() {
       userRepository = _MockUserRepository();
+      cloudFirestoreClient = _MockCloudFirestoreClient();
       when(() => userRepository.user).thenAnswer(
         (_) => const Stream.empty(),
       );
@@ -66,6 +71,7 @@ void main() {
     testWidgets('renders AppView', (tester) async {
       await tester.pumpWidget(
         App(
+          cloudFirestoreClient: cloudFirestoreClient,
           appConfigRepository: appConfigRepository,
           appSupportRepository: appSupportRepository,
           connectivityRepository: connectivityRepository,

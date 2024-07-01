@@ -4,6 +4,7 @@
 import 'package:app_config_repository/app_config_repository.dart';
 import 'package:app_support_repository/app_support_repository.dart';
 import 'package:app_ui/app_ui.dart';
+import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,15 +21,18 @@ class App extends StatelessWidget {
     required AppSupportRepository appSupportRepository,
     required ConnectivityRepository connectivityRepository,
     required UserRepository userRepository,
+    required CloudFirestoreClient cloudFirestoreClient,
     required User user,
     super.key,
   })  : _appConfigRepository = appConfigRepository,
         _appSupportRepository = appSupportRepository,
         _connectivityRepository = connectivityRepository,
         _userRepository = userRepository,
+        _cloudFirestoreClient = cloudFirestoreClient,
         _user = user;
 
   final AppConfigRepository _appConfigRepository;
+  final CloudFirestoreClient _cloudFirestoreClient;
   final AppSupportRepository _appSupportRepository;
   final UserRepository _userRepository;
   final ConnectivityRepository _connectivityRepository;
@@ -40,6 +44,7 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: _appConfigRepository),
         RepositoryProvider.value(value: _appSupportRepository),
+        RepositoryProvider.value(value: _cloudFirestoreClient),
         RepositoryProvider.value(value: _connectivityRepository),
         RepositoryProvider.value(value: _userRepository),
       ],

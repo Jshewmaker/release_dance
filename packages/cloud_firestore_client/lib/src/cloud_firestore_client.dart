@@ -5,9 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// {@endtemplate}
 class CloudFirestoreClient {
   /// {@macro cloud_firestore_client}
-  CloudFirestoreClient();
+  CloudFirestoreClient({required FirebaseFirestore firebaseFirestore})
+      : _firestore = firebaseFirestore;
 
-  final _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
 
   /// Get user data from Firestore.
   Future<String> getUser() async {

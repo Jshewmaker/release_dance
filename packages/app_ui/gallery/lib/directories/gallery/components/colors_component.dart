@@ -55,7 +55,7 @@ class _Colors extends StatelessWidget {
         final (colorName, someColor) = _colorItems[vicinity.column];
 
         if (vicinity.row == 0) {
-          return Center(child: Text(colorName));
+          return TableViewCell(child: Center(child: Text(colorName)));
         }
 
         final color = someColor is MaterialColor
@@ -64,15 +64,17 @@ class _Colors extends StatelessWidget {
 
         final hexCode = color.value.toRadixString(16).padLeft(8, '0');
 
-        return DecoratedBox(
-          decoration: BoxDecoration(color: color),
-          child: Center(
-            child: SelectableText(
-              '#${hexCode.toUpperCase()}',
-              style: TextStyle(
-                color: color.computeLuminance() > 0.5
-                    ? Colors.black
-                    : Colors.white,
+        return TableViewCell(
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: color),
+            child: Center(
+              child: SelectableText(
+                '#${hexCode.toUpperCase()}',
+                style: TextStyle(
+                  color: color.computeLuminance() > 0.5
+                      ? Colors.black
+                      : Colors.white,
+                ),
               ),
             ),
           ),
