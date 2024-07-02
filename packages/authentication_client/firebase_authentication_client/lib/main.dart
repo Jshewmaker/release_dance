@@ -4,7 +4,11 @@ void main() {
   runApp(const MyApp());
 }
 
+/// {@template my_app}
+/// A [MaterialApp] that displays a [MyHomePage].
+/// {@endtemplate}
 class MyApp extends StatelessWidget {
+  /// {@macro my_app}
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -36,8 +40,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// {@template my_home_page}
+/// A [StatefulWidget] that increments a counter when a button is pressed.
+/// {@endtemplate}
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  /// {@macro my_home_page}
+  const MyHomePage({required this.title, super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -48,6 +56,7 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
+  /// The title of the home page.
   final String title;
 
   @override

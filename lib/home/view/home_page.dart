@@ -3,8 +3,11 @@
 
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:release_dance/generated/assets.gen.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/l10n/l10n.dart';
+import 'package:release_profile_repository/release_profile_repository.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -71,21 +74,41 @@ class HomeView extends StatelessWidget {
 }
 
 class _WelcomeHeader extends StatelessWidget {
-  const _WelcomeHeader({super.key});
+  const _WelcomeHeader();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    return Text(
-      'Welcome JOSHUA!',
-      style: theme.textTheme.displayMedium,
+    return BlocProvider(
+      create: (context) => HomeBloc(
+        releaseProfileRepository: context.read<ReleaseProfileRepository>(),
+      )..add(UserRequested()),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is HomeLoading) {
+            return const CircularProgressIndicator();
+          }
+          if (state is HomeError) {
+            return Text(
+              'Welcome!',
+              style: theme.textTheme.headlineSmall,
+            );
+          }
+          if (state is HomeLoaded) {
+            return Text(
+              'Welcome ${state.user.firstName}!',
+              style: theme.textTheme.displayMedium,
+            );
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 }
 
 class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.text, super.key});
+  const _SectionHeader({required this.text});
   final String text;
   @override
   Widget build(BuildContext context) {
@@ -107,7 +130,7 @@ class _ClassCard extends StatelessWidget {
     return Card(
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(8),
           image: DecorationImage(
             image: AssetImage(Assets.images.releaseStudio.path),
             fit: BoxFit.fill,
@@ -121,7 +144,7 @@ class _ClassCard extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

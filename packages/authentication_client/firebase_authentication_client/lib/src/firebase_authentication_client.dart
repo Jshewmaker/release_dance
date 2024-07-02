@@ -4,6 +4,7 @@ import 'package:authentication_client/authentication_client.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_authentication_client/src/lock.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 /// Signature for [SignInWithApple.getAppleIDCredential].
@@ -25,14 +26,15 @@ class FirebaseAuthenticationClient implements AuthenticationClient {
     GetAppleCredentials? getAppleCredentials,
   })  : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
-        _getAppleCredentials = getAppleCredentials ?? SignInWithApple.getAppleIDCredential,
-        _userController = StreamController<User>.broadcast();
+        _getAppleCredentials =
+            getAppleCredentials ?? SignInWithApple.getAppleIDCredential,
+        _userController = BehaviorSubject<User>();
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final GetAppleCredentials _getAppleCredentials;
   final _lock = Lock();
-  final StreamController<User> _userController;
+  final BehaviorSubject<User> _userController;
   StreamSubscription<firebase_auth.User?>? _firebaseUserSubscription;
 
   /// Stream of [User] which will emit the current user when
@@ -40,15 +42,16 @@ class FirebaseAuthenticationClient implements AuthenticationClient {
   ///
   /// Emits [User.unauthenticated] if the user is not authenticated.
   @override
-  Stream<User> get user {
-    _firebaseUserSubscription ??= _firebaseAuth.authStateChanges().listen((firebaseUser) {
+  BehaviorSubject<User> get user {
+    _firebaseUserSubscription ??=
+        _firebaseAuth.authStateChanges().listen((firebaseUser) {
       if (_lock.isLocked) return;
       _userController.add(
         firebaseUser == null ? User.unauthenticated : firebaseUser.toUser(),
       );
     });
 
-    return _userController.stream;
+    return _userController;
   }
 
   /// Creates a new user with the provided [email] and [password].
@@ -178,8 +181,6 @@ class FirebaseAuthenticationClient implements AuthenticationClient {
     } on LogInWithGoogleCanceled {
       rethrow;
     } catch (error, stackTrace) {
-      print(error);
-      print(stackTrace);
       Error.throwWithStackTrace(LogInWithGoogleFailure(error), stackTrace);
     }
   }
@@ -232,13 +233,13 @@ class FirebaseAuthenticationClient implements AuthenticationClient {
 
   @override
   Future<void> deleteAccount() {
-    // TODO: implement deleteAccount
+    // TODO(jshewmak): implement deleteAccount
     throw UnimplementedError();
   }
 
   @override
   void onGoogleUserAuthorized() {
-    // TODO: implement onGoogleUserAuthorized
+    // TODO(jshewmak): implement onGoogleUserAuthorized
     throw UnimplementedError();
   }
 }

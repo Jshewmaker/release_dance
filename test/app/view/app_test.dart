@@ -4,14 +4,16 @@
 import 'package:app_config_repository/app_config_repository.dart';
 import 'package:app_support_repository/app_support_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:release_dance/app/app.dart';
-import 'package:release_dance/home/home.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/login/login.dart';
+import 'package:release_profile_repository/release_profile_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 import '../../helpers/helpers.dart';
@@ -19,9 +21,14 @@ import '../../helpers/helpers.dart';
 // ignore: must_be_immutable
 class _MockUser extends Mock implements User {}
 
+class _MockReleaseProfileRepository extends Mock
+    implements ReleaseProfileRepository {}
+
 class _MockUserRepository extends Mock implements UserRepository {}
 
 class _MockAppConfigRepository extends Mock implements AppConfigRepository {}
+
+class _MockCloudFirestoreClient extends Mock implements CloudFirestoreClient {}
 
 class _MockAppSupportRepository extends Mock implements AppSupportRepository {}
 
@@ -36,12 +43,16 @@ void main() {
     late AppSupportRepository appSupportRepository;
     late ConnectivityRepository connectivityRepository;
     late UserRepository userRepository;
+    late CloudFirestoreClient cloudFirestoreClient;
     late User user;
+    late ReleaseProfileRepository releaseProfileRepository;
 
     setUpAll(mockHydratedStorage);
 
     setUp(() {
+      releaseProfileRepository = _MockReleaseProfileRepository();
       userRepository = _MockUserRepository();
+      cloudFirestoreClient = _MockCloudFirestoreClient();
       when(() => userRepository.user).thenAnswer(
         (_) => const Stream.empty(),
       );
@@ -66,6 +77,8 @@ void main() {
     testWidgets('renders AppView', (tester) async {
       await tester.pumpWidget(
         App(
+          releaseProfileRepository: releaseProfileRepository,
+          cloudFirestoreClient: cloudFirestoreClient,
           appConfigRepository: appConfigRepository,
           appSupportRepository: appSupportRepository,
           connectivityRepository: connectivityRepository,

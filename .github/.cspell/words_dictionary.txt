@@ -18,6 +18,7 @@ Dhoz
 endtemplate
 excalidraw
 encodable
+Ferndale
 firebaserc
 firestore
 fluttergen

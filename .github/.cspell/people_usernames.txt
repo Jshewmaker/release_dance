@@ -1,2 +1,3 @@
 # specific people's names and/or usernames
 vgvbot
+jshewmak

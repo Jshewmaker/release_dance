@@ -17,28 +17,29 @@ class _MockFirebaseAuth extends Mock implements firebase_auth.FirebaseAuth {}
 
 class _MockFirebaseUser extends Mock implements firebase_auth.User {}
 
-class _MockAdditionalUserInfo extends Mock implements firebase_auth.AdditionalUserInfo {}
+class _MockAdditionalUserInfo extends Mock
+    implements firebase_auth.AdditionalUserInfo {}
 
 class _MockGoogleSignIn extends Mock implements GoogleSignIn {}
 
 @immutable
-class _MockGoogleSignInAccount extends Mock implements GoogleSignInAccount {
-  @override
-  bool operator ==(dynamic other) => identical(this, other);
+class _MockGoogleSignInAccount extends Mock implements GoogleSignInAccount {}
 
-  @override
-  int get hashCode => 0;
-}
+class _MockGoogleSignInAuthentication extends Mock
+    implements GoogleSignInAuthentication {}
 
-class _MockGoogleSignInAuthentication extends Mock implements GoogleSignInAuthentication {}
+class _MockAuthorizationCredentialAppleID extends Mock
+    implements AuthorizationCredentialAppleID {}
 
-class _MockAuthorizationCredentialAppleID extends Mock implements AuthorizationCredentialAppleID {}
+class _MockUserCredential extends Mock
+    implements firebase_auth.UserCredential {}
 
-class _MockUserCredential extends Mock implements firebase_auth.UserCredential {}
+class _MockFirebaseCore extends Mock
+    with MockPlatformInterfaceMixin
+    implements FirebasePlatform {}
 
-class _MockFirebaseCore extends Mock with MockPlatformInterfaceMixin implements FirebasePlatform {}
-
-class _FakeAuthCredential extends Fake implements firebase_auth.AuthCredential {}
+class _FakeAuthCredential extends Fake
+    implements firebase_auth.AuthCredential {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -105,9 +106,11 @@ void main() {
 
     group('logInWithApple', () {
       setUp(() {
-        when(() => firebaseAuth.signInWithCredential(any())).thenAnswer((_) => Future.value(_MockUserCredential()));
+        when(() => firebaseAuth.signInWithCredential(any()))
+            .thenAnswer((_) => Future.value(_MockUserCredential()));
         when(() => authorizationCredentialAppleID.identityToken).thenReturn('');
-        when(() => authorizationCredentialAppleID.authorizationCode).thenReturn('');
+        when(() => authorizationCredentialAppleID.authorizationCode)
+            .thenReturn('');
       });
 
       test('calls getAppleCredentials with correct scopes', () async {
@@ -123,14 +126,17 @@ void main() {
       test('calls signInWithCredential with correct credential', () async {
         const identityToken = 'identity-token';
         const accessToken = 'access-token';
-        when(() => authorizationCredentialAppleID.identityToken).thenReturn(identityToken);
-        when(() => authorizationCredentialAppleID.authorizationCode).thenReturn(accessToken);
+        when(() => authorizationCredentialAppleID.identityToken)
+            .thenReturn(identityToken);
+        when(() => authorizationCredentialAppleID.authorizationCode)
+            .thenReturn(accessToken);
         await firebaseAuthenticationClient.logInWithApple();
         verify(() => firebaseAuth.signInWithCredential(any())).called(1);
       });
 
       test('throws LogInWithAppleFailure when exception occurs', () async {
-        when(() => firebaseAuth.signInWithCredential(any())).thenThrow(Exception());
+        when(() => firebaseAuth.signInWithCredential(any()))
+            .thenThrow(Exception());
         expect(
           () => firebaseAuthenticationClient.logInWithApple(),
           throwsA(isA<LogInWithAppleFailure>()),
@@ -147,7 +153,8 @@ void main() {
 
       test('calls sendPasswordResetEmail', () async {
         await firebaseAuthenticationClient.sendPasswordResetEmail(email: email);
-        verify(() => firebaseAuth.sendPasswordResetEmail(email: email)).called(1);
+        verify(() => firebaseAuth.sendPasswordResetEmail(email: email))
+            .called(1);
       });
 
       test('succeeds when sendPasswordResetEMail succeeds', () async {
@@ -186,7 +193,8 @@ void main() {
         },
       );
 
-      test('throws ResetPasswordFailure when sendPasswordResetEmail throws', () async {
+      test('throws ResetPasswordFailure when sendPasswordResetEmail throws',
+          () async {
         when(
           () => firebaseAuth.sendPasswordResetEmail(
             email: any(named: 'email'),
@@ -268,7 +276,8 @@ void main() {
         final firebaseAuthExceptions = {
           'email-already-in-use': SignUpEmailInUseFailure(Exception()),
           'invalid-email': SignUpInvalidEmailFailure(Exception()),
-          'operation-not-allowed': SignUpOperationNotAllowedFailure(Exception()),
+          'operation-not-allowed':
+              SignUpOperationNotAllowedFailure(Exception()),
           'weak-password': SignUpWeakPasswordFailure(Exception()),
           'default': SignUpFailure(Exception()),
         };
@@ -292,7 +301,8 @@ void main() {
         }
       });
 
-      test('throws SignUpFailure when createUserWithEmailAndPassword throws', () async {
+      test('throws SignUpFailure when createUserWithEmailAndPassword throws',
+          () async {
         when(
           () => firebaseAuth.createUserWithEmailAndPassword(
             email: any(named: 'email'),
@@ -313,11 +323,15 @@ void main() {
       setUp(() {
         final googleSignInAuthentication = _MockGoogleSignInAuthentication();
         final googleSignInAccount = _MockGoogleSignInAccount();
-        when(() => googleSignInAuthentication.accessToken).thenReturn(accessToken);
+        when(() => googleSignInAuthentication.accessToken)
+            .thenReturn(accessToken);
         when(() => googleSignInAuthentication.idToken).thenReturn(idToken);
-        when(() => googleSignInAccount.authentication).thenAnswer((_) async => googleSignInAuthentication);
-        when(() => googleSignIn.signIn()).thenAnswer((_) async => googleSignInAccount);
-        when(() => firebaseAuth.signInWithCredential(any())).thenAnswer((_) => Future.value(_MockUserCredential()));
+        when(() => googleSignInAccount.authentication)
+            .thenAnswer((_) async => googleSignInAuthentication);
+        when(() => googleSignIn.signIn())
+            .thenAnswer((_) async => googleSignInAccount);
+        when(() => firebaseAuth.signInWithCredential(any()))
+            .thenAnswer((_) => Future.value(_MockUserCredential()));
       });
 
       test('calls signIn authentication, and signInWithCredential', () async {
@@ -331,7 +345,8 @@ void main() {
       });
 
       test('throws LogInWithGoogleFailure when exception occurs', () async {
-        when(() => firebaseAuth.signInWithCredential(any())).thenThrow(Exception());
+        when(() => firebaseAuth.signInWithCredential(any()))
+            .thenThrow(Exception());
         expect(
           firebaseAuthenticationClient.logInWithGoogle(),
           throwsA(isA<LogInWithGoogleFailure>()),
