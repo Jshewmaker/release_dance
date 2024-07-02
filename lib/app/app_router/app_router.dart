@@ -7,6 +7,7 @@ import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/go_router_refresh_stream.dart';
 import 'package:release_dance/app/app_router/scaffold_with_nested_navigation.dart';
+import 'package:release_dance/classes/view/classes_page.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
 import 'package:release_dance/home/home.dart';
@@ -95,9 +96,9 @@ class AppRouter {
               navigatorKey: _shellNavigatorSettingsKey,
               routes: [
                 AppRoute(
-                  name: SettingsPage.routeName,
-                  path: SettingsPage.routeName,
-                  builder: SettingsPage.pageBuilder,
+                  name: ClassesPage.routeName,
+                  path: ClassesPage.routeName,
+                  builder: ClassesPage.pageBuilder,
                 ),
               ],
             ),
