@@ -13,6 +13,7 @@ import 'package:release_dance/app/app_router/app_router.dart';
 import 'package:release_dance/connectivity/connectivity.dart';
 import 'package:release_dance/l10n/l10n.dart';
 import 'package:release_dance/theme_selector/theme_selector.dart';
+import 'package:release_profile_repository/release_profile_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class App extends StatelessWidget {
@@ -22,9 +23,11 @@ class App extends StatelessWidget {
     required ConnectivityRepository connectivityRepository,
     required UserRepository userRepository,
     required CloudFirestoreClient cloudFirestoreClient,
+    required ReleaseProfileRepository releaseProfileRepository,
     required User user,
     super.key,
   })  : _appConfigRepository = appConfigRepository,
+        _releaseProfileRepository = releaseProfileRepository,
         _appSupportRepository = appSupportRepository,
         _connectivityRepository = connectivityRepository,
         _userRepository = userRepository,
@@ -32,6 +35,7 @@ class App extends StatelessWidget {
         _user = user;
 
   final AppConfigRepository _appConfigRepository;
+  final ReleaseProfileRepository _releaseProfileRepository;
   final CloudFirestoreClient _cloudFirestoreClient;
   final AppSupportRepository _appSupportRepository;
   final UserRepository _userRepository;
@@ -45,6 +49,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _appConfigRepository),
         RepositoryProvider.value(value: _appSupportRepository),
         RepositoryProvider.value(value: _cloudFirestoreClient),
+        RepositoryProvider.value(value: _releaseProfileRepository),
         RepositoryProvider.value(value: _connectivityRepository),
         RepositoryProvider.value(value: _userRepository),
       ],

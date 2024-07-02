@@ -9,6 +9,7 @@ import 'package:fake_app_config_repository/fake_app_config_repository.dart';
 import 'package:firebase_authentication_client/firebase_authentication_client.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/main/bootstrap/bootstrap.dart';
+import 'package:release_profile_repository/release_profile_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 void main() {
@@ -21,7 +22,9 @@ void main() {
           CloudFirestoreClient(firebaseFirestore: firebaseFirestore);
       final userRepository =
           UserRepository(authenticationClient: authenticationClient);
-
+      final releaseProfileRepository = ReleaseProfileRepository(
+          cloudFirestoreClient: cloudFirestoreClient,
+          firebaseAuthenticationClient: authenticationClient);
       final appConfigRepository = FakeAppConfigRepository();
 
       final user = await userRepository.user.first;
@@ -29,6 +32,7 @@ void main() {
       return App(
         appConfigRepository: appConfigRepository,
         appSupportRepository: appSupportRepository,
+        releaseProfileRepository: releaseProfileRepository,
         userRepository: userRepository,
         connectivityRepository: connectivityRepository,
         cloudFirestoreClient: cloudFirestoreClient,

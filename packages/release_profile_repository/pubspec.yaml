@@ -9,6 +9,8 @@ environment:
 dependencies:
   cloud_firestore_client:
     path: ../cloud_firestore_client
+  firebase_authentication_client:
+    path: ../authentication_client/firebase_authentication_client
   equatable: ^2.0.5
 
 dev_dependencies:

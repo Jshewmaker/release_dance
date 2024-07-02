@@ -47,6 +47,8 @@ dependencies:
   intl: ^0.19.0
   path_provider: ^2.1.2
   plugin_platform_interface: ^2.1.8
+  release_profile_repository:
+    path: packages/release_profile_repository
   secure_storage:
     path: packages/storage/secure_storage
   url_launcher: ^6.2.5

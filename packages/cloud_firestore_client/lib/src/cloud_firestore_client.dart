@@ -5,15 +5,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// {@endtemplate}
 class CloudFirestoreClient {
   /// {@macro cloud_firestore_client}
-  CloudFirestoreClient({required FirebaseFirestore firebaseFirestore})
-      : _firestore = firebaseFirestore;
-
+  CloudFirestoreClient({
+    required FirebaseFirestore firebaseFirestore,
+  }) : _firestore = firebaseFirestore;
   final FirebaseFirestore _firestore;
 
   /// Get user data from Firestore.
-  Future<String> getUser() async {
-    final doc = await _firestore.collection('users').get();
+  Future<Map<String, dynamic>> getUser(String userId) async {
+    try {
+      final doc = await _firestore.collection('users').doc('$userId').get();
 
-    return doc.docs.first.id;
+      return doc.data() ?? {};
+    } on Exception catch (e) {
+      throw Exception('Error getting user: $e');
+    }
   }
 }
