@@ -74,7 +74,7 @@ class HomeView extends StatelessWidget {
 }
 
 class _WelcomeHeader extends StatelessWidget {
-  const _WelcomeHeader({super.key});
+  const _WelcomeHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +108,7 @@ class _WelcomeHeader extends StatelessWidget {
 }
 
 class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.text, super.key});
+  const _SectionHeader({required this.text});
   final String text;
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,7 @@ class _ClassCard extends StatelessWidget {
     return Card(
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(8),
           image: DecorationImage(
             image: AssetImage(Assets.images.releaseStudio.path),
             fit: BoxFit.fill,
@@ -144,7 +144,7 @@ class _ClassCard extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

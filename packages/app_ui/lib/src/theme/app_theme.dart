@@ -71,13 +71,14 @@ class AppTheme {
 
   BottomNavigationBarThemeData get _navigationBarTheme {
     return BottomNavigationBarThemeData(
-        backgroundColor: AppColors.black,
-        selectedItemColor: AppColors.white,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        selectedLabelStyle: _textTheme.labelLarge,
-        unselectedLabelStyle: _textTheme.labelLarge,
-        unselectedItemColor: AppColors.greySecondary);
+      backgroundColor: AppColors.black,
+      selectedItemColor: AppColors.white,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      selectedLabelStyle: _textTheme.labelLarge,
+      unselectedLabelStyle: _textTheme.labelLarge,
+      unselectedItemColor: AppColors.greySecondary,
+    );
   }
 
   DividerThemeData get _dividerTheme {

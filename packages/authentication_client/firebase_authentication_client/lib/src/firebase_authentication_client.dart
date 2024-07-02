@@ -181,8 +181,6 @@ class FirebaseAuthenticationClient implements AuthenticationClient {
     } on LogInWithGoogleCanceled {
       rethrow;
     } catch (error, stackTrace) {
-      print(error);
-      print(stackTrace);
       Error.throwWithStackTrace(LogInWithGoogleFailure(error), stackTrace);
     }
   }
@@ -235,13 +233,13 @@ class FirebaseAuthenticationClient implements AuthenticationClient {
 
   @override
   Future<void> deleteAccount() {
-    // TODO: implement deleteAccount
+    // TODO(jshewmak): implement deleteAccount
     throw UnimplementedError();
   }
 
   @override
   void onGoogleUserAuthorized() {
-    // TODO: implement onGoogleUserAuthorized
+    // TODO(jshewmak): implement onGoogleUserAuthorized
     throw UnimplementedError();
   }
 }

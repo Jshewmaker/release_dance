@@ -1,10 +1,8 @@
+///{@template release_user}
+/// Release User
+/// {@endtemplate}
 class ReleaseUser {
-  final String id;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String avatarUrl;
-
+  ///{@macro release_user}
   ReleaseUser({
     required this.id,
     required this.firstName,
@@ -13,6 +11,7 @@ class ReleaseUser {
     required this.avatarUrl,
   });
 
+  /// Creates a [ReleaseUser] from a map.
   factory ReleaseUser.fromJson(Map<String, dynamic> json) {
     return ReleaseUser(
       id: json['id'] as String,
@@ -23,6 +22,22 @@ class ReleaseUser {
     );
   }
 
+  /// The user's unique id.
+  final String id;
+
+  /// The user's first name.
+  final String firstName;
+
+  /// The user's last name.
+  final String lastName;
+
+  /// The user's email.
+  final String email;
+
+  /// The user's avatar URL.
+  final String avatarUrl;
+
+  /// Converts the [ReleaseUser] to a map.
   Map<String, dynamic> toJson() {
     return {
       'id': id,

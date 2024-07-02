@@ -7,15 +7,15 @@ import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/go_router_refresh_stream.dart';
 import 'package:release_dance/app/app_router/scaffold_with_nested_navigation.dart';
-import 'package:release_dance/home/home.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/login/login.dart';
+import 'package:release_dance/my_release/view/my_release_page.dart';
 import 'package:release_dance/onboarding/onboarding.dart';
 import 'package:release_dance/reset_password/reset_password.dart';
 import 'package:release_dance/settings/settings.dart';
 import 'package:release_dance/sign_up/sign_up.dart';
-import 'package:release_dance/my_release/view/my_release_page.dart';
 
 // private navigators
 final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'home');

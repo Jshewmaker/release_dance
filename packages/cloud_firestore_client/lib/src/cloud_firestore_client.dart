@@ -13,7 +13,7 @@ class CloudFirestoreClient {
   /// Get user data from Firestore.
   Future<Map<String, dynamic>> getUser(String userId) async {
     try {
-      final doc = await _firestore.collection('users').doc('$userId').get();
+      final doc = await _firestore.collection('users').doc(userId).get();
 
       return doc.data() ?? {};
     } on Exception catch (e) {

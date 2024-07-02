@@ -23,8 +23,9 @@ void main() {
       final userRepository =
           UserRepository(authenticationClient: authenticationClient);
       final releaseProfileRepository = ReleaseProfileRepository(
-          cloudFirestoreClient: cloudFirestoreClient,
-          firebaseAuthenticationClient: authenticationClient);
+        cloudFirestoreClient: cloudFirestoreClient,
+        firebaseAuthenticationClient: authenticationClient,
+      );
       final appConfigRepository = FakeAppConfigRepository();
 
       final user = await userRepository.user.first;

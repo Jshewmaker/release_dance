@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MyReleasePage extends StatelessWidget {
-  const MyReleasePage({Key? key});
+  const MyReleasePage({super.key});
 
   factory MyReleasePage.pageBuilder(_, __) {
-    return const MyReleasePage(
-      key: Key('my_release_page'),
-    );
+    return const MyReleasePage();
   }
 
   static String get routeName => '/my_release';
@@ -18,14 +16,14 @@ class MyReleasePage extends StatelessWidget {
 }
 
 class MyReleaseView extends StatelessWidget {
-  const MyReleaseView({Key? key});
+  const MyReleaseView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'My Release',
         ),
       ),
