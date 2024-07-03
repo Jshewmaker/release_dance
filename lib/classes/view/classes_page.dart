@@ -1,7 +1,10 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:release_dance/classes/classes.dart';
 import 'package:release_dance/generated/assets.gen.dart';
+import 'package:release_profile_repository/release_profile_repository.dart';
 
 class ClassesPage extends StatelessWidget {
   const ClassesPage({super.key});
@@ -14,7 +17,12 @@ class ClassesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ClassesView();
+    return BlocProvider(
+      create: (context) => ClassBloc(
+        releaseProfileRepository: context.read<ReleaseProfileRepository>(),
+      )..add(ClassesFetched()),
+      child: const ClassesView(),
+    );
   }
 }
 
@@ -24,97 +32,55 @@ class ClassesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: EventCalendar(
-        headerOptions: HeaderOptions(
-          weekDayStringType: WeekDayStringTypes.SHORT,
-        ),
-        dayOptions: DayOptions(selectedBackgroundColor: AppColors.black),
-        calendarOptions: CalendarOptions(
-          toggleViewType: true,
-          viewType: ViewType.DAILY,
-          headerMonthBackColor: AppColors.greyPrimary,
-          headerMonthShadowColor: AppColors.greyPrimary,
-          bottomSheetBackColor: AppColors.black,
-        ),
-        calendarType: CalendarType.GREGORIAN,
-        events: [
-          Event(
-            child: const _ClassCard(
-              title: 'Hip Hop Beg/Int Class',
-              time: 'Monday 5:45 PM',
-              instructor: 'Janet',
-              location: 'Ferndale',
-            ),
-            dateTime: CalendarDateTime(
-              hour: 5,
-              minute: 45,
-              year: 2024,
-              month: 7,
-              day: 1,
-              calendarType: CalendarType.GREGORIAN,
-            ),
-          ),
-          Event(
-            child: const _ClassCard(
-              title: 'GROOVES (CARDIO DANCE)',
-              time: 'Monday 6:45 PM',
-              instructor: 'Release Crew',
-              location: 'Ferndale',
-            ),
-            dateTime: CalendarDateTime(
-              hour: 6,
-              minute: 45,
-              year: 2024,
-              month: 7,
-              day: 1,
-              calendarType: CalendarType.GREGORIAN,
-            ),
-          ),
-          Event(
-            child: const _ClassCard(
-              title: 'TECHNIQUE (LEAPS & TURNS)',
-              time: 'Monday 7:30 PM',
-              instructor: 'Jermey',
-              location: 'Ferndale',
-            ),
-            dateTime: CalendarDateTime(
-              hour: 7,
-              minute: 30,
-              year: 2024,
-              month: 7,
-              day: 1,
-              calendarType: CalendarType.GREGORIAN,
-            ),
-          ),
-          Event(
-            child: const _ClassCard(
-              title: 'CONTEMPORARY INT/ADV',
-              time: 'Monday 8:45 PM',
-              instructor: 'Sam',
-              location: 'Ferndale',
-            ),
-            dateTime: CalendarDateTime(
-              hour: 8,
-              minute: 45,
-              year: 2024,
-              month: 7,
-              day: 1,
-              calendarType: CalendarType.GREGORIAN,
-            ),
-          ),
-          Event(
-              child: const SizedBox(
-                height: 200,
+      child: BlocBuilder<ClassBloc, ClassState>(
+        builder: (context, state) {
+          if (state is ClassesLoading || state is ClassesInitial) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is ClassesLoaded) {
+            return EventCalendar(
+              headerOptions: HeaderOptions(
+                weekDayStringType: WeekDayStringTypes.SHORT,
               ),
-              dateTime: CalendarDateTime(
-                hour: 9,
-                minute: 45,
-                year: 2024,
-                month: 7,
-                day: 1,
-                calendarType: CalendarType.GREGORIAN,
-              ))
-        ],
+              dayOptions: DayOptions(selectedBackgroundColor: AppColors.black),
+              calendarOptions: CalendarOptions(
+                toggleViewType: true,
+                viewType: ViewType.DAILY,
+                headerMonthBackColor: AppColors.greyPrimary,
+                headerMonthShadowColor: AppColors.greyPrimary,
+                bottomSheetBackColor: AppColors.black,
+              ),
+              calendarType: CalendarType.GREGORIAN,
+              events: [
+                ...state.classes.map((e) {
+                  final hour = int.parse(e.startTime.hour.split(' ')[0]);
+                  return Event(
+                    child: _ClassCard(
+                      title: e.name,
+                      time: '${e.startTime.hour} - ${e.endTime.hour}',
+                      instructor: e.instructor,
+                      location: 'Ferndale',
+                      active: true,
+                    ),
+                    dateTime: CalendarDateTime(
+                      hour: hour,
+                      minute: int.parse(e.startTime.minute),
+                      year: int.parse(e.startTime.year),
+                      month: int.parse(e.startTime.month),
+                      day: int.parse(e.startTime.day),
+                      calendarType: CalendarType.GREGORIAN,
+                    ),
+                  );
+                }),
+              ],
+            );
+          }
+          return const Center(
+            child: Text('Error'),
+          );
+        },
       ),
     );
   }
@@ -126,12 +92,14 @@ class _ClassCard extends StatelessWidget {
     required this.time,
     required this.instructor,
     required this.location,
+    required this.active,
     super.key,
   });
   final String title;
   final String time;
   final String instructor;
   final String location;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +112,7 @@ class _ClassCard extends StatelessWidget {
             image: AssetImage(Assets.images.releaseStudio.path),
             fit: BoxFit.fill,
             colorFilter: ColorFilter.mode(
-              AppColors.black.withOpacity(0.5),
+              AppColors.black.withOpacity(active ? 0.3 : 0.8),
               BlendMode.darken,
             ),
           ),
