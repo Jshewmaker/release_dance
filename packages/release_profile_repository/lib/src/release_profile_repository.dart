@@ -22,4 +22,10 @@ class ReleaseProfileRepository {
     final json = await _cloudFirestoreClient.getUser(user.id);
     return ReleaseUser.fromJson(json);
   }
+
+  /// Get this months classes.
+  Future<List<ReleaseClass>> getClasses(String date) async {
+    final response = await _cloudFirestoreClient.getClasses(date);
+    return response.map(ReleaseClass.fromClient).toList();
+  }
 }

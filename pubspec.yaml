@@ -36,6 +36,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4
+  flutter_event_calendar:
+    path: packages/flutter_event_calendar-master
   flutter_localizations:
     sdk: flutter
   flutter_svg: ^2.0.10+1
