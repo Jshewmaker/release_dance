@@ -117,46 +117,6 @@ class _ClassesViewState extends State<ClassesView> {
                   ),
                 );
               }),
-              ...state.classes.map((e) {
-                final hour = e.startTime.hour.split(':');
-                return Event(
-                  child: _ClassCard(
-                    title: e.name,
-                    time: '${e.startTime.hour} - ${e.endTime.hour}',
-                    instructor: e.instructor,
-                    location: 'Ferndale',
-                    active: true,
-                  ),
-                  dateTime: CalendarDateTime(
-                    hour: int.parse(hour.first),
-                    minute: int.parse(hour.last),
-                    year: int.parse(e.startTime.year),
-                    month: int.parse(e.startTime.month),
-                    day: int.parse(e.startTime.day),
-                    calendarType: CalendarType.GREGORIAN,
-                  ),
-                );
-              }),
-              ...state.classes.map((e) {
-                final hour = e.startTime.hour.split(':');
-                return Event(
-                  child: _ClassCard(
-                    title: e.name,
-                    time: '${e.startTime.hour} - ${e.endTime.hour}',
-                    instructor: e.instructor,
-                    location: 'Ferndale',
-                    active: true,
-                  ),
-                  dateTime: CalendarDateTime(
-                    hour: int.parse(hour.first),
-                    minute: int.parse(hour.last),
-                    year: int.parse(e.startTime.year),
-                    month: int.parse(e.startTime.month),
-                    day: int.parse(e.startTime.day),
-                    calendarType: CalendarType.GREGORIAN,
-                  ),
-                );
-              }),
             ],
           );
         },
