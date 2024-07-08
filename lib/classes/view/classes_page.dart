@@ -2,6 +2,7 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:intl/intl.dart';
 import 'package:release_dance/classes/classes.dart';
 import 'package:release_dance/generated/assets.gen.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
@@ -20,65 +21,143 @@ class ClassesPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ClassBloc(
         releaseProfileRepository: context.read<ReleaseProfileRepository>(),
-      )..add(ClassesFetched()),
+      )..add(
+          ClassesFetched(
+            date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          ),
+        ),
       child: const ClassesView(),
     );
   }
 }
 
-class ClassesView extends StatelessWidget {
+class ClassesView extends StatefulWidget {
   const ClassesView({super.key});
+
+  @override
+  State<ClassesView> createState() => _ClassesViewState();
+}
+
+class _ClassesViewState extends State<ClassesView> {
+  final now = DateTime.now();
+  late CalendarDateTime newDate;
+
+  @override
+  void initState() {
+    newDate = CalendarDateTime(
+      calendarType: CalendarType.GREGORIAN,
+      year: int.parse(DateFormat().add_y().format(now)),
+      month: int.parse(DateFormat().add_M().format(now)),
+      day: int.parse(DateFormat().add_d().format(now)),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocBuilder<ClassBloc, ClassState>(
         builder: (context, state) {
-          if (state is ClassesLoading || state is ClassesInitial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is ClassesLoaded) {
-            return EventCalendar(
-              headerOptions: HeaderOptions(
-                weekDayStringType: WeekDayStringTypes.SHORT,
-              ),
-              dayOptions: DayOptions(selectedBackgroundColor: AppColors.black),
-              calendarOptions: CalendarOptions(
-                toggleViewType: true,
-                viewType: ViewType.DAILY,
-                headerMonthBackColor: AppColors.greyPrimary,
-                headerMonthShadowColor: AppColors.greyPrimary,
-                bottomSheetBackColor: AppColors.black,
-              ),
-              calendarType: CalendarType.GREGORIAN,
-              events: [
-                ...state.classes.map((e) {
-                  final hour = int.parse(e.startTime.hour.split(' ')[0]);
-                  return Event(
-                    child: _ClassCard(
-                      title: e.name,
-                      time: '${e.startTime.hour} - ${e.endTime.hour}',
-                      instructor: e.instructor,
-                      location: 'Ferndale',
-                      active: true,
-                    ),
-                    dateTime: CalendarDateTime(
-                      hour: hour,
-                      minute: int.parse(e.startTime.minute),
-                      year: int.parse(e.startTime.year),
-                      month: int.parse(e.startTime.month),
-                      day: int.parse(e.startTime.day),
-                      calendarType: CalendarType.GREGORIAN,
-                    ),
-                  );
-                }),
-              ],
-            );
-          }
-          return const Center(
-            child: Text('Error'),
+          return EventCalendar(
+            eventOptions: EventOptions(
+                showLoadingForEvent: () {
+                  return state.status == ClassStatus.loading;
+                },
+                loadingWidget: () => const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.white,
+                      ),
+                    )),
+            onDateTimeReset: (date) {
+              context
+                  .read<ClassBloc>()
+                  .add(ClassesFetched(date: date.getDate()));
+              setState(() {
+                newDate = date;
+              });
+            },
+            onMonthChanged: (date) {
+              context
+                  .read<ClassBloc>()
+                  .add(ClassesFetched(date: date.getDate()));
+              setState(() {
+                newDate = date;
+              });
+            },
+            dateTime: newDate,
+            headerOptions: HeaderOptions(
+              weekDayStringType: WeekDayStringTypes.SHORT,
+            ),
+            dayOptions: DayOptions(selectedBackgroundColor: AppColors.black),
+            calendarOptions: CalendarOptions(
+              viewType: ViewType.DAILY,
+              headerMonthBackColor: AppColors.greyPrimary,
+              headerMonthShadowColor: AppColors.greyPrimary,
+              bottomSheetBackColor: AppColors.black,
+            ),
+            calendarType: CalendarType.GREGORIAN,
+            events: [
+              ...state.classes.map((e) {
+                final hour = e.startTime.hour.split(':');
+                return Event(
+                  child: _ClassCard(
+                    title: e.name,
+                    time: '${e.startTime.hour} - ${e.endTime.hour}',
+                    instructor: e.instructor,
+                    location: 'Ferndale',
+                    active: true,
+                  ),
+                  dateTime: CalendarDateTime(
+                    hour: int.parse(hour.first),
+                    minute: int.parse(hour.last),
+                    year: int.parse(e.startTime.year),
+                    month: int.parse(e.startTime.month),
+                    day: int.parse(e.startTime.day),
+                    calendarType: CalendarType.GREGORIAN,
+                  ),
+                );
+              }),
+              ...state.classes.map((e) {
+                final hour = e.startTime.hour.split(':');
+                return Event(
+                  child: _ClassCard(
+                    title: e.name,
+                    time: '${e.startTime.hour} - ${e.endTime.hour}',
+                    instructor: e.instructor,
+                    location: 'Ferndale',
+                    active: true,
+                  ),
+                  dateTime: CalendarDateTime(
+                    hour: int.parse(hour.first),
+                    minute: int.parse(hour.last),
+                    year: int.parse(e.startTime.year),
+                    month: int.parse(e.startTime.month),
+                    day: int.parse(e.startTime.day),
+                    calendarType: CalendarType.GREGORIAN,
+                  ),
+                );
+              }),
+              ...state.classes.map((e) {
+                final hour = e.startTime.hour.split(':');
+                return Event(
+                  child: _ClassCard(
+                    title: e.name,
+                    time: '${e.startTime.hour} - ${e.endTime.hour}',
+                    instructor: e.instructor,
+                    location: 'Ferndale',
+                    active: true,
+                  ),
+                  dateTime: CalendarDateTime(
+                    hour: int.parse(hour.first),
+                    minute: int.parse(hour.last),
+                    year: int.parse(e.startTime.year),
+                    month: int.parse(e.startTime.month),
+                    day: int.parse(e.startTime.day),
+                    calendarType: CalendarType.GREGORIAN,
+                  ),
+                );
+              }),
+            ],
           );
         },
       ),

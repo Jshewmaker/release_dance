@@ -7,4 +7,11 @@ sealed class ClassEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class ClassesFetched extends ClassEvent {}
+final class ClassesFetched extends ClassEvent {
+  const ClassesFetched({required this.date});
+
+  final String date;
+
+  @override
+  List<Object> get props => [date];
+}

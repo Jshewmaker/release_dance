@@ -24,12 +24,17 @@ class CloudFirestoreClient {
 
   /// Get classes data from Firestore.
   Future<List<Class>> getClasses(String date) async {
+    final classList = <Class>[];
     try {
-      final doc = _firestore.collection('classes').doc(date);
+      final doc = await _firestore
+          .collection('classes')
+          .orderBy(
+            'start_time',
+          )
+          .startAt([date]).get();
 
-      final classes = await doc.collection('6:00').get();
-      final classList =
-          classes.docs.map((e) => Class.fromJson(e.data())).toList();
+      final releaseClass = doc;
+      classList.addAll(releaseClass.docs.map((e) => Class.fromJson(e.data())));
 
       return classList;
     } on Exception catch (e) {

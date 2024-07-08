@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 ///{@template class}
 /// A class that represents a dance class.
 /// {@endtemplate}
@@ -11,6 +9,7 @@ class Class {
     required this.endTime,
     required this.instructor,
     required this.description,
+    required this.date,
   });
 
   /// Creates a [Class] from a map.
@@ -18,9 +17,10 @@ class Class {
     return Class(
       description: json['description'] as String,
       name: json['name'] as String,
-      startTime: json['start_time'] as Timestamp,
-      endTime: json['end_time'] as Timestamp,
+      startTime: json['start_time'] as String,
+      endTime: json['end_time'] as String,
       instructor: json['instructor'] as String,
+      date: json['date'] as String,
     );
   }
 
@@ -28,14 +28,17 @@ class Class {
   final String name;
 
   /// The start time of the class.
-  final Timestamp startTime;
+  final String startTime;
 
   /// The end time of the class.
-  final Timestamp endTime;
+  final String endTime;
 
   /// The description of the class.
   final String description;
 
   /// The instructor of the class.
   final String instructor;
+
+  /// The date of the class.
+  final String date;
 }

@@ -8,7 +8,7 @@ part 'class_state.dart';
 class ClassBloc extends Bloc<ClassEvent, ClassState> {
   ClassBloc({required ReleaseProfileRepository releaseProfileRepository})
       : _releaseProfileRepository = releaseProfileRepository,
-        super(ClassesInitial()) {
+        super(const ClassState()) {
     on<ClassesFetched>(_onGetClasses);
   }
   final ReleaseProfileRepository _releaseProfileRepository;
@@ -17,12 +17,12 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     ClassesFetched event,
     Emitter<ClassState> emit,
   ) async {
-    emit(ClassesLoading());
     try {
-      final classes = await _releaseProfileRepository.getClasses('2024-07-02');
-      emit(ClassesLoaded(classes));
+      emit(state.copyWith(status: ClassStatus.loading));
+      final classes = await _releaseProfileRepository.getClasses(event.date);
+      emit(state.copyWith(classes: classes, status: ClassStatus.loaded));
     } catch (e) {
-      emit(ClassesError(e.toString()));
+      emit(const ClassState(status: ClassStatus.error));
     }
   }
 }

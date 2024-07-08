@@ -478,10 +478,9 @@ packages:
   flutter_event_calendar:
     dependency: "direct main"
     description:
-      name: flutter_event_calendar
-      sha256: f5b6f22ae01c24a1fc3f6432d3080130bb40efc976e53941b5f6422b6a4f9d64
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/flutter_event_calendar-master"
+      relative: true
+    source: path
     version: "1.0.0"
   flutter_gen_core:
     dependency: transitive

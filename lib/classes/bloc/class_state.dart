@@ -1,30 +1,25 @@
 part of 'class_bloc.dart';
 
-sealed class ClassState extends Equatable {
-  const ClassState();
+enum ClassStatus { initial, loading, loaded, error }
 
-  @override
-  List<Object> get props => [];
-}
-
-final class ClassesInitial extends ClassState {}
-
-final class ClassesLoading extends ClassState {}
-
-final class ClassesLoaded extends ClassState {
-  const ClassesLoaded(this.classes);
-
+final class ClassState extends Equatable {
+  const ClassState({
+    this.status = ClassStatus.initial,
+    this.classes = const <ReleaseClass>[],
+  });
+  final ClassStatus status;
   final List<ReleaseClass> classes;
 
+  ClassState copyWith({
+    ClassStatus? status,
+    List<ReleaseClass>? classes,
+  }) {
+    return ClassState(
+      status: status ?? this.status,
+      classes: classes ?? this.classes,
+    );
+  }
+
   @override
-  List<Object> get props => [classes];
-}
-
-final class ClassesError extends ClassState {
-  const ClassesError(this.message);
-
-  final String message;
-
-  @override
-  List<Object> get props => [message];
+  List<Object> get props => [status, classes];
 }
