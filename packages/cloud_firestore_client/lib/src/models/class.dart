@@ -15,12 +15,12 @@ class Class {
   /// Creates a [Class] from a map.
   factory Class.fromJson(Map<String, dynamic> json) {
     return Class(
-      description: json['description'] as String,
-      name: json['name'] as String,
-      startTime: json['start_time'] as String,
-      endTime: json['end_time'] as String,
-      instructor: json['instructor'] as String,
-      date: json['date'] as String,
+      description: (json['description'] as String).trim(),
+      name: (json['name'] as String).trim(),
+      startTime: (json['start_time'] as String).trim(),
+      endTime: (json['end_time'] as String).trim(),
+      instructor: (json['instructor'] as String).trim(),
+      date: (json['date'] as String).trim(),
     );
   }
 

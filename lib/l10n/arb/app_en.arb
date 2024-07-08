@@ -35,6 +35,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "upcomingClasses": "Upcoming Classes",
+  "@upcomingClasses": {
+    "description": "Home page subtitle for update coming classes",
+    "type": "text",
+    "placeholders": {}
+  },
+  "specialEvents": "Special Events",
+  "@specialEvents": {
+    "description": "Home page subtitle for special events",
+    "type": "text",
+    "placeholders": {}
+  },
   "inAppReview": "In App Review",
   "@inAppReview": {
     "description": "Title for the in app review button",

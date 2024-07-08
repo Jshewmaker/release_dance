@@ -1,6 +1,3 @@
-// Copyright (c) 2024, Very Good Ventures
-// https://verygood.ventures
-
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,22 +47,22 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
         child: ScrollableColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _WelcomeHeader(),
-            SizedBox(height: AppSpacing.xxlg),
-            _SectionHeader(text: 'Your Classes'),
-            SizedBox(height: AppSpacing.sm),
-            _ClassCard(),
-            SizedBox(height: AppSpacing.xlg),
-            _SectionHeader(text: 'Special Events'),
-            SizedBox(height: AppSpacing.sm),
-            _PrideCard(),
-            SizedBox(height: AppSpacing.sm),
-            _GiveAway(),
+            const _WelcomeHeader(),
+            const SizedBox(height: AppSpacing.xxlg),
+            _SectionHeader(text: l10n.upcomingClasses),
+            const SizedBox(height: AppSpacing.sm),
+            const _ClassCard(),
+            const SizedBox(height: AppSpacing.xlg),
+            _SectionHeader(text: l10n.specialEvents),
+            const SizedBox(height: AppSpacing.sm),
+            const _PrideCard(),
+            const SizedBox(height: AppSpacing.sm),
+            const _GiveAway(),
           ],
         ),
       ),
