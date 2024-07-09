@@ -15,4 +15,4 @@ jobs:
         with:
           paths: "**/*.{md,dart}"
           config: .github/cspell.json
-          exclude: ".gitignore"
+          exclude: ".gitignore", "packages/flutter_event_calendar-master"
