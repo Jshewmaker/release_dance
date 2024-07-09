@@ -112,6 +112,7 @@ class _ClassesViewState extends State<ClassesView> {
                       ),
                       title: e.name,
                       subtitle:
+                          // ignore: lines_longer_than_80_chars
                           '${e.startTime.hour} - ${e.endTime.hour} ${e.instructor}',
                       location: 'Release - Ferndale',
                       active: true,

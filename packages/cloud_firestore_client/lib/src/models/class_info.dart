@@ -20,7 +20,7 @@ class ClassInfo {
       durationTime: json['duration_time'] as int,
       durationWeeks: json['duration_weeks'] as int,
       name: json['name'] as String,
-      price: (json['price'].toDouble()) as double,
+      price: (json['price'] as int).toDouble(),
     );
   }
 

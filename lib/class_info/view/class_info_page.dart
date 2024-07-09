@@ -35,7 +35,7 @@ class ClassInfoPage extends StatelessWidget {
 }
 
 class _ClassInfoView extends StatelessWidget {
-  const _ClassInfoView({super.key});
+  const _ClassInfoView();
 
   @override
   Widget build(BuildContext context) {
