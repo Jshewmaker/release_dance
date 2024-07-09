@@ -7,6 +7,7 @@ import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/go_router_refresh_stream.dart';
 import 'package:release_dance/app/app_router/scaffold_with_nested_navigation.dart';
+import 'package:release_dance/class_info/view/class_info_page.dart';
 import 'package:release_dance/classes/view/classes_page.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
@@ -113,6 +114,14 @@ class AppRouter {
               ],
             ),
           ],
+        ),
+        AppRoute(
+          name: ClassInfoPage.routeName,
+          path: ClassInfoPage.routePath,
+          pageBuilder: (context, state) => NoTransitionPage(
+            name: ClassInfoPage.routeName,
+            child: ClassInfoPage.pageBuilder(context, state),
+          ),
         ),
         AppRoute(
           name: OnboardingPage.routeName,

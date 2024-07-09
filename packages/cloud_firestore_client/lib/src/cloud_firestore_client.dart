@@ -22,21 +22,37 @@ class CloudFirestoreClient {
     }
   }
 
-  /// Get classes data from Firestore.
-  Future<List<Class>> getClasses(String date) async {
+  /// Get all classes for a specific month.
+  ///
+  /// [startDate] is the first day of the month in 'yyyy-MM-dd' format.
+  Future<List<Class>> getAllClassesForMonth(
+    String startDate,
+    String endDate,
+  ) async {
     final classList = <Class>[];
     try {
       final doc = await _firestore
           .collection('classes')
           .orderBy(
-            'start_time',
+            'date',
           )
-          .startAt([date]).get();
+          .startAt([startDate]).endAt([endDate]).get();
 
       final releaseClass = doc;
       classList.addAll(releaseClass.docs.map((e) => Class.fromJson(e.data())));
 
       return classList;
+    } on Exception catch (e) {
+      throw Exception('Error getting user: $e');
+    }
+  }
+
+  /// Get class information from specific class id.
+  Future<ClassInfo> getClass(String classId) async {
+    try {
+      final doc = await _firestore.collection('class_info').doc(classId).get();
+
+      return ClassInfo.fromJson(doc.data() ?? {});
     } on Exception catch (e) {
       throw Exception('Error getting user: $e');
     }
