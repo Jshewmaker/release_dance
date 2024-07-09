@@ -4,6 +4,7 @@
 class Class {
   /// {@macro class}
   const Class({
+    required this.id,
     required this.name,
     required this.startTime,
     required this.endTime,
@@ -15,6 +16,7 @@ class Class {
   /// Creates a [Class] from a map.
   factory Class.fromJson(Map<String, dynamic> json) {
     return Class(
+      id: json['id'] as String? ?? '',
       description: (json['description'] as String).trim(),
       name: (json['name'] as String).trim(),
       startTime: (json['start_time'] as String).trim(),
@@ -23,6 +25,9 @@ class Class {
       date: (json['date'] as String).trim(),
     );
   }
+
+  /// The id of the class.
+  final String id;
 
   /// The title of the class.
   final String name;

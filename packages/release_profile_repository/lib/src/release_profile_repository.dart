@@ -1,5 +1,6 @@
 import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:firebase_authentication_client/firebase_authentication_client.dart';
+import 'package:intl/intl.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
 
 /// {@template release_profile_repository}
@@ -24,8 +25,20 @@ class ReleaseProfileRepository {
   }
 
   /// Get this months classes.
-  Future<List<ReleaseClass>> getClasses(String date) async {
-    final response = await _cloudFirestoreClient.getClasses(date);
+  ///
+  /// [startDate] is the first day of the month in 'yyyy-MM-dd' format.
+  Future<List<ReleaseClass>> getClasses(String startDate) async {
+    final dateTime = DateTime.parse(startDate);
+    final lastDayOfMonth = DateTime(dateTime.year, dateTime.month + 1, 0);
+    final endDate = DateFormat('yyyy-MM-dd').format(lastDayOfMonth);
+    final response =
+        await _cloudFirestoreClient.getAllClassesForMonth(startDate, endDate);
     return response.map(ReleaseClass.fromClient).toList();
+  }
+
+  /// Get class information from specific class id.
+  Future<ClassInfo> getClassInfo(String classId) async {
+    final response = await _cloudFirestoreClient.getClass(classId);
+    return response;
   }
 }

@@ -59,6 +59,7 @@ class AppTheme {
   AppBarTheme get _appBarTheme {
     return AppBarTheme(
       iconTheme: _iconTheme,
+      surfaceTintColor: AppColors.transparent,
       titleTextStyle: _textTheme.displayMedium,
       elevation: 0,
       backgroundColor: AppColors.transparent,
@@ -98,6 +99,7 @@ class AppTheme {
       displaySmall: AppTextStyle.headline3,
       headlineMedium: AppTextStyle.headline4,
       headlineSmall: AppTextStyle.headline5,
+      headlineLarge: AppTextStyle.headline1,
       titleLarge: AppTextStyle.headline6,
       titleMedium: AppTextStyle.subtitle1,
       titleSmall: AppTextStyle.subtitle2,
@@ -122,6 +124,8 @@ class AppTheme {
   ButtonThemeData get _buttonTheme {
     return ButtonThemeData(
       textTheme: ButtonTextTheme.primary,
+      colorScheme: _colorScheme.copyWith(primary: AppColors.green),
+      buttonColor: AppColors.green,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSpacing.sm),
       ),

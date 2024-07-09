@@ -47,6 +47,24 @@
     "type": "text",
     "placeholders": {}
   },
+  "descriptionTitle": "Description",
+  "@descriptionTitle": {
+    "description": "Title for class descriptions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinClassLabel": "Join Class",
+  "@joinClassLabel": {
+    "description": "Button label for book class",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinCourseLabel": "Join Course",
+  "@joinCourseLabel": {
+    "description": "Button label for booking a course",
+    "type": "text",
+    "placeholders": {}
+  },
   "inAppReview": "In App Review",
   "@inAppReview": {
     "description": "Title for the in app review button",
@@ -86,6 +104,12 @@
   "emailInputLabelText": "Email",
   "@emailInputLabelText": {
     "description": "Email label on sign up form",
+    "type": "text",
+    "placeholders": {}
+  },
+  "errorLoadingClassData": "Error loading class info",
+  "@errorLoadingClassData": {
+    "description": "Error when class info doesn't load",
     "type": "text",
     "placeholders": {}
   },

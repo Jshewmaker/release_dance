@@ -2,7 +2,9 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:release_dance/class_info/view/class_info_page.dart';
 import 'package:release_dance/classes/classes.dart';
 import 'package:release_dance/generated/assets.gen.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
@@ -56,130 +58,79 @@ class _ClassesViewState extends State<ClassesView> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocBuilder<ClassBloc, ClassState>(
-        builder: (context, state) {
-          return EventCalendar(
-            eventOptions: EventOptions(
+      child: Scaffold(
+        body: BlocBuilder<ClassBloc, ClassState>(
+          builder: (context, state) {
+            return EventCalendar(
+              eventOptions: EventOptions(
                 showLoadingForEvent: () {
                   return state.status == ClassStatus.loading;
                 },
                 loadingWidget: () => const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.white,
-                      ),
-                    )),
-            onDateTimeReset: (date) {
-              context
-                  .read<ClassBloc>()
-                  .add(ClassesFetched(date: date.getDate()));
-              setState(() {
-                newDate = date;
-              });
-            },
-            onMonthChanged: (date) {
-              context
-                  .read<ClassBloc>()
-                  .add(ClassesFetched(date: date.getDate()));
-              setState(() {
-                newDate = date;
-              });
-            },
-            dateTime: newDate,
-            headerOptions: HeaderOptions(
-              weekDayStringType: WeekDayStringTypes.SHORT,
-            ),
-            dayOptions: DayOptions(selectedBackgroundColor: AppColors.black),
-            calendarOptions: CalendarOptions(
-              viewType: ViewType.DAILY,
-              headerMonthBackColor: AppColors.greyPrimary,
-              headerMonthShadowColor: AppColors.greyPrimary,
-              bottomSheetBackColor: AppColors.black,
-            ),
-            calendarType: CalendarType.GREGORIAN,
-            events: [
-              ...state.classes.map((e) {
-                final hour = e.startTime.hour.split(':');
-                return Event(
-                  child: _ClassCard(
-                    title: e.name,
-                    time: '${e.startTime.hour} - ${e.endTime.hour}',
-                    instructor: e.instructor,
-                    location: 'Ferndale',
-                    active: true,
+                  child: CircularProgressIndicator(
+                    color: AppColors.white,
                   ),
-                  dateTime: CalendarDateTime(
-                    hour: int.parse(hour.first),
-                    minute: int.parse(hour.last),
-                    year: int.parse(e.startTime.year),
-                    month: int.parse(e.startTime.month),
-                    day: int.parse(e.startTime.day),
-                    calendarType: CalendarType.GREGORIAN,
-                  ),
-                );
-              }),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _ClassCard extends StatelessWidget {
-  const _ClassCard({
-    required this.title,
-    required this.time,
-    required this.instructor,
-    required this.location,
-    required this.active,
-    super.key,
-  });
-  final String title;
-  final String time;
-  final String instructor;
-  final String location;
-  final bool active;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          image: DecorationImage(
-            image: AssetImage(Assets.images.releaseStudio.path),
-            fit: BoxFit.fill,
-            colorFilter: ColorFilter.mode(
-              AppColors.black.withOpacity(active ? 0.3 : 0.8),
-              BlendMode.darken,
-            ),
-          ),
-        ),
-        height: 200,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: theme.textTheme.displayMedium,
-                  ),
-                  Text(
-                    '$time - $instructor',
-                    style: const TextStyle(color: AppColors.white),
-                  ),
-                  Text(
-                    'Release - $location',
-                    style: const TextStyle(color: AppColors.white),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+              onDateTimeReset: (date) {
+                context
+                    .read<ClassBloc>()
+                    .add(ClassesFetched(date: date.getDate()));
+                setState(() {
+                  newDate = date;
+                });
+              },
+              onMonthChanged: (date) {
+                context
+                    .read<ClassBloc>()
+                    .add(ClassesFetched(date: date.getDate()));
+                setState(() {
+                  newDate = date;
+                });
+              },
+              dateTime: newDate,
+              headerOptions: HeaderOptions(
+                weekDayStringType: WeekDayStringTypes.SHORT,
+              ),
+              dayOptions: DayOptions(selectedBackgroundColor: AppColors.black),
+              calendarOptions: CalendarOptions(
+                viewType: ViewType.DAILY,
+                headerMonthBackColor: AppColors.greyPrimary,
+                headerMonthShadowColor: AppColors.greyPrimary,
+                bottomSheetBackColor: AppColors.black,
+              ),
+              calendarType: CalendarType.GREGORIAN,
+              events: [
+                ...state.classes.map((e) {
+                  final hour = e.startTime.hour.split(':');
+                  return Event(
+                    child: ReleaseClassCard(
+                      id: e.id,
+                      onTap: () => context.pushNamed(
+                        ClassInfoPage.routeName,
+                        pathParameters: {'classId': e.id},
+                      ),
+                      title: e.name,
+                      subtitle:
+                          // ignore: lines_longer_than_80_chars
+                          '${e.startTime.hour} - ${e.endTime.hour} ${e.instructor}',
+                      location: 'Release - Ferndale',
+                      active: true,
+                      background: Assets.images.releaseStudio.path,
+                    ),
+                    dateTime: CalendarDateTime(
+                      hour: int.parse(hour.first),
+                      minute: int.parse(hour.last),
+                      year: int.parse(e.startTime.year),
+                      month: int.parse(e.startTime.month),
+                      day: int.parse(e.startTime.day),
+                      calendarType: CalendarType.GREGORIAN,
+                    ),
+                  );
+                }),
+              ],
+            );
+          },
         ),
       ),
     );

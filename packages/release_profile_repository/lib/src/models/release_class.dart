@@ -7,6 +7,7 @@ import 'package:release_profile_repository/release_profile_repository.dart';
 class ReleaseClass {
   /// {@macro class}
   const ReleaseClass({
+    required this.id,
     required this.name,
     required this.description,
     required this.startTime,
@@ -21,6 +22,7 @@ class ReleaseClass {
     final endTime = firebaseClass.endTime;
     final startTime = firebaseClass.startTime;
     return ReleaseClass(
+      id: firebaseClass.id,
       description: firebaseClass.description,
       name: firebaseClass.name,
       startTime: Time(
@@ -41,6 +43,9 @@ class ReleaseClass {
       date: firebaseClass.date,
     );
   }
+
+  /// The id of the class.
+  final String id;
 
   /// The title of the class.
   final String name;
