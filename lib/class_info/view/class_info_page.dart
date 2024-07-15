@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:release_dance/checkout/checkout.dart';
 import 'package:release_dance/class_info/bloc/class_info_bloc.dart';
 import 'package:release_dance/generated/assets.gen.dart';
 import 'package:release_dance/l10n/l10n.dart';
@@ -11,17 +12,19 @@ import 'package:release_profile_repository/release_profile_repository.dart';
 final formatCurrency = NumberFormat.simpleCurrency();
 
 class ClassInfoPage extends StatelessWidget {
-  const ClassInfoPage({required this.classId, super.key});
+  const ClassInfoPage({required this.classId, required this.date, super.key});
 
   factory ClassInfoPage.pageBuilder(BuildContext _, GoRouterState state) {
     return ClassInfoPage(
       classId: state.pathParameters['classId']!,
+      date: state.pathParameters['date']!,
     );
   }
 
   final String classId;
-  static String get routeName => 'classInfod';
-  static String get routePath => '/classInfo/:classId';
+  final String date;
+  static String get routeName => 'classInfo';
+  static String get routePath => 'classInfo/:classId/:date';
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +32,16 @@ class ClassInfoPage extends StatelessWidget {
       create: (context) => ClassInfoBloc(
         releaseProfileRepository: context.read<ReleaseProfileRepository>(),
       )..add(ClassInfoRequested(classId)),
-      child: const _ClassInfoView(),
+      child: _ClassInfoView(
+        date: date,
+      ),
     );
   }
 }
 
 class _ClassInfoView extends StatelessWidget {
-  const _ClassInfoView();
-
+  const _ClassInfoView({required this.date, super.key});
+  final String date;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -92,7 +97,14 @@ class _ClassInfoView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () => context.pushNamed(
+                      CheckoutPage.routeName,
+                      pathParameters: {
+                        'classId': course.classId,
+                        'date': date,
+                        'duration': course.durationWeeks.toString(),
+                      },
+                    ),
                     child: Text(
                       course.durationWeeks > 1
                           ? '${l10n.joinCourseLabel} ${formatCurrency.format(

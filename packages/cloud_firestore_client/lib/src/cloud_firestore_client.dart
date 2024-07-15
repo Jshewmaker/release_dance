@@ -43,16 +43,49 @@ class CloudFirestoreClient {
 
       return classList;
     } on Exception catch (e) {
-      throw Exception('Error getting user: $e');
+      throw Exception('Error getting classes for month: $startDate $e');
     }
   }
 
   /// Get class information from specific class id.
-  Future<ClassInfo> getClass(String classId) async {
+  Future<Class> getSingleClass(
+    String classId,
+    String date,
+  ) async {
+    try {
+      final doc = await _firestore
+          .collection('classes')
+          .where('id', isEqualTo: classId)
+          .where('date', isEqualTo: date)
+          .get();
+
+      return Class.fromJson(doc.docs.first.data());
+    } on Exception catch (e) {
+      throw Exception('Error getting class: $classId $e');
+    }
+  }
+
+  /// Get class information from specific class id.
+  Future<ClassInfo> getClassInfo(String classId) async {
     try {
       final doc = await _firestore.collection('class_info').doc(classId).get();
 
       return ClassInfo.fromJson(doc.data() ?? {});
+    } on Exception catch (e) {
+      throw Exception('Error getting class info:$classId $e');
+    }
+  }
+
+  Future<void> enrollInClass(
+    String userId,
+    String classId,
+    int numberOfDropIns,
+  ) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'classes': FieldValue.arrayUnion([classId]),
+        'dropInClasses': FieldValue.increment(numberOfDropIns),
+      });
     } on Exception catch (e) {
       throw Exception('Error getting user: $e');
     }

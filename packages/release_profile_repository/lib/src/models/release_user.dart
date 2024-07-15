@@ -9,6 +9,7 @@ class ReleaseUser {
     required this.lastName,
     required this.email,
     required this.avatarUrl,
+    this.courses = const [],
   });
 
   /// Creates a [ReleaseUser] from a map.
@@ -19,6 +20,9 @@ class ReleaseUser {
       lastName: json['last_name'] as String,
       email: json['email'] as String,
       avatarUrl: json['avatar_url'] as String,
+      courses: json['classes'] == null
+          ? []
+          : List<String>.from(json['classes'] as List<String>),
     );
   }
 
@@ -37,6 +41,9 @@ class ReleaseUser {
   /// The user's avatar URL.
   final String avatarUrl;
 
+  /// Classes user is enrolled in.
+  final List<String> courses;
+
   /// Converts the [ReleaseUser] to a map.
   Map<String, dynamic> toJson() {
     return {
@@ -45,6 +52,7 @@ class ReleaseUser {
       'last_name': lastName,
       'email': email,
       'avatar_url': avatarUrl,
+      'classes': courses,
     };
   }
 }

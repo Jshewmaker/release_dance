@@ -14,28 +14,39 @@ class AppTheme {
   /// Default `ThemeData` for App UI.
   ThemeData get themeData {
     return ThemeData(
-      primaryColor: AppColors.yellow,
-      canvasColor: AppColors.white,
-      scaffoldBackgroundColor: _backgroundColor,
-      iconTheme: _iconTheme,
-      appBarTheme: _appBarTheme,
-      dividerTheme: _dividerTheme,
-      bottomNavigationBarTheme: _navigationBarTheme,
-      textTheme: _textTheme,
-      inputDecorationTheme: _inputDecorationTheme,
-      buttonTheme: _buttonTheme,
-      splashColor: AppColors.transparent,
-      snackBarTheme: _snackBarTheme,
-      elevatedButtonTheme: _elevatedButtonTheme,
-      textButtonTheme: _textButtonTheme,
-      colorScheme: _colorScheme.copyWith(surface: _backgroundColor),
-    );
+        primaryColor: AppColors.yellow,
+        canvasColor: AppColors.yellow,
+        scaffoldBackgroundColor: _backgroundColor,
+        iconTheme: _iconTheme,
+        appBarTheme: _appBarTheme,
+        dividerTheme: _dividerTheme,
+        bottomNavigationBarTheme: _navigationBarTheme,
+        textTheme: _textTheme,
+        inputDecorationTheme: _inputDecorationTheme,
+        buttonTheme: _buttonTheme,
+        splashColor: AppColors.transparent,
+        snackBarTheme: _snackBarTheme,
+        elevatedButtonTheme: _elevatedButtonTheme,
+        textButtonTheme: _textButtonTheme,
+        colorScheme: _colorScheme.copyWith(surface: _backgroundColor),
+        listTileTheme: _listTileTheme);
   }
 
   ColorScheme get _colorScheme {
     return const ColorScheme.light(
       primary: AppColors.white,
       secondary: AppColors.white,
+    );
+  }
+
+  ListTileThemeData get _listTileTheme {
+    return ListTileThemeData(
+      tileColor: AppColors.white,
+      selectedTileColor: AppColors.greyTernary,
+      contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSpacing.sm),
+      ),
     );
   }
 

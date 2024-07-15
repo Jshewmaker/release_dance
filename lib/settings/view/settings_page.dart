@@ -11,8 +11,8 @@ class SettingsPage extends StatelessWidget {
     return const SettingsPage();
   }
 
-  static String get routeName => '/settings';
-
+  static String get routeName => 'settings';
+  static String get routePath => '/settings';
   @override
   Widget build(BuildContext context) {
     return const SettingsView();

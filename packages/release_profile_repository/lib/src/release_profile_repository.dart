@@ -38,7 +38,26 @@ class ReleaseProfileRepository {
 
   /// Get class information from specific class id.
   Future<ClassInfo> getClassInfo(String classId) async {
-    final response = await _cloudFirestoreClient.getClass(classId);
+    final response = await _cloudFirestoreClient.getClassInfo(classId);
     return response;
+  }
+
+  /// Get class information from specific class id.
+  Future<ReleaseClass> getSingleClass(
+    String classId,
+    String date,
+  ) async {
+    final response = await _cloudFirestoreClient.getSingleClass(classId, date);
+    return ReleaseClass.fromClient(response);
+  }
+
+  /// Enroll in a class.
+  Future<void> enrollInClass(String classId, int numberOfDropIns) async {
+    final user = await _firebaseAuthenticationClient.user.first;
+    await _cloudFirestoreClient.enrollInClass(
+      user.id,
+      classId,
+      numberOfDropIns,
+    );
   }
 }

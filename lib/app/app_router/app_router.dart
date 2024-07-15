@@ -7,6 +7,7 @@ import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/go_router_refresh_stream.dart';
 import 'package:release_dance/app/app_router/scaffold_with_nested_navigation.dart';
+import 'package:release_dance/checkout/checkout.dart';
 import 'package:release_dance/class_info/view/class_info_page.dart';
 import 'package:release_dance/classes/view/classes_page.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
@@ -94,34 +95,44 @@ class AppRouter {
               ],
             ),
             StatefulShellBranch(
-              navigatorKey: _shellNavigatorSettingsKey,
-              routes: [
-                AppRoute(
-                  name: ClassesPage.routeName,
-                  path: ClassesPage.routeName,
-                  builder: ClassesPage.pageBuilder,
-                ),
-              ],
-            ),
-            StatefulShellBranch(
               navigatorKey: _shellNavigatorEventKey,
               routes: [
                 AppRoute(
-                  //   name: SettingsPage.routeName,
-                  path: '/events',
+                    name: ClassesPage.routeName,
+                    path: ClassesPage.routeName,
+                    builder: ClassesPage.pageBuilder,
+                    routes: [
+                      AppRoute(
+                        name: ClassInfoPage.routeName,
+                        path: ClassInfoPage.routePath,
+                        pageBuilder: (context, state) => NoTransitionPage(
+                          name: ClassInfoPage.routeName,
+                          child: ClassInfoPage.pageBuilder(context, state),
+                        ),
+                        routes: [
+                          AppRoute(
+                            name: CheckoutPage.routeName,
+                            path: CheckoutPage.routePath,
+                            pageBuilder: (context, state) => NoTransitionPage(
+                                child:
+                                    CheckoutPage.pageBuilder(context, state)),
+                          ),
+                        ],
+                      ),
+                    ]),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorSettingsKey,
+              routes: [
+                AppRoute(
+                  name: SettingsPage.routeName,
+                  path: SettingsPage.routePath,
                   builder: SettingsPage.pageBuilder,
                 ),
               ],
             ),
           ],
-        ),
-        AppRoute(
-          name: ClassInfoPage.routeName,
-          path: ClassInfoPage.routePath,
-          pageBuilder: (context, state) => NoTransitionPage(
-            name: ClassInfoPage.routeName,
-            child: ClassInfoPage.pageBuilder(context, state),
-          ),
         ),
         AppRoute(
           name: OnboardingPage.routeName,

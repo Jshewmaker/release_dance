@@ -108,7 +108,7 @@ class _ClassesViewState extends State<ClassesView> {
                       id: e.id,
                       onTap: () => context.pushNamed(
                         ClassInfoPage.routeName,
-                        pathParameters: {'classId': e.id},
+                        pathParameters: {'classId': e.id, 'date': e.date},
                       ),
                       title: e.name,
                       subtitle:
