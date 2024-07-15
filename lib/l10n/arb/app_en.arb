@@ -256,5 +256,37 @@
     "description": "No Network Connection text shown on the bottom OverlayEntry when connectivity is offline",
     "type": "text",
     "placeholders": {}
+  },
+  "courseDuration": "This is a {duration} week course that will meet weekly",
+    "@courseDuration": {
+        "description": "Message that alerts user how long course is.",
+        "placeholders": {
+            "duration": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "quantityClassPack": "'{quantity} Class Pack'",
+    "@quantityClassPack": {
+        "description": "Label for class pack list",
+        "placeholders": {
+            "quantity": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+  "oneMonthExpiration": "1 month expiration",
+  "@oneMonthExpiration": {
+    "description": "label for how long until class expires",
+    "type": "text",
+    "placeholders": {}
+  },
+  "registerLabel": "Register",
+  "@registerLabel": {
+    "description": "Register button label",
+    "type": "text",
+    "placeholders": {}
   }
 }

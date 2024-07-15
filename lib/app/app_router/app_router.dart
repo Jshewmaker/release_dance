@@ -98,28 +98,29 @@ class AppRouter {
               navigatorKey: _shellNavigatorEventKey,
               routes: [
                 AppRoute(
-                    name: ClassesPage.routeName,
-                    path: ClassesPage.routeName,
-                    builder: ClassesPage.pageBuilder,
-                    routes: [
-                      AppRoute(
+                  name: ClassesPage.routeName,
+                  path: ClassesPage.routeName,
+                  builder: ClassesPage.pageBuilder,
+                  routes: [
+                    AppRoute(
+                      name: ClassInfoPage.routeName,
+                      path: ClassInfoPage.routePath,
+                      pageBuilder: (context, state) => NoTransitionPage(
                         name: ClassInfoPage.routeName,
-                        path: ClassInfoPage.routePath,
-                        pageBuilder: (context, state) => NoTransitionPage(
-                          name: ClassInfoPage.routeName,
-                          child: ClassInfoPage.pageBuilder(context, state),
-                        ),
-                        routes: [
-                          AppRoute(
-                            name: CheckoutPage.routeName,
-                            path: CheckoutPage.routePath,
-                            pageBuilder: (context, state) => NoTransitionPage(
-                                child:
-                                    CheckoutPage.pageBuilder(context, state)),
-                          ),
-                        ],
+                        child: ClassInfoPage.pageBuilder(context, state),
                       ),
-                    ]),
+                      routes: [
+                        AppRoute(
+                          name: CheckoutPage.routeName,
+                          path: CheckoutPage.routePath,
+                          pageBuilder: (context, state) => NoTransitionPage(
+                            child: CheckoutPage.pageBuilder(context, state),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
             StatefulShellBranch(

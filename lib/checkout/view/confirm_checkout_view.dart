@@ -4,9 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:release_dance/checkout/checkout.dart';
 
-class CheckoutPageTwo extends StatelessWidget {
+///{@template confirm_checkout_view}
+/// End of the checkout process.
+/// Displays the total and a button to complete the checkout.
+/// {@endtemplate}
+class ConfirmCheckoutView extends StatelessWidget {
+  ///{@macro confirm_checkout_view}
+  const ConfirmCheckoutView({super.key});
+
   static Page<void> page() {
-    return NoTransitionPage(child: CheckoutPageTwo());
+    return const NoTransitionPage(child: ConfirmCheckoutView());
   }
 
   @override
@@ -17,15 +24,20 @@ class CheckoutPageTwo extends StatelessWidget {
       listener: (context, state) {
         if (state is CheckoutSuccess) {
           context.flow<CheckoutFlow>().complete(
-              (basket) => basket.copyWith(status: FlowStatus.completed));
+                (basket) => basket.copyWith(status: FlowStatus.checkout),
+              );
         }
       },
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.flow<CheckoutFlow>().update(
+                  (basket) => basket.copyWith(
+                    status: FlowStatus.notStarted,
+                  ),
+                ),
           ),
-          title: Text('Checkout Page Two'),
+          title: const Text('Checkout Page Two'),
         ),
         body: Center(
           child: Column(
@@ -42,7 +54,7 @@ class CheckoutPageTwo extends StatelessWidget {
                         ),
                       );
                 },
-                child: Text('Go to Checkout Page Three'),
+                child: const Text('Go to Checkout Page Three'),
               ),
             ],
           ),

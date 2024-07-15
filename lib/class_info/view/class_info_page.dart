@@ -40,7 +40,7 @@ class ClassInfoPage extends StatelessWidget {
 }
 
 class _ClassInfoView extends StatelessWidget {
-  const _ClassInfoView({required this.date, super.key});
+  const _ClassInfoView({required this.date});
   final String date;
   @override
   Widget build(BuildContext context) {
