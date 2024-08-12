@@ -1,4 +1,5 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:release_dance/checkout/checkout.dart';
 import 'package:release_dance/class_info/bloc/class_info_bloc.dart';
 import 'package:release_dance/generated/assets.gen.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/l10n/l10n.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
 
@@ -46,10 +48,20 @@ class _ClassInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+
     return Scaffold(
-      body: BlocBuilder<ClassInfoBloc, ClassInfoState>(
+      body: BlocConsumer<ClassInfoBloc, ClassInfoState>(
+        listener: (context, state) {
+          if (state.status == ClassInfoStatus.redeemed) {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Yay! A SnackBar!'),
+            ));
+          }
+        },
         builder: (context, state) {
-          if (state is ClassInfoLoaded) {
+          if (state.status == ClassInfoStatus.loaded ||
+              state.status == ClassInfoStatus.redeemed) {
             final course = state.classInfo;
             return SafeArea(
               child: Scaffold(
@@ -61,7 +73,7 @@ class _ClassInfoView extends StatelessWidget {
                 body: ScrollableColumn(
                   children: [
                     ReleaseClassCard(
-                      title: course.name,
+                      title: course!.name,
                       subtitle: '',
                       location: 'Release - Ferndale',
                       id: course.classId,
@@ -90,36 +102,17 @@ class _ClassInfoView extends StatelessWidget {
                 ),
                 bottomNavigationBar: Padding(
                   padding: const EdgeInsets.all(AppSpacing.lg),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.greyTernary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    onPressed: () => context.pushNamed(
-                      CheckoutPage.routeName,
-                      pathParameters: {
-                        'classId': course.classId,
-                        'date': date,
-                        'duration': course.durationWeeks.toString(),
-                      },
-                    ),
-                    child: Text(
-                      course.durationWeeks > 1
-                          ? '${l10n.joinCourseLabel} ${formatCurrency.format(
-                              course.price,
-                            )}'
-                          : '${l10n.joinClassLabel} ${formatCurrency.format(
-                              course.price,
-                            )}',
-                    ),
-                  ),
+                  child: (course.durationWeeks > 1)
+                      ? _SignUpForCourseButton(classInfo: course)
+                      : _SignUpForDropInButton(
+                          classInfo: course,
+                          date: date,
+                        ),
                 ),
               ),
             );
           }
-          if (state is ClassInfoError) {
+          if (state.status == ClassInfoStatus.error) {
             return Center(
               child: Text(l10n.errorLoadingClassData),
             );
@@ -128,6 +121,193 @@ class _ClassInfoView extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         },
+      ),
+    );
+  }
+}
+
+class _SignUpForDropInButton extends StatelessWidget {
+  const _SignUpForDropInButton({
+    required this.classInfo,
+    required this.date,
+  });
+
+  final ClassInfo classInfo;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    final dropIns = context.select<HomeBloc, int>(
+      (dropIns) => dropIns.state.user?.dropInClasses ?? 0,
+    );
+
+    final l10n = context.l10n;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.greyTernary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      onPressed: () async {
+        if (dropIns > 0 && classInfo.durationWeeks == 1) {
+          await _useDropInBottomSheet(
+            context,
+            dropIns,
+          );
+        } else {
+          await _buyDropInBottomSheet(
+            context,
+            classInfo,
+          );
+        }
+      },
+      child: (dropIns > 0)
+          ? const Text('Register for class.')
+          : Text(
+              '${l10n.joinClassLabel} ${formatCurrency.format(
+                classInfo.price,
+              )}',
+            ),
+    );
+  }
+
+  Future<void> _useDropInBottomSheet(
+    BuildContext context,
+    int dropInClasses,
+  ) async {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (_) {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      l10n.confirmSignUp,
+                      style: theme.textTheme.displayMedium!
+                          .copyWith(color: AppColors.black),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    child: Text(
+                      l10n.thisWillUseDropInClass(
+                        dropInClasses - 1,
+                      ),
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                        color: AppColors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.greyTernary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () {
+                        context
+                            .read<ClassInfoBloc>()
+                            .add(DropInRedeemed(classInfo.classId));
+
+                        context.read<HomeBloc>().add(UserRequested());
+                        Navigator.pop(context);
+                      },
+                      child: Text(l10n.confirmRegisterLabel),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _buyDropInBottomSheet(
+    BuildContext context,
+    ClassInfo course,
+  ) async {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (_) {
+        return SizedBox(
+          child: Column(
+            children: [
+              const Text('Select a package'),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: DROP_IN_PACKAGES.length,
+                  itemBuilder: (context, index) {
+                    final price = DROP_IN_PACKAGES.values.elementAt(index);
+                    final quantity = DROP_IN_PACKAGES.keys.elementAt(index);
+                    return ListTile(
+                      title: Text(
+                        l10n.quantityClassPack(quantity),
+                      ),
+                      subtitle: Text(l10n.oneMonthExpiration),
+                      trailing: Text(
+                        formatCurrency.format(price),
+                        style: theme.textTheme.labelMedium!.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      onTap: () {
+                        context.goNamed(
+                          CheckoutPage.routeName,
+                          pathParameters: {
+                            'classId': course.classId,
+                            'date': date,
+                            'duration': course.durationWeeks.toString(),
+                            'dropIn': quantity.toString(),
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SignUpForCourseButton extends StatelessWidget {
+  const _SignUpForCourseButton({required this.classInfo});
+
+  final ClassInfo classInfo;
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.greyTernary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      onPressed: () async {},
+      child: Text(
+        '${l10n.joinCourseLabel} ${formatCurrency.format(
+          classInfo.price,
+        )}',
       ),
     );
   }

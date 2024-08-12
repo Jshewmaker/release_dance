@@ -1,7 +1,10 @@
 // Stateful nested navigation based on:
 // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:release_dance/home/home.dart';
+import 'package:release_profile_repository/release_profile_repository.dart';
 
 class ScaffoldWithNestedNavigation extends StatelessWidget {
   const ScaffoldWithNestedNavigation({
@@ -23,29 +26,34 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: navigationShell.currentIndex,
-        items: const [
-          BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
-          BottomNavigationBarItem(
-            label: 'My Release',
-            icon: Icon(Icons.person),
-          ),
-          BottomNavigationBarItem(
-            label: 'Classes',
-            icon: Icon(
-              Icons.calendar_month,
+    return BlocProvider(
+      create: (context) => HomeBloc(
+        releaseProfileRepository: context.read<ReleaseProfileRepository>(),
+      )..add(UserRequested()),
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: navigationShell.currentIndex,
+          items: const [
+            BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
+            BottomNavigationBarItem(
+              label: 'My Release',
+              icon: Icon(Icons.person),
             ),
-          ),
-          BottomNavigationBarItem(
-            label: 'Settings',
-            icon: Icon(Icons.settings),
-          ),
-        ],
-        onTap: _goBranch,
+            BottomNavigationBarItem(
+              label: 'Classes',
+              icon: Icon(
+                Icons.calendar_month,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: 'Settings',
+              icon: Icon(Icons.settings),
+            ),
+          ],
+          onTap: _goBranch,
+        ),
       ),
     );
   }

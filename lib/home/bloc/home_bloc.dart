@@ -8,7 +8,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({required ReleaseProfileRepository releaseProfileRepository})
       : _releaseProfileRepository = releaseProfileRepository,
-        super(HomeInitial()) {
+        super(const HomeState()) {
     on<UserRequested>(_onUserRequested);
   }
   final ReleaseProfileRepository _releaseProfileRepository;
@@ -17,12 +17,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     UserRequested event,
     Emitter<HomeState> emit,
   ) async {
-    emit(HomeLoading());
+    emit(state.copyWith(status: HomeStatus.loading));
     try {
       final user = await _releaseProfileRepository.getUserProfile();
-      emit(HomeLoaded(user));
+      emit(state.copyWith(user: user, status: HomeStatus.loaded));
     } catch (e) {
-      emit(HomeError(e));
+      emit(state.copyWith(status: HomeStatus.error));
     }
   }
 }

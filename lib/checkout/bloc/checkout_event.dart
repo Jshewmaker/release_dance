@@ -23,21 +23,18 @@ class CheckoutStarted extends CheckoutEvent {
       ];
 }
 
-class CheckoutFinished extends CheckoutEvent {
-  const CheckoutFinished({
+class EnrolledInDropIn extends CheckoutEvent {
+  const EnrolledInDropIn({
     required this.classId,
-    required this.total,
-    required this.duration,
+    required this.dropInsUsed,
   });
 
   final String classId;
-  final double total;
-  final int duration;
+  final int dropInsUsed;
 
   @override
   List<Object> get props => [
         classId,
-        total,
-        duration,
+        dropInsUsed,
       ];
 }

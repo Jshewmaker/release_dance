@@ -9,8 +9,9 @@ part 'class_info_state.dart';
 class ClassInfoBloc extends Bloc<ClassInfoEvent, ClassInfoState> {
   ClassInfoBloc({required ReleaseProfileRepository releaseProfileRepository})
       : _releaseProfileRepository = releaseProfileRepository,
-        super(ClassInfoInitial()) {
+        super(const ClassInfoState()) {
     on<ClassInfoRequested>(_onClassInfoRequested);
+    on<DropInRedeemed>(_dropInRedeemed);
   }
 
   final ReleaseProfileRepository _releaseProfileRepository;
@@ -19,14 +20,28 @@ class ClassInfoBloc extends Bloc<ClassInfoEvent, ClassInfoState> {
     ClassInfoRequested event,
     Emitter<ClassInfoState> emit,
   ) async {
-    emit(ClassInfoLoading());
+    emit(state.copyWith(status: ClassInfoStatus.loading));
     try {
-      emit(ClassInfoLoading());
       final classInfo =
           await _releaseProfileRepository.getClassInfo(event.classId);
-      emit(ClassInfoLoaded(classInfo));
+      emit(
+          state.copyWith(classInfo: classInfo, status: ClassInfoStatus.loaded));
     } catch (e) {
-      emit(ClassInfoError(e));
+      emit(state.copyWith(status: ClassInfoStatus.error));
+    }
+  }
+
+  Future<void> _dropInRedeemed(
+    DropInRedeemed event,
+    Emitter<ClassInfoState> emit,
+  ) async {
+    try {
+      await Future<void>.delayed(const Duration(seconds: 1));
+      await _releaseProfileRepository.enrollInClass(event.classId, 1);
+      //  await _releaseProfileRepository.getUserProfile();
+      emit(state.copyWith(status: ClassInfoStatus.redeemed));
+    } catch (e) {
+      emit(state.copyWith(status: ClassInfoStatus.error));
     }
   }
 }

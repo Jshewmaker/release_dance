@@ -51,6 +51,7 @@ class CheckoutPage extends StatelessWidget {
     required this.classId,
     required this.date,
     required this.duration,
+    required this.dropIns,
     super.key,
   });
 
@@ -59,13 +60,15 @@ class CheckoutPage extends StatelessWidget {
       classId: state.pathParameters['classId']!,
       date: state.pathParameters['date']!,
       duration: int.parse(state.pathParameters['duration']!),
+      dropIns: int.parse(state.pathParameters['dropIn']!),
     );
   }
   final String date;
   final String classId;
+  final int dropIns;
   final int duration;
   static const String routeName = 'checkout';
-  static const String routePath = 'checkout/:duration';
+  static const String routePath = 'checkout/:duration/:dropIn';
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +79,9 @@ class CheckoutPage extends StatelessWidget {
           CheckoutStarted(classId: classId, date: date),
         ),
       child: FlowBuilder<CheckoutFlow>(
-        state: const CheckoutFlow(),
+        state: CheckoutFlow(
+          status: dropIns > 0 ? FlowStatus.checkout : FlowStatus.selectPackage,
+        ),
         onGeneratePages: (state, pages) =>
             onGenerateCheckoutPages(state, pages, duration),
       ),

@@ -76,7 +76,12 @@ class CloudFirestoreClient {
     }
   }
 
-  Future<void> enrollInClass(
+  /// Enroll in a drop-in class. This will update the user's classes and drop-in classes.
+  ///
+  /// [userId] is the user's id from firebase.
+  /// [classId] is the class id from firebase.
+  /// [numberOfDropIns] is the number of drop-ins the user is using.
+  Future<void> enrollInDropInClass(
     String userId,
     String classId,
     int numberOfDropIns,
@@ -84,7 +89,7 @@ class CloudFirestoreClient {
     try {
       await _firestore.collection('users').doc(userId).update({
         'classes': FieldValue.arrayUnion([classId]),
-        'dropInClasses': FieldValue.increment(numberOfDropIns),
+        'drop_in_classes': FieldValue.increment(numberOfDropIns * -1),
       });
     } on Exception catch (e) {
       throw Exception('Error getting user: $e');

@@ -1,30 +1,35 @@
 part of 'class_info_bloc.dart';
 
-sealed class ClassInfoState extends Equatable {
-  const ClassInfoState();
-
-  @override
-  List<Object> get props => [];
+enum ClassInfoStatus {
+  initial,
+  loading,
+  loaded,
+  redeemed,
+  error,
 }
 
-final class ClassInfoInitial extends ClassInfoState {}
+final class ClassInfoState extends Equatable {
+  const ClassInfoState({
+    this.classInfo,
+    this.status = ClassInfoStatus.initial,
+  });
 
-final class ClassInfoLoading extends ClassInfoState {}
+  final ClassInfoStatus status;
+  final ClassInfo? classInfo;
 
-final class ClassInfoLoaded extends ClassInfoState {
-  const ClassInfoLoaded(this.classInfo);
-
-  final ClassInfo classInfo;
+  ClassInfoState copyWith({
+    ClassInfoStatus? status,
+    ClassInfo? classInfo,
+  }) {
+    return ClassInfoState(
+      status: status ?? this.status,
+      classInfo: classInfo ?? this.classInfo,
+    );
+  }
 
   @override
-  List<Object> get props => [classInfo];
-}
-
-final class ClassInfoError extends ClassInfoState {
-  const ClassInfoError(this.error);
-
-  final Object error;
-
-  @override
-  List<Object> get props => [error];
+  List<Object?> get props => [
+        status,
+        classInfo,
+      ];
 }

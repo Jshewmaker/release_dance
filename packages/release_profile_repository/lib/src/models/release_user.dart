@@ -9,6 +9,7 @@ class ReleaseUser {
     required this.lastName,
     required this.email,
     required this.avatarUrl,
+    this.dropInClasses = 0,
     this.courses = const [],
   });
 
@@ -20,9 +21,10 @@ class ReleaseUser {
       lastName: json['last_name'] as String,
       email: json['email'] as String,
       avatarUrl: json['avatar_url'] as String,
+      dropInClasses: json['drop_in_classes'] as int? ?? 0,
       courses: json['classes'] == null
-          ? []
-          : List<String>.from(json['classes'] as List<String>),
+          ? <String>[]
+          : List<String>.from(json['classes'] as List),
     );
   }
 
@@ -44,6 +46,9 @@ class ReleaseUser {
   /// Classes user is enrolled in.
   final List<String> courses;
 
+  /// The number of drop in classes the user has.
+  final int dropInClasses;
+
   /// Converts the [ReleaseUser] to a map.
   Map<String, dynamic> toJson() {
     return {
@@ -51,6 +56,7 @@ class ReleaseUser {
       'first_name': firstName,
       'last_name': lastName,
       'email': email,
+      'drop_in_classes': dropInClasses,
       'avatar_url': avatarUrl,
       'classes': courses,
     };

@@ -51,10 +51,13 @@ class ReleaseProfileRepository {
     return ReleaseClass.fromClient(response);
   }
 
-  /// Enroll in a class.
+  /// Use one of the users drop-in classes.
+  ///
+  /// [classId] is the id of the class to enroll in.
+  /// [numberOfDropIns] is the number of drop-ins to use.
   Future<void> enrollInClass(String classId, int numberOfDropIns) async {
     final user = await _firebaseAuthenticationClient.user.first;
-    await _cloudFirestoreClient.enrollInClass(
+    await _cloudFirestoreClient.enrollInDropInClass(
       user.id,
       classId,
       numberOfDropIns,

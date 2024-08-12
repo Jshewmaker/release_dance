@@ -15,3 +15,12 @@ class ClassInfoRequested extends ClassInfoEvent {
   @override
   List<Object> get props => [classId];
 }
+
+class DropInRedeemed extends ClassInfoEvent {
+  const DropInRedeemed(this.classId);
+
+  final String classId;
+
+  @override
+  List<Object> get props => [classId];
+}

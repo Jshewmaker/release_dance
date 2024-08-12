@@ -41,6 +41,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "confirmSignUp": "Confirm Sign up",
+  "@confirmSignUp": {
+    "description": "Confirm Sign up label for button",
+    "type": "text",
+    "placeholders": {}
+  },
   "specialEvents": "Special Events",
   "@specialEvents": {
     "description": "Home page subtitle for special events",
@@ -267,7 +273,17 @@
             }
         }
     },
-    "quantityClassPack": "'{quantity} Class Pack'",
+    "thisWillUseDropInClass": "This will use one of your drop-in classes. You will have {dropInClasses} left.",
+    "@thisWillUseDropInClass": {
+        "description": "Message letting user know that this class will use a drop-in class. Also tells user how many drop-in classes they have left.",
+        "placeholders": {
+            "dropInClasses": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "quantityClassPack": "{quantity} Class Pack",
     "@quantityClassPack": {
         "description": "Label for class pack list",
         "placeholders": {
@@ -286,6 +302,12 @@
   "registerLabel": "Register",
   "@registerLabel": {
     "description": "Register button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirmRegisterLabel": "Confirm Registration",
+  "@confirmRegisterLabel": {
+    "description": "Confirm registration button label",
     "type": "text",
     "placeholders": {}
   }

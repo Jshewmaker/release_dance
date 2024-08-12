@@ -10,7 +10,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       : _releaseProfileRepository = releaseProfileRepository,
         super(CheckoutInitial()) {
     on<CheckoutStarted>(_onCheckOut);
-    on<CheckoutFinished>(_onCheckOutFinished);
+    on<EnrolledInDropIn>(_onCheckOutFinished);
   }
 
   final ReleaseProfileRepository _releaseProfileRepository;
@@ -32,7 +32,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   }
 
   Future<void> _onCheckOutFinished(
-    CheckoutFinished event,
+    EnrolledInDropIn event,
     Emitter<CheckoutState> emit,
   ) async {
     emit(CheckoutCourseLoading());
@@ -40,7 +40,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       await Future<void>.delayed(const Duration(seconds: 1));
       await _releaseProfileRepository.enrollInClass(
         event.classId,
-        event.duration,
+        event.dropInsUsed,
       );
       emit(CheckoutSuccess());
     } catch (e) {
