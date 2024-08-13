@@ -1,4 +1,4 @@
-package com.example.release_dance
+package com.yetiproductions.release
 
 import io.flutter.embedding.android.FlutterActivity
 
