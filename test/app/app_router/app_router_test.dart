@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meta/meta.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/app_router.dart';
@@ -26,15 +27,20 @@ class _MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
 
 class _MockUser extends Mock implements User {}
 
+class _MockNotificationRepository extends Mock
+    implements NotificationRepository {}
+
 void main() {
   group('AppRouter', () {
     late AppBloc appBloc;
     late GlobalKey<NavigatorState> navigatorKey;
+    late NotificationRepository notificationRepository;
 
     setUp(() {
       appBloc = _MockAppBloc();
       when(() => appBloc.state).thenReturn(AppState.unauthenticated());
       navigatorKey = GlobalKey();
+      notificationRepository = _MockNotificationRepository();
     });
 
     test('can be instantiated', () {
@@ -42,6 +48,7 @@ void main() {
         AppRouter(
           appBloc: appBloc,
           navigatorKey: navigatorKey,
+          openedNotificationsStream: notificationRepository.openedNotifications,
         ),
         isNotNull,
       );
@@ -52,6 +59,7 @@ void main() {
         AppRouter(
           appBloc: appBloc,
           navigatorKey: navigatorKey,
+          openedNotificationsStream: notificationRepository.openedNotifications,
         ).routes,
         isNotNull,
       );

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:release_dance/generated/assets.gen.dart';
 import 'package:release_dance/home/home.dart';
 import 'package:release_dance/l10n/l10n.dart';
-import 'package:release_profile_repository/release_profile_repository.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -76,30 +75,25 @@ class _WelcomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocProvider(
-      create: (context) => HomeBloc(
-        releaseProfileRepository: context.read<ReleaseProfileRepository>(),
-      )..add(UserRequested()),
-      child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state is HomeLoading) {
-            return const CircularProgressIndicator();
-          }
-          if (state is HomeError) {
-            return Text(
-              'Welcome!',
-              style: theme.textTheme.headlineSmall,
-            );
-          }
-          if (state is HomeLoaded) {
-            return Text(
-              'Welcome ${state.user.firstName}!',
-              style: theme.textTheme.displayMedium,
-            );
-          }
-          return const SizedBox();
-        },
-      ),
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state.status == UserStatus.loading) {
+          return const CircularProgressIndicator();
+        }
+        if (state.status == UserStatus.error) {
+          return Text(
+            'Welcome!',
+            style: theme.textTheme.headlineSmall,
+          );
+        }
+        if (state.status == UserStatus.loaded) {
+          return Text(
+            'Welcome ${state.user?.firstName}!',
+            style: theme.textTheme.displayMedium,
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 }

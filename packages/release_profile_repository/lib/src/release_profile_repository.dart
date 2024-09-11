@@ -51,13 +51,33 @@ class ReleaseProfileRepository {
     return ReleaseClass.fromClient(response);
   }
 
-  /// Enroll in a class.
+  /// Use one of the users drop-in classes.
+  ///
+  /// [classId] is the id of the class to enroll in.
+  /// [numberOfDropIns] is the number of drop-ins to use.
   Future<void> enrollInClass(String classId, int numberOfDropIns) async {
     final user = await _firebaseAuthenticationClient.user.first;
-    await _cloudFirestoreClient.enrollInClass(
+    await _cloudFirestoreClient.enrollInDropInClass(
       user.id,
       classId,
       numberOfDropIns,
     );
+  }
+
+  /// Enroll in a course.
+  ///
+  /// [classId] is the id of the class to enroll in.
+  Future<void> enrollInCourse(String classId) async {
+    final user = await _firebaseAuthenticationClient.user.first;
+    await _cloudFirestoreClient.enrollInCourse(
+      user.id,
+      classId,
+    );
+  }
+
+  /// Buy drop-ins for the user.
+  Future<void> buyDropIns(int numberOfDropIns) async {
+    final user = await _firebaseAuthenticationClient.user.first;
+    await _cloudFirestoreClient.buyDropIns(user.id, numberOfDropIns);
   }
 }

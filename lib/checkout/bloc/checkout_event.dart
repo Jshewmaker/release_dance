@@ -7,8 +7,8 @@ sealed class CheckoutEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CheckoutStarted extends CheckoutEvent {
-  const CheckoutStarted({
+class CheckoutEventStarted extends CheckoutEvent {
+  const CheckoutEventStarted({
     required this.classId,
     required this.date,
   });
@@ -23,21 +23,27 @@ class CheckoutStarted extends CheckoutEvent {
       ];
 }
 
-class CheckoutFinished extends CheckoutEvent {
-  const CheckoutFinished({
+class CheckoutEventEnrolledInDropIn extends CheckoutEvent {
+  const CheckoutEventEnrolledInDropIn({
     required this.classId,
-    required this.total,
-    required this.duration,
+    required this.dropInsUsed,
   });
 
   final String classId;
-  final double total;
-  final int duration;
+  final int dropInsUsed;
 
   @override
   List<Object> get props => [
         classId,
-        total,
-        duration,
+        dropInsUsed,
       ];
+}
+
+class CheckoutEventBoughtDropIns extends CheckoutEvent {
+  const CheckoutEventBoughtDropIns({required this.numberOfClassesBought});
+
+  final int numberOfClassesBought;
+
+  @override
+  List<Object> get props => [numberOfClassesBought];
 }

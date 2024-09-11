@@ -17,6 +17,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "successfullyRegisteredForClass": "You have successfully registered for class!",
+  "@successfullyRegisteredForClass": {
+    "description": "Toast message when a user successfully registers for class.",
+    "type": "text",
+    "placeholders": {}
+  },
   "forceUpgradeSubtitle": "You are using an unsupported app version. Please update your app from the App Store to continue.",
   "@forceUpgradeSubtitle": {
     "description": "Subtitle shown when force upgrade is required.",
@@ -41,6 +47,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "confirmSignUp": "Confirm Sign up",
+  "@confirmSignUp": {
+    "description": "Confirm Sign up label for button",
+    "type": "text",
+    "placeholders": {}
+  },
   "specialEvents": "Special Events",
   "@specialEvents": {
     "description": "Home page subtitle for special events",
@@ -59,9 +71,21 @@
     "type": "text",
     "placeholders": {}
   },
+  "course": "Course",
+  "@course": {
+    "description": "Course label.",
+    "type": "text",
+    "placeholders": {}
+  },
   "joinCourseLabel": "Join Course",
   "@joinCourseLabel": {
     "description": "Button label for booking a course",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectAPackage": "Select a Package",
+  "@selectAPackage": {
+    "description": "header for package selection",
     "type": "text",
     "placeholders": {}
   },
@@ -267,7 +291,17 @@
             }
         }
     },
-    "quantityClassPack": "'{quantity} Class Pack'",
+    "thisWillUseDropInClass": "This will use one of your drop-in classes. You will have {dropInClasses} left.",
+    "@thisWillUseDropInClass": {
+        "description": "Message letting user know that this class will use a drop-in class. Also tells user how many drop-in classes they have left.",
+        "placeholders": {
+            "dropInClasses": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "quantityClassPack": "{quantity} Class Pack",
     "@quantityClassPack": {
         "description": "Label for class pack list",
         "placeholders": {
@@ -283,9 +317,21 @@
     "type": "text",
     "placeholders": {}
   },
+  "registerForClass": "Register for class.",
+  "@registerForClass": {
+    "description": "Register for class.",
+    "type": "text",
+    "placeholders": {}
+  },
   "registerLabel": "Register",
   "@registerLabel": {
     "description": "Register button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirmRegisterLabel": "Confirm Registration",
+  "@confirmRegisterLabel": {
+    "description": "Confirm registration button label",
     "type": "text",
     "placeholders": {}
   }

@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "345497646221",
+    "project_id": "release-dev-8c507",
+    "storage_bucket": "release-dev-8c507.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345497646221:android:9867834017a4eb0a3b5ec4",
+        "android_client_info": {
+          "package_name": "com.yetiproductions.release"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345497646221-78r2litffp4cimofhsmqjd00thvbfce1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXH9KPCfr6u8i4R7u8yKoeeWJcI8TQpw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345497646221-78r2litffp4cimofhsmqjd00thvbfce1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "345497646221-41bv0qmrbd7l5d6u64mvn69bl1vk5rae.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yetiproductions.release"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345497646221:android:5c882396ae94a3dc3b5ec4",
+        "android_client_info": {
+          "package_name": "com.yetiproductions.release.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345497646221-78r2litffp4cimofhsmqjd00thvbfce1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXH9KPCfr6u8i4R7u8yKoeeWJcI8TQpw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345497646221-78r2litffp4cimofhsmqjd00thvbfce1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "345497646221-41bv0qmrbd7l5d6u64mvn69bl1vk5rae.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yetiproductions.release"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
