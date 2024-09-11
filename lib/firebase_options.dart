@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAXH9KPCfr6u8i4R7u8yKoeeWJcI8TQpw4',
-    appId: '1:345497646221:android:442150c99380833e3b5ec4',
+    appId: '1:345497646221:android:9867834017a4eb0a3b5ec4',
     messagingSenderId: '345497646221',
     projectId: 'release-dev-8c507',
     storageBucket: 'release-dev-8c507.appspot.com',
@@ -59,10 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDQ3QB4FED7JDhozLtfauBlYgKHge_s6pU',
-    appId: '1:345497646221:ios:875b04d0b1962f693b5ec4',
+    appId: '1:345497646221:ios:b6acc4810effdd103b5ec4',
     messagingSenderId: '345497646221',
     projectId: 'release-dev-8c507',
     storageBucket: 'release-dev-8c507.appspot.com',
-    iosBundleId: 'com.yetiproductions.app',
+    iosClientId: '345497646221-41bv0qmrbd7l5d6u64mvn69bl1vk5rae.apps.googleusercontent.com',
+    iosBundleId: 'com.yetiproductions.release',
   );
+
 }

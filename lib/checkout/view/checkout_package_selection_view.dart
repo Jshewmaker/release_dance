@@ -1,23 +1,43 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:release_dance/checkout/checkout.dart';
 import 'package:release_dance/generated/assets.gen.dart';
 import 'package:release_dance/l10n/l10n.dart';
+import 'package:release_profile_repository/release_profile_repository.dart';
+
+class CheckoutPackageSelectionPage extends StatelessWidget {
+  const CheckoutPackageSelectionPage({
+    required this.classId,
+    required this.date,
+    required this.duration,
+    super.key,
+  });
+
+  final String classId;
+  final String date;
+  final int duration;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => CheckoutBloc(
+        releaseProfileRepository: context.read<ReleaseProfileRepository>(),
+      )..add(
+          CheckoutEventStarted(classId: classId, date: date),
+        ),
+      child: CheckoutPackageSelectionView(
+        duration: duration,
+      ),
+    );
+  }
+}
 
 class CheckoutPackageSelectionView extends StatefulWidget {
   const CheckoutPackageSelectionView({
     required this.duration,
     super.key,
   });
-
-  static Page<void> page(int duration) {
-    return const NoTransitionPage<void>(
-      child: CheckoutPackageSelectionView(duration: 1),
-    );
-  }
 
   final int duration;
 
@@ -39,14 +59,7 @@ class _CheckoutPackageSelectionViewState
           final course = state.releaseClass;
           return SafeArea(
             child: Scaffold(
-              appBar: AppBar(
-                leading: BackButton(
-                  onPressed: () => context.flow<CheckoutFlow>().complete(
-                        (basket) =>
-                            basket.copyWith(status: FlowStatus.checkout),
-                      ),
-                ),
-              ),
+              appBar: AppBar(),
               body: Column(
                 children: [
                   ReleaseClassCard(
@@ -105,16 +118,27 @@ class _CheckoutPackageSelectionViewState
                     ),
                   ),
                   onPressed: () {
-                    context.flow<CheckoutFlow>().update(
-                          (basket) => basket.copyWith(
-                            status: FlowStatus.checkout,
-                            numberOfClasses: DROP_IN_PACKAGES.keys
-                                .elementAt(selectedPackage),
-                            total: DROP_IN_PACKAGES.values
-                                .elementAt(selectedPackage),
-                            classId: course.id,
-                          ),
-                        );
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) => ConfirmCheckoutPage(
+                          classId: course.id,
+                          date: course.date,
+                          dropIns:
+                              DROP_IN_PACKAGES.keys.elementAt(selectedPackage),
+                          duration: widget.duration,
+                        ),
+                      ),
+                    );
+                    // context.flow<CheckoutFlow>().update(
+                    //       (basket) => basket.copyWith(
+                    //         status: FlowStatus.checkout,
+                    //         numberOfClasses: DROP_IN_PACKAGES.keys
+                    //             .elementAt(selectedPackage),
+                    //         total: DROP_IN_PACKAGES.values
+                    //             .elementAt(selectedPackage),
+                    //         classId: course.id,
+                    //       ),
+                    //     );
                   },
                   child: Text(l10n.registerLabel),
                 ),

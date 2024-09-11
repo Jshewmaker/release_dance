@@ -12,6 +12,7 @@ class ClassInfoBloc extends Bloc<ClassInfoEvent, ClassInfoState> {
         super(const ClassInfoState()) {
     on<ClassInfoRequested>(_onClassInfoRequested);
     on<DropInRedeemed>(_dropInRedeemed);
+    on<CourseSignUp>(_courseSignUp);
   }
 
   final ReleaseProfileRepository _releaseProfileRepository;
@@ -24,8 +25,10 @@ class ClassInfoBloc extends Bloc<ClassInfoEvent, ClassInfoState> {
     try {
       final classInfo =
           await _releaseProfileRepository.getClassInfo(event.classId);
+
       emit(
-          state.copyWith(classInfo: classInfo, status: ClassInfoStatus.loaded));
+        state.copyWith(classInfo: classInfo, status: ClassInfoStatus.loaded),
+      );
     } catch (e) {
       emit(state.copyWith(status: ClassInfoStatus.error));
     }
@@ -38,7 +41,19 @@ class ClassInfoBloc extends Bloc<ClassInfoEvent, ClassInfoState> {
     try {
       await Future<void>.delayed(const Duration(seconds: 1));
       await _releaseProfileRepository.enrollInClass(event.classId, 1);
-      //  await _releaseProfileRepository.getUserProfile();
+      emit(state.copyWith(status: ClassInfoStatus.redeemed));
+    } catch (e) {
+      emit(state.copyWith(status: ClassInfoStatus.error));
+    }
+  }
+
+  Future<void> _courseSignUp(
+    CourseSignUp event,
+    Emitter<ClassInfoState> emit,
+  ) async {
+    emit(state.copyWith(status: ClassInfoStatus.loading));
+    try {
+      await _releaseProfileRepository.enrollInCourse(event.classId);
       emit(state.copyWith(status: ClassInfoStatus.redeemed));
     } catch (e) {
       emit(state.copyWith(status: ClassInfoStatus.error));
