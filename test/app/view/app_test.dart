@@ -8,6 +8,7 @@ import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
 import 'package:release_dance/force_upgrade/force_upgrade.dart';
@@ -37,6 +38,9 @@ class _MockConnectivityRepository extends Mock
 
 class _MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
 
+class _MockNotificationRepository extends Mock
+    implements NotificationRepository {}
+
 void main() {
   group('App', () {
     late AppConfigRepository appConfigRepository;
@@ -46,6 +50,7 @@ void main() {
     late CloudFirestoreClient cloudFirestoreClient;
     late User user;
     late ReleaseProfileRepository releaseProfileRepository;
+    late NotificationRepository notificationRepository;
 
     setUpAll(mockHydratedStorage);
 
@@ -53,6 +58,7 @@ void main() {
       releaseProfileRepository = _MockReleaseProfileRepository();
       userRepository = _MockUserRepository();
       cloudFirestoreClient = _MockCloudFirestoreClient();
+      notificationRepository = _MockNotificationRepository();
       when(() => userRepository.user).thenAnswer(
         (_) => const Stream.empty(),
       );
@@ -78,6 +84,7 @@ void main() {
       await tester.pumpWidget(
         App(
           releaseProfileRepository: releaseProfileRepository,
+          notificationRepository: notificationRepository,
           cloudFirestoreClient: cloudFirestoreClient,
           appConfigRepository: appConfigRepository,
           appSupportRepository: appSupportRepository,

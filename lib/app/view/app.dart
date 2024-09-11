@@ -8,10 +8,12 @@ import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_router.dart';
 import 'package:release_dance/connectivity/connectivity.dart';
 import 'package:release_dance/l10n/l10n.dart';
+import 'package:release_dance/notification/bloc/notification_bloc.dart';
 import 'package:release_dance/theme_selector/theme_selector.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -24,6 +26,7 @@ class App extends StatelessWidget {
     required UserRepository userRepository,
     required CloudFirestoreClient cloudFirestoreClient,
     required ReleaseProfileRepository releaseProfileRepository,
+    required NotificationRepository notificationRepository,
     required User user,
     super.key,
   })  : _appConfigRepository = appConfigRepository,
@@ -32,6 +35,7 @@ class App extends StatelessWidget {
         _connectivityRepository = connectivityRepository,
         _userRepository = userRepository,
         _cloudFirestoreClient = cloudFirestoreClient,
+        _notificationRepository = notificationRepository,
         _user = user;
 
   final AppConfigRepository _appConfigRepository;
@@ -39,6 +43,7 @@ class App extends StatelessWidget {
   final CloudFirestoreClient _cloudFirestoreClient;
   final AppSupportRepository _appSupportRepository;
   final UserRepository _userRepository;
+  final NotificationRepository _notificationRepository;
   final ConnectivityRepository _connectivityRepository;
   final User _user;
 
@@ -52,6 +57,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _releaseProfileRepository),
         RepositoryProvider.value(value: _connectivityRepository),
         RepositoryProvider.value(value: _userRepository),
+        RepositoryProvider.value(value: _notificationRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -60,6 +66,11 @@ class App extends StatelessWidget {
               appConfigRepository: _appConfigRepository,
               userRepository: _userRepository,
               user: _user,
+            ),
+          ),
+          BlocProvider(
+            create: (_) => NotificationBloc(
+              notificationRepository: _notificationRepository,
             ),
           ),
           BlocProvider(create: (_) => ThemeModeBloc()),
@@ -87,6 +98,8 @@ class _AppViewState extends State<AppView> {
     super.initState();
     _navigatorKey = GlobalKey<NavigatorState>();
     _appRouter = AppRouter(
+      openedNotificationsStream:
+          context.read<NotificationRepository>().openedNotifications,
       appBloc: context.read<AppBloc>(),
       navigatorKey: _navigatorKey,
     );

@@ -14,6 +14,7 @@ class ReleaseClass {
     required this.endTime,
     required this.instructor,
     required this.date,
+    required this.canDropIn,
   });
 
   /// Creates a [ReleaseClass] from a map.
@@ -41,6 +42,7 @@ class ReleaseClass {
       ),
       instructor: firebaseClass.instructor,
       date: firebaseClass.date,
+      canDropIn: firebaseClass.canDropIn,
     );
   }
 
@@ -64,4 +66,7 @@ class ReleaseClass {
 
   /// The date of the class.
   final String date;
+
+  /// If the user can drop in to the class.
+  final bool canDropIn;
 }

@@ -33,7 +33,7 @@ class ClassInfoPage extends StatelessWidget {
     return BlocProvider<ClassInfoBloc>(
       create: (context) => ClassInfoBloc(
         releaseProfileRepository: context.read<ReleaseProfileRepository>(),
-      )..add(ClassInfoRequested(classId)),
+      )..add(ClassInfoRequested(classId, date)),
       child: _ClassInfoView(
         date: date,
       ),
@@ -54,9 +54,11 @@ class _ClassInfoView extends StatelessWidget {
         listener: (context, state) {
           if (state.status == ClassInfoStatus.redeemed) {
             Navigator.pop(context);
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Yay! A SnackBar!'),
-            ));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(l10n.successfullyRegisteredForClass),
+              ),
+            );
           }
         },
         builder: (context, state) {
@@ -102,12 +104,12 @@ class _ClassInfoView extends StatelessWidget {
                 ),
                 bottomNavigationBar: Padding(
                   padding: const EdgeInsets.all(AppSpacing.lg),
-                  child: (course.durationWeeks > 1)
-                      ? _SignUpForCourseButton(classInfo: course)
-                      : _SignUpForDropInButton(
+                  child: (course.isDropIn)
+                      ? _SignUpForDropInButton(
                           classInfo: course,
                           date: date,
-                        ),
+                        )
+                      : _SignUpForCourseButton(classInfo: course),
                 ),
               ),
             );
@@ -137,8 +139,8 @@ class _SignUpForDropInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dropIns = context.select<HomeBloc, int>(
-      (dropIns) => dropIns.state.user?.dropInClasses ?? 0,
+    final dropIns = context.select<UserBloc, int>(
+      (userBloc) => userBloc.state.user?.dropInClasses ?? 0,
     );
 
     final l10n = context.l10n;
@@ -150,7 +152,7 @@ class _SignUpForDropInButton extends StatelessWidget {
         ),
       ),
       onPressed: () async {
-        if (dropIns > 0 && classInfo.durationWeeks == 1) {
+        if (dropIns > 0 && classInfo.isDropIn) {
           await _useDropInBottomSheet(
             context,
             dropIns,
@@ -163,7 +165,7 @@ class _SignUpForDropInButton extends StatelessWidget {
         }
       },
       child: (dropIns > 0)
-          ? const Text('Register for class.')
+          ? Text(l10n.registerForClass)
           : Text(
               '${l10n.joinClassLabel} ${formatCurrency.format(
                 classInfo.price,
@@ -220,12 +222,11 @@ class _SignUpForDropInButton extends StatelessWidget {
                             .read<ClassInfoBloc>()
                             .add(DropInRedeemed(classInfo.classId));
 
-                        context.read<HomeBloc>().add(UserRequested());
                         Navigator.pop(context);
                       },
                       child: Text(l10n.confirmRegisterLabel),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -247,7 +248,11 @@ class _SignUpForDropInButton extends StatelessWidget {
         return SizedBox(
           child: Column(
             children: [
-              const Text('Select a package'),
+              Text(
+                l10n.selectAPackage,
+                style: theme.textTheme.titleLarge
+                    ?.copyWith(color: AppColors.black),
+              ),
               Expanded(
                 child: ListView.builder(
                   itemCount: DROP_IN_PACKAGES.length,
@@ -257,25 +262,30 @@ class _SignUpForDropInButton extends StatelessWidget {
                     return ListTile(
                       title: Text(
                         l10n.quantityClassPack(quantity),
+                        style: theme.textTheme.labelMedium,
                       ),
-                      subtitle: Text(l10n.oneMonthExpiration),
+                      subtitle: Text(
+                        l10n.oneMonthExpiration,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
                       trailing: Text(
                         formatCurrency.format(price),
                         style: theme.textTheme.labelMedium!.copyWith(
                           color: AppColors.black,
                         ),
                       ),
-                      onTap: () {
-                        context.goNamed(
-                          CheckoutPage.routeName,
-                          pathParameters: {
-                            'classId': course.classId,
-                            'date': date,
-                            'duration': course.durationWeeks.toString(),
-                            'dropIn': quantity.toString(),
-                          },
-                        );
-                      },
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) => ConfirmCheckoutPage(
+                            classId: course.classId,
+                            date: date,
+                            duration: course.durationWeeks,
+                            dropIns: quantity,
+                          ),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -303,7 +313,9 @@ class _SignUpForCourseButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      onPressed: () async {},
+      onPressed: () async {
+        context.read<ClassInfoBloc>().add(CourseSignUp(classInfo.classId));
+      },
       child: Text(
         '${l10n.joinCourseLabel} ${formatCurrency.format(
           classInfo.price,
