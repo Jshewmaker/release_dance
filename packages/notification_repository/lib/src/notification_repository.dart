@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:rxdart/subjects.dart';
 
 /// {@template notification_repository}
 /// Package to handle push notifications from Firebase Messaging
@@ -39,6 +38,10 @@ class NotificationRepository {
         data: message.data,
       );
     });
+  }
+
+  Stream<RemoteMessage> get onBackgroundNotification {
+    return _backgroundRemoteNotificationsOpened;
   }
 
   Future<void> initialize() async {

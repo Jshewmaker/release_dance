@@ -7,6 +7,8 @@ import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:fake_app_config_repository/fake_app_config_repository.dart';
 import 'package:firebase_authentication_client/firebase_authentication_client.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/main/bootstrap/bootstrap.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
@@ -26,9 +28,19 @@ void main() {
         cloudFirestoreClient: cloudFirestoreClient,
         firebaseAuthenticationClient: authenticationClient,
       );
+      final firebaseMessaging = FirebaseMessaging.instance;
+
+      final notificationRepository = NotificationRepository(
+        firebaseMessaging: firebaseMessaging,
+        foregroundRemoteNotifications: FirebaseMessaging.onMessage,
+        backgroundRemoteNotificationsOpened:
+            FirebaseMessaging.onMessageOpenedApp,
+      );
+
       final appConfigRepository = FakeAppConfigRepository();
 
       final user = await userRepository.user.first;
+      await notificationRepository.initialize();
 
       return App(
         appConfigRepository: appConfigRepository,
@@ -38,6 +50,7 @@ void main() {
         connectivityRepository: connectivityRepository,
         cloudFirestoreClient: cloudFirestoreClient,
         user: user,
+        notificationRepository: notificationRepository,
       );
     },
   );

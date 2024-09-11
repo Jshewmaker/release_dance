@@ -17,6 +17,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "successfullyRegisteredForClass": "You have successfully registered for class!",
+  "@successfullyRegisteredForClass": {
+    "description": "Toast message when a user successfully registers for class.",
+    "type": "text",
+    "placeholders": {}
+  },
   "forceUpgradeSubtitle": "You are using an unsupported app version. Please update your app from the App Store to continue.",
   "@forceUpgradeSubtitle": {
     "description": "Subtitle shown when force upgrade is required.",
@@ -65,9 +71,21 @@
     "type": "text",
     "placeholders": {}
   },
+  "course": "Course",
+  "@course": {
+    "description": "Course label.",
+    "type": "text",
+    "placeholders": {}
+  },
   "joinCourseLabel": "Join Course",
   "@joinCourseLabel": {
     "description": "Button label for booking a course",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectAPackage": "Select a Package",
+  "@selectAPackage": {
+    "description": "header for package selection",
     "type": "text",
     "placeholders": {}
   },
@@ -296,6 +314,12 @@
   "oneMonthExpiration": "1 month expiration",
   "@oneMonthExpiration": {
     "description": "label for how long until class expires",
+    "type": "text",
+    "placeholders": {}
+  },
+  "registerForClass": "Register for class.",
+  "@registerForClass": {
+    "description": "Register for class.",
     "type": "text",
     "placeholders": {}
   },

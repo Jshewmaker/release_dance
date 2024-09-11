@@ -95,4 +95,32 @@ class CloudFirestoreClient {
       throw Exception('Error getting user: $e');
     }
   }
+
+  /// Enroll in a course. This will update the user's courses.
+  ///
+  /// [userId] is the user's id from firebase.
+  /// [courseId] is the course id from firebase.
+  Future<void> enrollInCourse(
+    String userId,
+    String courseId,
+  ) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'courses': FieldValue.arrayUnion([courseId]),
+      });
+    } on Exception catch (e) {
+      throw Exception('Error getting user: $e');
+    }
+  }
+
+  /// Buy drop-ins for a user.
+  Future<void> buyDropIns(String userId, int numberOfDropIns) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'drop_in_classes': FieldValue.increment(numberOfDropIns),
+      });
+    } on Exception catch (e) {
+      throw Exception('Error buying drop-ins: $e');
+    }
+  }
 }

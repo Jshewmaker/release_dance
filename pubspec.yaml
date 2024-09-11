@@ -54,6 +54,7 @@ dependencies:
   plugin_platform_interface: ^2.1.8
   release_profile_repository:
     path: packages/release_profile_repository
+  rxdart: ^0.28.0
   secure_storage:
     path: packages/storage/secure_storage
   url_launcher: ^6.2.5

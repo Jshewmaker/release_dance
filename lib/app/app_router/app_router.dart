@@ -1,5 +1,4 @@
-// Copyright (c) 2024, Very Good Ventures
-// https://verygood.ventures
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +6,6 @@ import 'package:release_dance/app/app.dart';
 import 'package:release_dance/app/app_router/app_route.dart';
 import 'package:release_dance/app/app_router/go_router_refresh_stream.dart';
 import 'package:release_dance/app/app_router/scaffold_with_nested_navigation.dart';
-import 'package:release_dance/checkout/checkout.dart';
 import 'package:release_dance/class_info/view/class_info_page.dart';
 import 'package:release_dance/classes/view/classes_page.dart';
 import 'package:release_dance/down_for_maintenance/down_for_maintenance.dart';
@@ -31,6 +29,7 @@ final _shellNavigatorEventKey = GlobalKey<NavigatorState>(debugLabel: 'event');
 class AppRouter {
   AppRouter({
     required AppBloc appBloc,
+    required Stream<Map<String, dynamic>> openedNotificationsStream,
     required GlobalKey<NavigatorState> navigatorKey,
     String? initialLocation = OnboardingPage.routeName,
     List<NavigatorObserver> navigatorObservers = const [],
@@ -42,12 +41,24 @@ class AppRouter {
       appBloc,
       navigatorKey,
     );
+    _openedNotificationsSubscription = openedNotificationsStream.listen(
+      _handleOpenedNotification,
+    );
   }
 
   late final GoRouter _goRouter;
   late AppStatus _currentStatus;
+  late final StreamSubscription<Map<String, dynamic>>
+      _openedNotificationsSubscription;
 
   GoRouter get routes => _goRouter;
+
+  void _handleOpenedNotification(Map<String, dynamic> payload) {
+    if (payload.containsKey('path')) {
+      final route = payload['path'] as String;
+      _goRouter.push(route);
+    }
+  }
 
   GoRouter _routes(
     String? initialLocation,
@@ -60,6 +71,7 @@ class AppRouter {
       refreshListenable: GoRouterRefreshStream(appBloc.stream),
       observers: navigatorObservers,
       navigatorKey: navigatorKey,
+      debugLogDiagnostics: true,
       onException: (context, state, router) {
         router.go(_currentStatus.route);
       },
@@ -109,15 +121,6 @@ class AppRouter {
                         name: ClassInfoPage.routeName,
                         child: ClassInfoPage.pageBuilder(context, state),
                       ),
-                      routes: [
-                        AppRoute(
-                          name: CheckoutPage.routeName,
-                          path: CheckoutPage.routePath,
-                          pageBuilder: (context, state) => NoTransitionPage(
-                            child: CheckoutPage.pageBuilder(context, state),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -197,5 +200,9 @@ class AppRouter {
         }
       },
     );
+  }
+
+  void dispose() {
+    _openedNotificationsSubscription.cancel();
   }
 }

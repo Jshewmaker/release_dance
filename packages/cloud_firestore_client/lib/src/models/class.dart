@@ -11,6 +11,7 @@ class Class {
     required this.instructor,
     required this.description,
     required this.date,
+    required this.canDropIn,
   });
 
   /// Creates a [Class] from a map.
@@ -23,6 +24,7 @@ class Class {
       endTime: (json['end_time'] as String).trim(),
       instructor: (json['instructor'] as String).trim(),
       date: (json['date'] as String).trim(),
+      canDropIn: json['can_drop_in'] as bool,
     );
   }
 
@@ -46,4 +48,7 @@ class Class {
 
   /// The date of the class.
   final String date;
+
+  /// If the user can drop in to the class.
+  final bool canDropIn;
 }

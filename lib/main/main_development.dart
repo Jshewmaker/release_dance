@@ -25,10 +25,11 @@ void main() {
       final firebaseMessaging = FirebaseMessaging.instance;
 
       final notificationRepository = NotificationRepository(
-          firebaseMessaging: firebaseMessaging,
-          foregroundRemoteNotifications: FirebaseMessaging.onMessage,
-          backgroundRemoteNotificationsOpened:
-              FirebaseMessaging.onMessageOpenedApp);
+        firebaseMessaging: firebaseMessaging,
+        foregroundRemoteNotifications: FirebaseMessaging.onMessage,
+        backgroundRemoteNotificationsOpened:
+            FirebaseMessaging.onMessageOpenedApp,
+      );
 
       await notificationRepository.initialize();
 
@@ -49,6 +50,7 @@ void main() {
         releaseProfileRepository: releaseUserRepository,
         connectivityRepository: connectivityRepository,
         cloudFirestoreClient: cloudFirestoreClient,
+        notificationRepository: notificationRepository,
         user: user,
       );
     },
