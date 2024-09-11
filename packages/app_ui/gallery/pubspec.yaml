@@ -10,7 +10,7 @@ dependencies:
   # `accessibility_tools` is constrained by `widgetbook`, so we can't use the latest
   # version until `widgetbook` updates or removes its dependency on `accessibility_tools`:
   # https://github.com/widgetbook/widgetbook/issues/1197
-  accessibility_tools: ^1.0.0
+  accessibility_tools: ^2.2.2
   app_ui:
     path: ../
   flutter:
