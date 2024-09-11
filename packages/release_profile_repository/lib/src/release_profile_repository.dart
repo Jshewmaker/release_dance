@@ -63,4 +63,21 @@ class ReleaseProfileRepository {
       numberOfDropIns,
     );
   }
+
+  /// Enroll in a course.
+  ///
+  /// [classId] is the id of the class to enroll in.
+  Future<void> enrollInCourse(String classId) async {
+    final user = await _firebaseAuthenticationClient.user.first;
+    await _cloudFirestoreClient.enrollInCourse(
+      user.id,
+      classId,
+    );
+  }
+
+  /// Buy drop-ins for the user.
+  Future<void> buyDropIns(int numberOfDropIns) async {
+    final user = await _firebaseAuthenticationClient.user.first;
+    await _cloudFirestoreClient.buyDropIns(user.id, numberOfDropIns);
+  }
 }
