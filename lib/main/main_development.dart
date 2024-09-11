@@ -7,6 +7,8 @@ import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:fake_app_config_repository/fake_app_config_repository.dart';
 import 'package:firebase_authentication_client/firebase_authentication_client.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:release_dance/app/app.dart';
 import 'package:release_dance/main/bootstrap/bootstrap.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
@@ -20,6 +22,16 @@ void main() {
       final cloudFirestoreClient =
           CloudFirestoreClient(firebaseFirestore: firebaseFirestore);
       final connectivityRepository = ConnectivityRepository();
+      final firebaseMessaging = FirebaseMessaging.instance;
+
+      final notificationRepository = NotificationRepository(
+        firebaseMessaging: firebaseMessaging,
+        foregroundRemoteNotifications: FirebaseMessaging.onMessage,
+        backgroundRemoteNotificationsOpened:
+            FirebaseMessaging.onMessageOpenedApp,
+      );
+
+      await notificationRepository.initialize();
 
       final userRepository =
           UserRepository(authenticationClient: authenticationClient);
@@ -38,6 +50,7 @@ void main() {
         releaseProfileRepository: releaseUserRepository,
         connectivityRepository: connectivityRepository,
         cloudFirestoreClient: cloudFirestoreClient,
+        notificationRepository: notificationRepository,
         user: user,
       );
     },

@@ -9,14 +9,15 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   CheckoutBloc({required ReleaseProfileRepository releaseProfileRepository})
       : _releaseProfileRepository = releaseProfileRepository,
         super(CheckoutInitial()) {
-    on<CheckoutStarted>(_onCheckOut);
-    on<EnrolledInDropIn>(_onCheckOutFinished);
+    on<CheckoutEventStarted>(_onCheckOut);
+    on<CheckoutEventEnrolledInDropIn>(_onCheckOutFinished);
+    on<CheckoutEventBoughtDropIns>(_onDropInPackageBought);
   }
 
   final ReleaseProfileRepository _releaseProfileRepository;
 
   Future<void> _onCheckOut(
-    CheckoutStarted event,
+    CheckoutEventStarted event,
     Emitter<CheckoutState> emit,
   ) async {
     emit(CheckoutCourseLoading());
@@ -32,7 +33,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   }
 
   Future<void> _onCheckOutFinished(
-    EnrolledInDropIn event,
+    CheckoutEventEnrolledInDropIn event,
     Emitter<CheckoutState> emit,
   ) async {
     emit(CheckoutCourseLoading());
@@ -42,6 +43,19 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
         event.classId,
         event.dropInsUsed,
       );
+      emit(CheckoutSuccess());
+    } catch (e) {
+      emit(CheckoutError(e));
+    }
+  }
+
+  Future<void> _onDropInPackageBought(
+    CheckoutEventBoughtDropIns event,
+    Emitter<CheckoutState> emit,
+  ) async {
+    emit(CheckoutCourseLoading());
+    try {
+      await _releaseProfileRepository.buyDropIns(event.numberOfClassesBought);
       emit(CheckoutSuccess());
     } catch (e) {
       emit(CheckoutError(e));

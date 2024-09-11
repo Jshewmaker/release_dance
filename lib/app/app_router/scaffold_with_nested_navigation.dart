@@ -27,7 +27,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(
+      create: (context) => UserBloc(
         releaseProfileRepository: context.read<ReleaseProfileRepository>(),
       )..add(UserRequested()),
       child: Scaffold(

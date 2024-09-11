@@ -10,6 +10,7 @@ class ClassInfo {
     required this.durationWeeks,
     required this.name,
     required this.price,
+    required this.isDropIn,
   });
 
   /// Convert json to class info
@@ -21,6 +22,7 @@ class ClassInfo {
       durationWeeks: json['duration_weeks'] as int,
       name: json['name'] as String,
       price: (json['price'] as int).toDouble(),
+      isDropIn: json['is_drop_in'] as bool,
     );
   }
 
@@ -41,4 +43,28 @@ class ClassInfo {
 
   /// Class price
   final double price;
+
+  /// If the class is a drop in
+  final bool isDropIn;
+
+  /// Create a deep copy of this ClassInfo
+  ClassInfo copyWith({
+    String? classId,
+    String? description,
+    int? durationTime,
+    int? durationWeeks,
+    String? name,
+    double? price,
+    bool? isDropIn,
+  }) {
+    return ClassInfo(
+      classId: classId ?? this.classId,
+      description: description ?? this.description,
+      durationTime: durationTime ?? this.durationTime,
+      durationWeeks: durationWeeks ?? this.durationWeeks,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      isDropIn: isDropIn ?? this.isDropIn,
+    );
+  }
 }

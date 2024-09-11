@@ -75,18 +75,18 @@ class _WelcomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state.status == HomeStatus.loading) {
+        if (state.status == UserStatus.loading) {
           return const CircularProgressIndicator();
         }
-        if (state.status == HomeStatus.error) {
+        if (state.status == UserStatus.error) {
           return Text(
             'Welcome!',
             style: theme.textTheme.headlineSmall,
           );
         }
-        if (state.status == HomeStatus.loaded) {
+        if (state.status == UserStatus.loaded) {
           return Text(
             'Welcome ${state.user?.firstName}!',
             style: theme.textTheme.displayMedium,
