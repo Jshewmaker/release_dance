@@ -11,6 +11,7 @@ import 'calendar_utils.dart';
 
 typedef CalendarChangeCallback = Function(CalendarDateTime);
 
+// ignore: must_be_immutable
 class EventCalendar extends StatefulWidget {
   static late CalendarProvider calendarProvider;
   static late CalendarDateTime? dateTime;
@@ -45,27 +46,27 @@ class EventCalendar extends StatefulWidget {
 
   bool showEvents;
 
-  EventCalendar({
-    GlobalKey? key,
-    List<Event>? events,
-    CalendarDateTime? dateTime,
-    this.middleWidget,
-    this.calendarOptions,
-    this.dayOptions,
-    this.eventOptions,
-    this.headerOptions,
-    this.showLoadingForEvent = false,
-    this.specialDays = const [],
-    this.onChangeDateTime,
-    this.onMonthChanged,
-    this.onDateTimeReset,
-    this.onInit,
-    this.onYearChanged,
-    this.onChangeViewType,
-    required calendarType,
-    calendarLanguage,
-    this.showEvents = true
-  }) : super(key: key) {
+  EventCalendar(
+      {GlobalKey? key,
+      List<Event>? events,
+      CalendarDateTime? dateTime,
+      this.middleWidget,
+      this.calendarOptions,
+      this.dayOptions,
+      this.eventOptions,
+      this.headerOptions,
+      this.showLoadingForEvent = false,
+      this.specialDays = const [],
+      this.onChangeDateTime,
+      this.onMonthChanged,
+      this.onDateTimeReset,
+      this.onInit,
+      this.onYearChanged,
+      this.onChangeViewType,
+      required calendarType,
+      calendarLanguage,
+      this.showEvents = true})
+      : super(key: key) {
     calendarOptions ??= CalendarOptions();
     headerOptions ??= HeaderOptions();
     eventOptions ??= EventOptions();
@@ -75,7 +76,8 @@ class EventCalendar extends StatefulWidget {
 
     EventCalendar.calendarProvider = createInstance(calendarType);
 
-    if (key?.currentContext == null || calendarType != EventCalendar.calendarType) {
+    if (key?.currentContext == null ||
+        calendarType != EventCalendar.calendarType) {
       EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
     }
     EventCalendar.calendarType = calendarType ?? CalendarType.GREGORIAN;
@@ -114,12 +116,12 @@ class _EventCalendarState extends State<EventCalendar> {
           child: Container(
             height: MediaQuery.of(context).size.height,
             child: Column(
-
-             mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Card(
                   color: CalendarOptions.of(context).headerMonthBackColor,
-                  shadowColor: CalendarOptions.of(context).headerMonthShadowColor,
+                  shadowColor:
+                      CalendarOptions.of(context).headerMonthShadowColor,
                   shape: CalendarOptions.of(context).headerMonthShape,
                   elevation: CalendarOptions.of(context).headerMonthElevation,
                   child: Column(
@@ -146,15 +148,15 @@ class _EventCalendarState extends State<EventCalendar> {
                       ),
                       isMonthlyView()
                           ? SingleChildScrollView(
-                            child: CalendarMonthly(
-                                specialDays: widget.specialDays,
-                                onCalendarChanged: () {
-                                  widget.onChangeDateTime
-                                      ?.call(EventCalendar.dateTime!);
+                              child: CalendarMonthly(
+                                  specialDays: widget.specialDays,
+                                  onCalendarChanged: () {
+                                    widget.onChangeDateTime
+                                        ?.call(EventCalendar.dateTime!);
 
-                                  setState(() {});
-                                }),
-                          )
+                                    setState(() {});
+                                  }),
+                            )
                           : CalendarDaily(
                               specialDays: widget.specialDays,
                               onCalendarChanged: () {
