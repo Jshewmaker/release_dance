@@ -57,7 +57,7 @@ dependencies:
   rxdart: ^0.28.0
   secure_storage:
     path: packages/storage/secure_storage
-  url_launcher: ^6.2.5
+  url_launcher: ^6.3.1
   url_launcher_platform_interface: ^2.3.2
   user_repository:
     path: packages/user_repository
