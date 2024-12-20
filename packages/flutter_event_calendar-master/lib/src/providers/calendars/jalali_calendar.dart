@@ -1,8 +1,8 @@
 import 'package:shamsi_date/shamsi_date.dart';
 
-import '../../../flutter_event_calendar.dart';
-import '../../handlers/translator.dart';
-import 'calendar_provider.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
+import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
 
 class JalaliCalendar extends CalendarProvider {
   @override
@@ -10,7 +10,7 @@ class JalaliCalendar extends CalendarProvider {
     final f = Jalali.now().formatter;
 
     return CalendarDateTime(
-        year: int.parse(f.yyyy), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType());
+        year: int.parse(f.yyyy), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType(),);
   }
 
   @override
@@ -24,27 +24,27 @@ class JalaliCalendar extends CalendarProvider {
   @override
   CalendarDateTime getPreviousMonthDateTime() {
     final date = _getSelectedDate();
-    dynamic newDate = date.withDay(1).addMonths(-1);
+    final dynamic newDate = date.withDay(1).addMonths(-1);
     final f = newDate.formatter;
     return CalendarDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01, calendarType: getCalendarType());
   }
 
   @override
   CalendarDateTime getPreviousDayDateTime() {
-    dynamic date = _getSelectedDate();
-    dynamic newDate = date.addDays(-1);
+    final dynamic date = _getSelectedDate();
+    final dynamic newDate = date.addDays(-1);
     final f = newDate.formatter;
     return CalendarDateTime(
-        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType());
+        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType(),);
   }
 
   @override
   CalendarDateTime getNextDayDateTime() {
-    dynamic date = _getSelectedDate();
-    dynamic newDate = date.addDays(1);
+    final dynamic date = _getSelectedDate();
+    final dynamic newDate = date.addDays(1);
     final f = newDate.formatter;
     return CalendarDateTime(
-        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType());
+        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType(),);
   }
 
   @override
@@ -52,9 +52,9 @@ class JalaliCalendar extends CalendarProvider {
 
   @override
   Map getMonthDays(WeekDayStringTypes type, int index) {
-    Map days = {};
-    Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
-    int dayIndex = firstDayOfMonth.weekDay - 1;
+    final Map days = {};
+    final var firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
+    var dayIndex = firstDayOfMonth.weekDay - 1;
     switch (type) {
       case WeekDayStringTypes.FULL:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
@@ -74,21 +74,25 @@ class JalaliCalendar extends CalendarProvider {
 
   @override
   List<int> getYears() {
-    int year = _getSelectedDate().year;
-    List<int> years = [];
-    for (var i = -100; i <= 50; i++) years.add(year + i);
+    var year = _getSelectedDate().year;
+    final var years = <int>[];
+    for (var i = -100; i <= 50; i++) {
+      years.add(year + i);
+    }
     return years;
   }
   @override
   List<int> getDayAmount() {
-    int month=_getSelectedDate().month;
-    int daysInCurrentMonth=getMonthDays(WeekDayStringTypes.FULL, month).length;
-    List<int> days=[];
-    for (var i = 1; i <= daysInCurrentMonth; i++) days.add(i);
+    final var month=_getSelectedDate().month;
+    var daysInCurrentMonth=getMonthDays(WeekDayStringTypes.FULL, month).length;
+    var days=<int>[];
+    for (var i = 1; i <= daysInCurrentMonth; i++) {
+      days.add(i);
+    }
     return days;
   }
   Jalali _getSelectedDate() {
-    Jalali jv = Jalali(
+    final var jv = Jalali(
       EventCalendar.dateTime!.year,
       EventCalendar.dateTime!.month,
       EventCalendar.dateTime!.day,
@@ -98,28 +102,28 @@ class JalaliCalendar extends CalendarProvider {
 
   @override
   CalendarDateTime goToDay(index) {
-    dynamic date = _getSelectedDate();
+    final dynamic date = _getSelectedDate();
     final f = date.formatter;
     return CalendarDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: index, calendarType: getCalendarType());
   }
 
   @override
   CalendarDateTime goToMonth(index) {
-    dynamic date = _getSelectedDate();
+    final dynamic date = _getSelectedDate();
     final f = date.formatter;
     return CalendarDateTime(year: int.parse(f.y), month: index, day: 01, calendarType: getCalendarType());
   }
 
   @override
-  CalendarDateTime goToYear(index) {
-    dynamic date = _getSelectedDate();
+  CalendarDateTime goToYear(int index) {
+    final dynamic date = _getSelectedDate();
     final f = date.formatter;
     return CalendarDateTime(year: index, month: int.parse(f.mm), day: 01, calendarType: getCalendarType());
   }
 
   @override
   int getDateTimePart(PartFormat format) {
-    Jalali date = _getSelectedDate();
+    var date = _getSelectedDate();
     switch (format) {
       case PartFormat.YEAR:
         return date.year;
@@ -132,9 +136,9 @@ class JalaliCalendar extends CalendarProvider {
 
   @override
   Map getMonthDaysShort(int index) {
-    Map days = {};
-    Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
-    int dayIndex = firstDayOfMonth.weekDay - 1;
+    final Map days = {};
+    var firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
+    var dayIndex = firstDayOfMonth.weekDay - 1;
     for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
       days[i] = Translator.getShortNameOfDays()[dayIndex % 7];
       dayIndex++;
@@ -151,7 +155,7 @@ class JalaliCalendar extends CalendarProvider {
     } else {
       dateTime = _getSelectedDate();
     }
-    return "${dateTime.day} ${Translator.getFullMonthNames()[dateTime.month - 1]} ${dateTime.year}";
+    return '${dateTime.day} ${Translator.getFullMonthNames()[dateTime.month - 1]} ${dateTime.year}';
   }
 
   @override

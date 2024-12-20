@@ -6,14 +6,19 @@ import 'package:flutter_event_calendar/src/models/style/select_month_options.dar
 import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
 import 'package:flutter_event_calendar/src/widgets/select_month.dart';
 import 'package:flutter_event_calendar/src/widgets/select_year.dart';
+
 typedef ViewTypeChangeCallback = Function(ViewType);
 
 class Header extends StatelessWidget {
+  Header(
+      {required this.onViewTypeChanged,
+      required this.onYearChanged,
+      required this.onMonthChanged,
+      required this.onDateTimeReset});
   ViewTypeChangeCallback? onViewTypeChanged;
   Function onDateTimeReset;
   Function(int selectedYear) onYearChanged;
   Function(int selectedMonth) onMonthChanged;
-  Header({required this.onViewTypeChanged,required this.onYearChanged,required this.onMonthChanged,required this.onDateTimeReset});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +27,10 @@ class Header extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Directionality(
-          textDirection: EventCalendar.calendarProvider.isRTL() ? TextDirection.rtl : TextDirection.ltr,
+          textDirection: EventCalendar.calendarProvider.isRTL()
+              ? TextDirection.rtl
+              : TextDirection.ltr,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             // Title , next and previous button
             children: [
               Row(
@@ -33,11 +39,12 @@ class Header extends StatelessWidget {
                     onTap: () {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.previousMonth();
-                      onMonthChanged.call(CalendarUtils.getPartByInt(format:PartFormat.MONTH));
+                      onMonthChanged.call(
+                          CalendarUtils.getPartByInt(format: PartFormat.MONTH));
                     },
-                    customBorder: CircleBorder(),
+                    customBorder: const CircleBorder(),
                     child: Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: RotatedBox(
                         quarterTurns: 2,
                         child: Icon(
@@ -53,9 +60,10 @@ class Header extends StatelessWidget {
               Expanded(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  alignment: EventCalendar.calendarProvider.isRTL() ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: EventCalendar.calendarProvider.isRTL()
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -69,19 +77,20 @@ class Header extends StatelessWidget {
                                   font: CalendarOptions.of(context).font,
                                   selectedColor: DayOptions.of(context)
                                       .selectedBackgroundColor,
-                                  backgroundColor: CalendarOptions.of(context).bottomSheetBackColor
+                                  backgroundColor: CalendarOptions.of(context)
+                                      .bottomSheetBackColor,
                                 ),
                               );
                             },
                           );
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
-                            '${CalendarUtils.getPartByString(
+                            CalendarUtils.getPartByString(
                               format: PartFormat.MONTH,
                               options: HeaderOptions.of(context),
-                            )}',
+                            ),
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 20,
@@ -103,7 +112,8 @@ class Header extends StatelessWidget {
                                   font: CalendarOptions.of(context).font,
                                   selectedColor: DayOptions.of(context)
                                       .selectedBackgroundColor,
-                                    backgroundColor: CalendarOptions.of(context).bottomSheetBackColor
+                                  backgroundColor: CalendarOptions.of(context)
+                                      .bottomSheetBackColor,
                                 ),
                               );
                             },
@@ -129,14 +139,15 @@ class Header extends StatelessWidget {
                   buildRefreshView(context),
                   buildSelectViewType(context),
                   InkWell(
-                    customBorder: CircleBorder(),
+                    customBorder: const CircleBorder(),
                     onTap: () {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.nextMonth();
-                      onMonthChanged.call(CalendarUtils.getPartByInt(format:PartFormat.MONTH));
+                      onMonthChanged.call(
+                          CalendarUtils.getPartByInt(format: PartFormat.MONTH));
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Icon(
                         Icons.arrow_forward_ios,
                         size: 18,
@@ -153,22 +164,23 @@ class Header extends StatelessWidget {
     );
   }
 
-  isInTodayIndex() {
-    return EventCalendar.dateTime!.isDateEqual(EventCalendar.calendarProvider.getDateTime());
+  bool isInTodayIndex() {
+    return EventCalendar.dateTime!
+        .isDateEqual(EventCalendar.calendarProvider.getDateTime());
   }
 
-  buildRefreshView(BuildContext context) {
+  AnimatedOpacity buildRefreshView(BuildContext context) {
     return AnimatedOpacity(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       opacity: !isInTodayIndex() ? 1 : 0,
       child: InkWell(
-        customBorder: CircleBorder(),
+        customBorder: const CircleBorder(),
         onTap: () {
           EventCalendar.dateTime = EventCalendar.calendarProvider.getDateTime();
           onDateTimeReset.call();
         },
         child: Padding(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: Icon(
             Icons.restore,
             size: 24,
@@ -179,10 +191,10 @@ class Header extends StatelessWidget {
     );
   }
 
-  buildSelectViewType(BuildContext context) {
+  Widget buildSelectViewType(BuildContext context) {
     if (CalendarOptions.of(context).toggleViewType) {
       return InkWell(
-        customBorder: CircleBorder(),
+        customBorder: const CircleBorder(),
         onTap: () {
           // EventCalendar.dateTime = EventCalendar.calendarProvider.getDateTime();
           if (CalendarOptions.of(context).viewType == ViewType.MONTHLY) {

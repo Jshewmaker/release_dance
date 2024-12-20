@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class Event {
-  late int listIndex;
-  late Widget child;
-  late CalendarDateTime dateTime;
-  late Function? onTap;
-  late Function? onLongPress;
-
   Event({
     required this.child,
     required this.dateTime,
@@ -20,4 +14,9 @@ class Event {
           print('LongPress ' + listIndex.toString());
         };
   }
+  late int listIndex;
+  late Widget child;
+  late CalendarDateTime dateTime;
+  late Function? onTap;
+  late Function? onLongPress;
 }

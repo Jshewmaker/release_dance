@@ -1,4 +1,4 @@
-import '../../flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class De {
   static Map fullMonthNames = const {
@@ -15,7 +15,7 @@ class De {
         'Azar',
         'Dey',
         'Bahman',
-        'Esfand'
+        'Esfand',
       ],
       CalendarType.GREGORIAN: [
         'Januar',
@@ -29,9 +29,9 @@ class De {
         'September',
         'Oktober',
         'November',
-        'Dezember'
-      ]
-    }
+        'Dezember',
+      ],
+    },
   };
   static Map shortMonthNames = const {
     'de': {
@@ -47,7 +47,7 @@ class De {
         'Azar',
         'Dey',
         'Bah',
-        'Esf'
+        'Esf',
       ],
       CalendarType.GREGORIAN: [
         'Jan',
@@ -61,9 +61,9 @@ class De {
         'Sep',
         'Okt',
         'Nov',
-        'Dez'
-      ]
-    }
+        'Dez',
+      ],
+    },
   };
 
   static Map fullDayNames = const {
@@ -84,23 +84,23 @@ class De {
         'Mittwoch',
         'Donnerstag',
         'Freitag',
-        'Samstag'
-      ]
-    }
+        'Samstag',
+      ],
+    },
   };
   static Map shortDayNames = const {
     'de': {
       CalendarType.JALALI: ['Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr'],
-      CalendarType.GREGORIAN: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
-    }
+      CalendarType.GREGORIAN: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+    },
   };
   static Map titles = const {
     'de': {
       'empty': 'Keine Termine geplant.',
       'month_selector': 'Einen Monat auswählen.',
       'year_selector': 'Ein Jahr auswählen.',
-      'day_selector': 'Einen Tag auswählen.'
-    }
+      'day_selector': 'Einen Tag auswählen.',
+    },
   };
 
   static Map directionIsRTL = {'de': false};

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../flutter_event_calendar.dart';
-import '../handlers/calendar_utils.dart';
-import '../handlers/translator.dart';
-import '../models/style/select_month_options.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
+import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
 
 class SelectMonth extends StatelessWidget {
+  SelectMonth({required this.onHeaderChanged, this.monthStyle});
   late List months;
 
   Function(int selectedMonth) onHeaderChanged;
 
   MonthOptions? monthStyle;
-
-  SelectMonth({required this.onHeaderChanged, this.monthStyle});
 
   late BoxDecoration selectedDecoration;
 
@@ -28,17 +27,18 @@ class SelectMonth extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(26), topRight: Radius.circular(26)),
+          topLeft: Radius.circular(26),
+          topRight: Radius.circular(26),
+        ),
         color: monthStyle?.backgroundColor,
       ),
       height: 380,
       child: Padding(
         padding: const EdgeInsets.all(30),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              '${Translator.getTranslation('month_selector')}',
+              Translator.getTranslation('month_selector'),
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,
@@ -61,11 +61,11 @@ class SelectMonth extends StatelessWidget {
                             BorderSide(color: Colors.black12, width: 0.2),
                       ),
                       children: monthsWidgetMaker(context),
-                    )
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -75,36 +75,38 @@ class SelectMonth extends StatelessWidget {
   List<TableRow> monthsWidgetMaker(context) {
     months = Translator.getFullMonthNames();
 
-    List<Widget> _buildRowCells(int rowIndex) {
-      List<TableCell> widgets = [];
+    List<Widget> buildRowCells(int rowIndex) {
+      var widgets = <TableCell>[];
       for (var j = 0; j < 3; j++) {
-        final int mMonth = (rowIndex * 3) + j + 1;
+        final mMonth = (rowIndex * 3) + j + 1;
         widgets.add(
           TableCell(
             verticalAlignment: TableCellVerticalAlignment.middle,
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: (() {
+                onTap: () {
                   Navigator.pop(context);
                   onHeaderChanged.call(mMonth);
-                }),
+                },
                 child: Container(
-                  padding: EdgeInsets.all(15),
-                  decoration: mMonth == currentMonth ? selectedDecoration : null,
+                  padding: const EdgeInsets.all(15),
+                  decoration:
+                      mMonth == currentMonth ? selectedDecoration : null,
                   child: Center(
-                      child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      months[(rowIndex * 3) + j].toString(),
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: mMonth == currentMonth ? Colors.white : null,
-                        fontFamily: monthStyle?.font,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        months[(rowIndex * 3) + j].toString(),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: mMonth == currentMonth ? Colors.white : null,
+                          fontFamily: monthStyle?.font,
+                        ),
+                        maxLines: 1,
                       ),
-                      maxLines: 1,
                     ),
-                  )),
+                  ),
                 ),
               ),
             ),
@@ -114,9 +116,9 @@ class SelectMonth extends StatelessWidget {
       return widgets;
     }
 
-    List<TableRow> monthsWidget = [];
+    var monthsWidget = <TableRow>[];
     for (var i = 0; i < 4; i++) {
-      monthsWidget.add(TableRow(children: _buildRowCells(i)));
+      monthsWidget.add(TableRow(children: buildRowCells(i)));
     }
 
     return monthsWidget;

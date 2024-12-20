@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../models/event.dart';
+import 'package:flutter_event_calendar/src/models/event.dart';
 
 class EventCard extends StatelessWidget {
-  final Event fullCalendarEvent;
-
   EventCard({required this.fullCalendarEvent});
+  final Event fullCalendarEvent;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (() {
+      onTap: () {
         fullCalendarEvent.onTap?.call(fullCalendarEvent.listIndex);
-      }),
-      onLongPress: (() {
+      },
+      onLongPress: () {
         fullCalendarEvent.onLongPress?.call(fullCalendarEvent.listIndex);
-      }),
+      },
       child: fullCalendarEvent.child,
     );
   }

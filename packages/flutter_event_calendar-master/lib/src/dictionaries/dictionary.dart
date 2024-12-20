@@ -1,7 +1,7 @@
-import 'en.dart';
-import 'fa.dart';
-import 'pt.dart';
-import 'de.dart';
+import 'package:flutter_event_calendar/src/dictionaries/en.dart';
+import 'package:flutter_event_calendar/src/dictionaries/fa.dart';
+import 'package:flutter_event_calendar/src/dictionaries/pt.dart';
+import 'package:flutter_event_calendar/src/dictionaries/de.dart';
 
 Map fullMonthNames = {
   ...Fa.fullMonthNames,

@@ -1,13 +1,13 @@
-import '../../flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class EventSelector {
-  updateEvents() {
+  List<Event> updateEvents() {
     EventCalendar.selectedEvents = [];
 
     var i = 0;
-    for (var item in EventCalendar.events) {
-      var eventDateTimeParts = item.dateTime;
-      var calendarDateTimeParts = EventCalendar.dateTime!;
+    for (final item in EventCalendar.events) {
+      final eventDateTimeParts = item.dateTime;
+      final calendarDateTimeParts = EventCalendar.dateTime!;
       if (eventDateTimeParts.isDateEqual(calendarDateTimeParts)) {
         item.listIndex = i;
         EventCalendar.selectedEvents.add(item);
@@ -22,8 +22,8 @@ class EventSelector {
   List<Event> getEventsByDayMonthYear(CalendarDateTime date) {
     EventCalendar.selectedEvents = [];
     var i = 0;
-    for (var item in EventCalendar.events) {
-      var eventDateTimeParts = item.dateTime;
+    for (final item in EventCalendar.events) {
+      final eventDateTimeParts = item.dateTime;
       if (eventDateTimeParts.isDateEqual(date)) {
         item.listIndex = i;
         EventCalendar.selectedEvents.add(item);

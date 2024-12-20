@@ -1,4 +1,4 @@
-import '../../../flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 abstract class CalendarProvider {
   bool isRTL();

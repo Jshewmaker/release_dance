@@ -14,22 +14,23 @@ class AppTheme {
   /// Default `ThemeData` for App UI.
   ThemeData get themeData {
     return ThemeData(
-        primaryColor: AppColors.yellow,
-        canvasColor: AppColors.yellow,
-        scaffoldBackgroundColor: _backgroundColor,
-        iconTheme: _iconTheme,
-        appBarTheme: _appBarTheme,
-        dividerTheme: _dividerTheme,
-        bottomNavigationBarTheme: _navigationBarTheme,
-        textTheme: _textTheme,
-        inputDecorationTheme: _inputDecorationTheme,
-        buttonTheme: _buttonTheme,
-        splashColor: AppColors.transparent,
-        snackBarTheme: _snackBarTheme,
-        elevatedButtonTheme: _elevatedButtonTheme,
-        textButtonTheme: _textButtonTheme,
-        colorScheme: _colorScheme.copyWith(surface: _backgroundColor),
-        listTileTheme: _listTileTheme);
+      primaryColor: AppColors.yellow,
+      canvasColor: AppColors.yellow,
+      scaffoldBackgroundColor: _backgroundColor,
+      iconTheme: _iconTheme,
+      appBarTheme: _appBarTheme,
+      dividerTheme: _dividerTheme,
+      bottomNavigationBarTheme: _navigationBarTheme,
+      textTheme: _textTheme,
+      inputDecorationTheme: _inputDecorationTheme,
+      buttonTheme: _buttonTheme,
+      splashColor: AppColors.transparent,
+      snackBarTheme: _snackBarTheme,
+      elevatedButtonTheme: _elevatedButtonTheme,
+      textButtonTheme: _textButtonTheme,
+      colorScheme: _colorScheme.copyWith(surface: _backgroundColor),
+      listTileTheme: _listTileTheme,
+    );
   }
 
   ColorScheme get _colorScheme {

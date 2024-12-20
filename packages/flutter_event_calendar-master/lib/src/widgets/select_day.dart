@@ -6,15 +6,14 @@ import 'package:flutter_event_calendar/src/models/style/selected_day_options.dar
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 class SelectDay extends StatelessWidget {
+  SelectDay({required this.onHeaderChanged, this.dayStyle});
   late List days;
 
   Function(int day) onHeaderChanged;
 
   DayOptions? dayStyle;
 
-  SelectDay({required this.onHeaderChanged, this.dayStyle});
-
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   late VoidCallback scrollToPositionCallback;
 
@@ -34,38 +33,42 @@ class SelectDay extends StatelessWidget {
     );
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(26), topRight: Radius.circular(26)),
+          topLeft: Radius.circular(26),
+          topRight: Radius.circular(26),
+        ),
         color: Colors.white,
       ),
       height: 380,
       child: Padding(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              '${Translator.getTranslation('day_selector')}',
-              style: TextStyle(
+              Translator.getTranslation('day_selector'),
+              style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,
-              //  fontFamily:dayStyle?.font,
+                //  fontFamily:dayStyle?.font,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
               child: Material(
                 color: Colors.transparent,
                 child: GridView.builder(
-                    controller: _scrollController,
-                    itemCount: days.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3, mainAxisExtent: 50),
-                    itemBuilder: (context, index) =>
-                        dayWidgetMaker(days[index], context)),
+                  controller: _scrollController,
+                  itemCount: days.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisExtent: 50,
+                  ),
+                  itemBuilder: (context, index) =>
+                      dayWidgetMaker(days[index], context),
+                ),
               ),
             ),
           ],
@@ -76,21 +79,20 @@ class SelectDay extends StatelessWidget {
 
   Widget dayWidgetMaker(day, context) {
     return InkWell(
-      onTap: (() {
+      onTap: () {
         Navigator.pop(context);
         onHeaderChanged.call(day);
-
-      }),
+      },
       child: Center(
         child: Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: day == selectedDay ? selectedDecoration : null,
           child: Text(
             '$day',
             style: TextStyle(
               fontSize: 16,
               color: day == selectedDay ? Colors.white : null,
-             // fontFamily: DayStyle?.font,
+              // fontFamily: DayStyle?.font,
             ),
           ),
         ),
@@ -99,16 +101,19 @@ class SelectDay extends StatelessWidget {
   }
 
   double findSelectedDayOffset() {
-    final size =
-        _scrollController.position.maxScrollExtent / (days.length / 3);
+    final size = _scrollController.position.maxScrollExtent / (days.length / 3);
     return size * (days.indexOf(selectedDay)) / 3;
   }
 
   void animateToCurrentDay() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (_scrollController.hasClients)
-        _scrollController.animateTo(findSelectedDayOffset(),
-            duration: Duration(milliseconds: 500), curve: Curves.ease);
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          findSelectedDayOffset(),
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
+      }
     });
   }
 }

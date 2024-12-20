@@ -1,4 +1,4 @@
-import '../../flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class Pt {
   static Map fullMonthNames = const {
@@ -15,7 +15,7 @@ class Pt {
         'Azar',
         'Dey',
         'Bahman',
-        'Esfand'
+        'Esfand',
       ],
       CalendarType.GREGORIAN: [
         'Janeiro',
@@ -29,9 +29,9 @@ class Pt {
         'Setembro',
         'Outubro',
         'Novembro',
-        'Dezembro'
-      ]
-    }
+        'Dezembro',
+      ],
+    },
   };
   static Map shortMonthNames = const {
     'pt': {
@@ -47,7 +47,7 @@ class Pt {
         'Azar',
         'Dey',
         'Bah',
-        'Esf'
+        'Esf',
       ],
       CalendarType.GREGORIAN: [
         'Jan',
@@ -61,9 +61,9 @@ class Pt {
         'Set',
         'Out',
         'Nov',
-        'Dez'
-      ]
-    }
+        'Dez',
+      ],
+    },
   };
 
   static Map fullDayNames = const {
@@ -84,22 +84,22 @@ class Pt {
         'Quarta',
         'Quinta',
         'Sexta',
-        'Sábado'
-      ]
-    }
+        'Sábado',
+      ],
+    },
   };
   static Map shortDayNames = const {
     'pt': {
       CalendarType.JALALI: ['Sab', 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
-      CalendarType.GREGORIAN: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
-    }
+      CalendarType.GREGORIAN: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+    },
   };
   static Map titles = const {
     'pt': {
       'empty': 'Vazio',
       'month_selector': 'Escolha um mês',
       'year_selector': 'Escolha um ano',
-    }
+    },
   };
 
   static Map directionIsRTL = {'pt': false};

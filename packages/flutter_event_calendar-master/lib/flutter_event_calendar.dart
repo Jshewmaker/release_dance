@@ -1,5 +1,3 @@
-library flutter_event_calendar;
-
 export 'src/handlers/event_calendar.dart';
 export 'src/models/calendar_options.dart';
 export 'src/models/datetime.dart';

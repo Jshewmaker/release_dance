@@ -1,34 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../handlers/calendar_utils.dart';
-import '../handlers/event_calendar.dart';
-import '../handlers/event_selector.dart';
-import '../handlers/translator.dart';
-import '../models/calendar_options.dart';
-import '../models/style/event_options.dart';
-import 'event_card.dart';
+import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
+import 'package:flutter_event_calendar/src/models/calendar_options.dart';
+import 'package:flutter_event_calendar/src/models/style/event_options.dart';
+import 'package:flutter_event_calendar/src/widgets/event_card.dart';
 
 class Events extends StatelessWidget {
+  Events({required this.onEventsChanged});
   final Function onEventsChanged;
   late final EventOptions eventStyle;
-
-  Events({required this.onEventsChanged});
 
   @override
   Widget build(BuildContext context) {
     eventStyle = EventOptions.of(context);
-    List<Widget> events = eventCardsMaker(context);
+    var events = eventCardsMaker(context);
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: GestureDetector(
-          onPanEnd: ((details) {
-            Velocity vc = details.velocity;
+          onPanEnd: (details) {
+            var vc = details.velocity;
             String clearVc;
             clearVc = vc.toString().replaceAll('(', '');
-            clearVc = clearVc.toString().replaceAll(')', '');
-            clearVc = clearVc.toString().replaceAll('Velocity', '');
-            if (double.parse(clearVc.toString().split(',')[0]) > 0) {
+            clearVc = clearVc.replaceAll(')', '');
+            clearVc = clearVc.replaceAll('Velocity', '');
+            if (double.parse(clearVc.split(',')[0]) > 0) {
               // left
               switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
@@ -51,15 +50,14 @@ class Events extends StatelessWidget {
               }
               onEventsChanged.call();
             }
-          }),
+          },
           child: eventStyle.showLoadingForEvent?.call() == true
               ? eventStyle.loadingWidget!.call()
               : events.isEmpty
                   ? emptyView(context)
                   : ListView(
                       padding: EdgeInsets.zero,
-                      scrollDirection: Axis.vertical,
-                      children: [...events, SizedBox(height: 200)],
+                      children: [...events, const SizedBox(height: 200)],
                     ),
         ),
       ),
@@ -67,9 +65,9 @@ class Events extends StatelessWidget {
   }
 
   List<Widget> eventCardsMaker(BuildContext context) {
-    var selectedEvents = EventSelector().updateEvents();
-    List<Widget> eventCards = [];
-    for (var item in selectedEvents) {
+    final selectedEvents = EventSelector().updateEvents();
+    var eventCards = <Widget>[];
+    for (final item in selectedEvents) {
       eventCards.add(
         EventCard(
           fullCalendarEvent: item,

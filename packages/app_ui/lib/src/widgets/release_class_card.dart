@@ -1,6 +1,5 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// {@template release_card}
 /// A card used to display a release class.

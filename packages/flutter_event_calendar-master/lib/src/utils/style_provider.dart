@@ -4,14 +4,25 @@ import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/models/datetime.dart';
 
 class StyleProvider {
-  static BoxDecoration? getSpecialDayDecoration(CalendarDateTime? specialDay, curYear, int currMonth, day) {
+  static BoxDecoration? getSpecialDayDecoration(
+    CalendarDateTime? specialDay,
+    int curYear,
+    int currentMonth,
+    int day,
+  ) {
     BoxDecoration? decoration;
-    final isStartRange = CalendarUtils.isStartOfRange(specialDay, curYear, currMonth, day);
-    final isEndRange = CalendarUtils.isEndOfRange(specialDay, curYear, currMonth, day);
-    final isInRange = CalendarUtils.isInRange(specialDay, curYear, currMonth, day);
+    final isStartRange =
+        CalendarUtils.isStartOfRange(specialDay, curYear, currentMonth, day);
+    final isEndRange =
+        CalendarUtils.isEndOfRange(specialDay, curYear, currentMonth, day);
+    final isInRange =
+        CalendarUtils.isInRange(specialDay, curYear, currentMonth, day);
 
     if (isEndRange && isStartRange) {
-      decoration = BoxDecoration(color: specialDay?.color, borderRadius: BorderRadius.circular(8));
+      decoration = BoxDecoration(
+        color: specialDay?.color,
+        borderRadius: BorderRadius.circular(8),
+      );
     } else if (isStartRange) {
       decoration = BoxDecoration(
         color: specialDay?.color,
@@ -30,15 +41,15 @@ class StyleProvider {
 
   static bool _isRTL() => EventCalendar.calendarProvider.isRTL();
 
-  static _getStartRadiusByLocale() {
+  static BorderRadius _getStartRadiusByLocale() {
     return _isRTL()
-        ? BorderRadius.horizontal(right: Radius.circular(8))
-        : BorderRadius.horizontal(left: Radius.circular(8));
+        ? const BorderRadius.horizontal(right: Radius.circular(8))
+        : const BorderRadius.horizontal(left: Radius.circular(8));
   }
 
-  static _getEndRadiusByLocale() {
+  static BorderRadius _getEndRadiusByLocale() {
     return _isRTL()
-        ? BorderRadius.horizontal(left: Radius.circular(8))
-        : BorderRadius.horizontal(right: Radius.circular(8));
+        ? const BorderRadius.horizontal(left: Radius.circular(8))
+        : const BorderRadius.horizontal(right: Radius.circular(8));
   }
 }

@@ -2,17 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../../flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class Day extends StatelessWidget {
-  String weekDay;
-  Function? onCalendarChanged;
-  List<Event> dayEvents;
-  int day;
-  DayOptions? dayOptions;
-  CalendarOptions? calendarOptions;
-  DayStyle? dayStyle;
-  late double opacity;
 
   Day(
       {required this.day,
@@ -27,6 +19,14 @@ class Day extends StatelessWidget {
     dayStyle ??= const DayStyle();
     calendarOptions ??= CalendarOptions();
   }
+  String weekDay;
+  Function? onCalendarChanged;
+  List<Event> dayEvents;
+  int day;
+  DayOptions? dayOptions;
+  CalendarOptions? calendarOptions;
+  DayStyle? dayStyle;
+  late double opacity;
 
   late Widget child;
 
@@ -45,19 +45,17 @@ class Day extends StatelessWidget {
             : dayOptions!.unselectedTextColor;
 
     child = InkWell(
-      onTap: (() {
+      onTap: () {
         if (dayStyle!.enabled) onCalendarChanged?.call();
-      }),
+      },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
         children: [
           if (DayOptions.of(context).showWeekDay &&
               CalendarOptions.of(context).viewType == ViewType.DAILY) ...[
             FittedBox(
               child: Text(
-                '$weekDay',
+                weekDay,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -68,27 +66,26 @@ class Day extends StatelessWidget {
             ),
           ],
           AnimatedContainer(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             curve: Curves.ease,
             padding: dayStyle!.compactMode
                 ? EdgeInsets.zero
                 : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
                         WeekDayStringTypes.FULL
                     ? 4
-                    : 0)),
+                    : 0,)),
             decoration: BoxDecoration(
                 color: dayStyle!.selected
                     ? dayOptions!.selectedBackgroundColor
                     : dayOptions!.unselectedBackgroundColor,
-                shape: BoxShape.circle),
+                shape: BoxShape.circle,),
             constraints: BoxConstraints(
                 minWidth: double.infinity,
-                minHeight: dayStyle!.compactMode ? 35 : 40),
+                minHeight: dayStyle!.compactMode ? 35 : 40,),
             child: Stack(
               fit: StackFit.passthrough,
               children: [
                 Align(
-                  alignment: Alignment.center,
                   child: Text(
                     '$day',
                     style: TextStyle(
@@ -97,12 +94,10 @@ class Day extends StatelessWidget {
                     ),
                   ),
                 ),
-                dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
-                    ? Align(
+                if (dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT) Align(
                         alignment: Alignment.bottomCenter,
                         child: dotMaker(context),
-                      )
-                    : Positioned(
+                      ) else Positioned(
                         right: 0,
                         bottom: 0,
                         child: labelMaker(context),
@@ -121,7 +116,7 @@ class Day extends StatelessWidget {
             ? 0
             : CalendarOptions.of(context).viewType == ViewType.DAILY
                 ? 10
-                : 0),
+                : 0,),
         decoration: dayStyle?.decoration,
         width: dayStyle!.compactMode
             ? 45
@@ -134,18 +129,18 @@ class Day extends StatelessWidget {
     );
   }
 
-  dotMaker(BuildContext context) {
-    List<Widget> widgets = [];
+  Row dotMaker(BuildContext context) {
+    final var widgets = <Widget>[];
 
     final maxDot = min(dayEvents.length, 3);
-    for (int i = 0; i < maxDot; i++) {
+    for (var i = 0; i < maxDot; i++) {
       widgets.add(
         Container(
           margin: EdgeInsets.only(
               bottom: HeaderOptions.of(context).weekDayStringType ==
                       WeekDayStringTypes.SHORT
                   ? (dayStyle!.compactMode ? 4 : 8)
-                  : 4),
+                  : 4,),
           width: 5,
           height: 5,
           decoration: BoxDecoration(
@@ -168,7 +163,7 @@ class Day extends StatelessWidget {
     );
   }
 
-  labelMaker(BuildContext context) {
+  Container labelMaker(BuildContext context) {
     if (dayEvents.isEmpty) return Container();
     return Container(
       width: dayStyle!.compactMode ? 15 : 18,
@@ -185,29 +180,23 @@ class Day extends StatelessWidget {
             fontFamily: CalendarOptions.of(context).font,
             color: dayStyle!.useUnselectedEffect
                 ? dayOptions!.eventCounterTextColor.withOpacity(opacity)
-                : dayOptions!.eventCounterTextColor),
+                : dayOptions!.eventCounterTextColor,),
       ),
     );
   }
 
-  _getTitleColor() {
+  Color _getTitleColor() {
     return dayStyle!.selected
         ? dayOptions!.weekDaySelectedColor
         : dayOptions!.weekDayUnselectedColor;
   }
 
-  _shouldHaveTransparentColor() {
+  bool _shouldHaveTransparentColor() {
     return !dayStyle!.enabled || dayStyle!.useUnselectedEffect;
   }
 }
 
 class DayStyle {
-  final bool compactMode;
-  final bool useUnselectedEffect;
-  final bool enabled;
-  final bool selected;
-  final bool useDisabledEffect;
-  final BoxDecoration? decoration;
 
   const DayStyle({
     this.compactMode = false,
@@ -217,4 +206,10 @@ class DayStyle {
     this.decoration = const BoxDecoration(),
     this.useDisabledEffect = false,
   });
+  final bool compactMode;
+  final bool useUnselectedEffect;
+  final bool enabled;
+  final bool selected;
+  final bool useDisabledEffect;
+  final BoxDecoration? decoration;
 }
