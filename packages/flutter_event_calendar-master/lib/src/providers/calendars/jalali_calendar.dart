@@ -10,7 +10,11 @@ class JalaliCalendar extends CalendarProvider {
     final f = Jalali.now().formatter;
 
     return CalendarDateTime(
-        year: int.parse(f.yyyy), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType(),);
+      year: int.parse(f.yyyy),
+      month: int.parse(f.mm),
+      day: int.parse(f.dd),
+      calendarType: getCalendarType(),
+    );
   }
 
   @override
@@ -18,42 +22,58 @@ class JalaliCalendar extends CalendarProvider {
     final date = _getSelectedDate();
     final newDate = date.withDay(1).addMonths(1);
     final f = newDate.formatter;
-    return CalendarDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01, calendarType: getCalendarType());
+    return CalendarDateTime(
+        year: int.parse(f.y),
+        month: int.parse(f.mm),
+        day: 01,
+        calendarType: getCalendarType());
   }
 
   @override
   CalendarDateTime getPreviousMonthDateTime() {
     final date = _getSelectedDate();
-    final dynamic newDate = date.withDay(1).addMonths(-1);
+    final Jalali newDate = date.withDay(1).addMonths(-1);
     final f = newDate.formatter;
-    return CalendarDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01, calendarType: getCalendarType());
+    return CalendarDateTime(
+        year: int.parse(f.y),
+        month: int.parse(f.mm),
+        day: 01,
+        calendarType: getCalendarType());
   }
 
   @override
   CalendarDateTime getPreviousDayDateTime() {
-    final dynamic date = _getSelectedDate();
-    final dynamic newDate = date.addDays(-1);
+    final Jalali date = _getSelectedDate();
+    final Jalali newDate = date.addDays(-1);
     final f = newDate.formatter;
     return CalendarDateTime(
-        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType(),);
+      year: int.parse(f.y),
+      month: int.parse(f.mm),
+      day: int.parse(f.dd),
+      calendarType: getCalendarType(),
+    );
   }
 
   @override
   CalendarDateTime getNextDayDateTime() {
-    final dynamic date = _getSelectedDate();
-    final dynamic newDate = date.addDays(1);
+    final Jalali date = _getSelectedDate();
+    final Jalali newDate = date.addDays(1);
     final f = newDate.formatter;
     return CalendarDateTime(
-        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType(),);
+      year: int.parse(f.y),
+      month: int.parse(f.mm),
+      day: int.parse(f.dd),
+      calendarType: getCalendarType(),
+    );
   }
 
   @override
   bool isRTL() => Translator.isRTL();
 
   @override
-  Map getMonthDays(WeekDayStringTypes type, int index) {
-    final Map days = {};
-    final var firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
+  Map<int, String> getMonthDays(WeekDayStringTypes type, int index) {
+    final Map<int, String> days = {};
+    final firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     var dayIndex = firstDayOfMonth.weekDay - 1;
     switch (type) {
       case WeekDayStringTypes.FULL:
@@ -75,24 +95,27 @@ class JalaliCalendar extends CalendarProvider {
   @override
   List<int> getYears() {
     var year = _getSelectedDate().year;
-    final var years = <int>[];
+    final years = <int>[];
     for (var i = -100; i <= 50; i++) {
       years.add(year + i);
     }
     return years;
   }
+
   @override
   List<int> getDayAmount() {
-    final var month=_getSelectedDate().month;
-    var daysInCurrentMonth=getMonthDays(WeekDayStringTypes.FULL, month).length;
-    var days=<int>[];
+    final month = _getSelectedDate().month;
+    var daysInCurrentMonth =
+        getMonthDays(WeekDayStringTypes.FULL, month).length;
+    var days = <int>[];
     for (var i = 1; i <= daysInCurrentMonth; i++) {
       days.add(i);
     }
     return days;
   }
+
   Jalali _getSelectedDate() {
-    final var jv = Jalali(
+    final jv = Jalali(
       EventCalendar.dateTime!.year,
       EventCalendar.dateTime!.month,
       EventCalendar.dateTime!.day,
@@ -101,24 +124,36 @@ class JalaliCalendar extends CalendarProvider {
   }
 
   @override
-  CalendarDateTime goToDay(index) {
-    final dynamic date = _getSelectedDate();
+  CalendarDateTime goToDay(int index) {
+    final Jalali date = _getSelectedDate();
     final f = date.formatter;
-    return CalendarDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: index, calendarType: getCalendarType());
+    return CalendarDateTime(
+        year: int.parse(f.y),
+        month: int.parse(f.mm),
+        day: index,
+        calendarType: getCalendarType());
   }
 
   @override
-  CalendarDateTime goToMonth(index) {
-    final dynamic date = _getSelectedDate();
+  CalendarDateTime goToMonth(int index) {
+    final date = _getSelectedDate();
     final f = date.formatter;
-    return CalendarDateTime(year: int.parse(f.y), month: index, day: 01, calendarType: getCalendarType());
+    return CalendarDateTime(
+        year: int.parse(f.y),
+        month: index,
+        day: 01,
+        calendarType: getCalendarType());
   }
 
   @override
   CalendarDateTime goToYear(int index) {
-    final dynamic date = _getSelectedDate();
+    final date = _getSelectedDate();
     final f = date.formatter;
-    return CalendarDateTime(year: index, month: int.parse(f.mm), day: 01, calendarType: getCalendarType());
+    return CalendarDateTime(
+        year: index,
+        month: int.parse(f.mm),
+        day: 01,
+        calendarType: getCalendarType());
   }
 
   @override
@@ -135,14 +170,13 @@ class JalaliCalendar extends CalendarProvider {
   }
 
   @override
-  Map getMonthDaysShort(int index) {
-    final Map days = {};
+  Map<int, String> getMonthDaysShort(int index) {
+    final Map<int, String> days = {};
     var firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     var dayIndex = firstDayOfMonth.weekDay - 1;
     for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
       days[i] = Translator.getShortNameOfDays()[dayIndex % 7];
       dayIndex++;
-
     }
     return days;
   }
@@ -162,6 +196,4 @@ class JalaliCalendar extends CalendarProvider {
   CalendarType getCalendarType() {
     return CalendarType.JALALI;
   }
-
-
 }

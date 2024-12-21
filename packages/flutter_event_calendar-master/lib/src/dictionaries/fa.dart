@@ -1,7 +1,7 @@
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class Fa {
-  static Map fullMonthNames = const {
+  static Map<String, Map<CalendarType, List<String>>> fullMonthNames = const {
     'fa': {
       CalendarType.JALALI: [
         'فروردین',
@@ -33,7 +33,7 @@ class Fa {
       ],
     },
   };
-  static Map shortMonthNames = const {
+  static Map<String, Map<CalendarType, List<String>>> shortMonthNames = const {
     'fa': {
       CalendarType.JALALI: [
         'فرو',
@@ -65,7 +65,7 @@ class Fa {
       ],
     },
   };
-  static Map fullDayNames = const {
+  static Map<String, Map<CalendarType, List<String>>> fullDayNames = const {
     'fa': {
       CalendarType.JALALI: [
         'شنبه',
@@ -87,13 +87,13 @@ class Fa {
       ],
     },
   };
-  static Map shortDayNames = const {
+  static Map<String, Map<CalendarType, List<String>>> shortDayNames = const {
     'fa': {
       CalendarType.JALALI: ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'],
       CalendarType.GREGORIAN: ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش'],
     },
   };
-  static Map titles = const {
+  static Map<String, Map<String, String>> titles = const {
     'fa': {
       'empty': 'خالی',
       'month_selector': 'یک ماه را انتخاب کنید',
@@ -102,5 +102,5 @@ class Fa {
     },
   };
 
-  static Map directionIsRTL = {'fa': true};
+  static Map<String, bool> directionIsRTL = {'fa': true};
 }

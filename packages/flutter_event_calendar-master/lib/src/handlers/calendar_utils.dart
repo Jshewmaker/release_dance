@@ -43,11 +43,14 @@ class CalendarUtils {
   static List<int> getDaysAmount() =>
       EventCalendar.calendarProvider.getDayAmount();
 
-  static Map getDays(WeekDayStringTypes type, int monthIndex) {
+  static Map<int, String> getDays(WeekDayStringTypes type, int monthIndex) {
     return EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
   }
 
-  static Map getMonthDays(WeekDayStringTypes type, int monthIndex) =>
+  static Map<int, String> getMonthDays(
+    WeekDayStringTypes type,
+    int monthIndex,
+  ) =>
       EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
 
   static String getPartByString({

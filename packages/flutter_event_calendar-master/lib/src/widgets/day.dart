@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class Day extends StatelessWidget {
-
   Day(
       {required this.day,
       required this.weekDay,
@@ -70,18 +69,22 @@ class Day extends StatelessWidget {
             curve: Curves.ease,
             padding: dayStyle!.compactMode
                 ? EdgeInsets.zero
-                : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
-                        WeekDayStringTypes.FULL
-                    ? 4
-                    : 0,)),
+                : (EdgeInsets.all(
+                    HeaderOptions.of(context).weekDayStringType ==
+                            WeekDayStringTypes.FULL
+                        ? 4
+                        : 0,
+                  )),
             decoration: BoxDecoration(
-                color: dayStyle!.selected
-                    ? dayOptions!.selectedBackgroundColor
-                    : dayOptions!.unselectedBackgroundColor,
-                shape: BoxShape.circle,),
+              color: dayStyle!.selected
+                  ? dayOptions!.selectedBackgroundColor
+                  : dayOptions!.unselectedBackgroundColor,
+              shape: BoxShape.circle,
+            ),
             constraints: BoxConstraints(
-                minWidth: double.infinity,
-                minHeight: dayStyle!.compactMode ? 35 : 40,),
+              minWidth: double.infinity,
+              minHeight: dayStyle!.compactMode ? 35 : 40,
+            ),
             child: Stack(
               fit: StackFit.passthrough,
               children: [
@@ -94,14 +97,18 @@ class Day extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT) Align(
-                        alignment: Alignment.bottomCenter,
-                        child: dotMaker(context),
-                      ) else Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: labelMaker(context),
-                      ),
+                if (dayOptions!.eventCounterViewType ==
+                    DayEventCounterViewType.DOT)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: dotMaker(context),
+                  )
+                else
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: labelMaker(context),
+                  ),
               ],
             ),
           ),
@@ -112,11 +119,13 @@ class Day extends StatelessWidget {
     return Opacity(
       opacity: opacity,
       child: Container(
-        padding: EdgeInsets.all(dayStyle!.compactMode
-            ? 0
-            : CalendarOptions.of(context).viewType == ViewType.DAILY
-                ? 10
-                : 0,),
+        padding: EdgeInsets.all(
+          dayStyle!.compactMode
+              ? 0
+              : CalendarOptions.of(context).viewType == ViewType.DAILY
+                  ? 10
+                  : 0,
+        ),
         decoration: dayStyle?.decoration,
         width: dayStyle!.compactMode
             ? 45
@@ -130,17 +139,18 @@ class Day extends StatelessWidget {
   }
 
   Row dotMaker(BuildContext context) {
-    final var widgets = <Widget>[];
+    final widgets = <Widget>[];
 
     final maxDot = min(dayEvents.length, 3);
     for (var i = 0; i < maxDot; i++) {
       widgets.add(
         Container(
           margin: EdgeInsets.only(
-              bottom: HeaderOptions.of(context).weekDayStringType ==
-                      WeekDayStringTypes.SHORT
-                  ? (dayStyle!.compactMode ? 4 : 8)
-                  : 4,),
+            bottom: HeaderOptions.of(context).weekDayStringType ==
+                    WeekDayStringTypes.SHORT
+                ? (dayStyle!.compactMode ? 4 : 8)
+                : 4,
+          ),
           width: 5,
           height: 5,
           decoration: BoxDecoration(
@@ -176,11 +186,12 @@ class Day extends StatelessWidget {
       child: Text(
         "${dayEvents.length >= 10 ? '+9' : dayEvents.length}",
         style: TextStyle(
-            fontSize: 12,
-            fontFamily: CalendarOptions.of(context).font,
-            color: dayStyle!.useUnselectedEffect
-                ? dayOptions!.eventCounterTextColor.withOpacity(opacity)
-                : dayOptions!.eventCounterTextColor,),
+          fontSize: 12,
+          fontFamily: CalendarOptions.of(context).font,
+          color: dayStyle!.useUnselectedEffect
+              ? dayOptions!.eventCounterTextColor.withOpacity(opacity)
+              : dayOptions!.eventCounterTextColor,
+        ),
       ),
     );
   }
@@ -197,7 +208,6 @@ class Day extends StatelessWidget {
 }
 
 class DayStyle {
-
   const DayStyle({
     this.compactMode = false,
     this.useUnselectedEffect = false,

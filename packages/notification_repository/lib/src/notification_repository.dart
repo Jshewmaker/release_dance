@@ -80,9 +80,13 @@ class NotificationRepository {
   }
 
   Future<void> getToken() async {
-    final token = await _firebaseMessaging.getToken();
-    if (kDebugMode) {
-      print('Registration Token=$token');
+    try {
+      final token = await _firebaseMessaging.getToken();
+      if (kDebugMode) {
+        print('Registration Token=$token');
+      }
+    } on Exception catch (e) {
+      print(e);
     }
   }
 }

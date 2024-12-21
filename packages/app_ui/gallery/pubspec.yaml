@@ -16,7 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   two_dimensional_scrollables: ^0.3.1
-  widgetbook: ^4.0.0-alpha.2
+  widgetbook: ^3.10.1
 
 dev_dependencies:
   very_good_analysis: ^6.0.0

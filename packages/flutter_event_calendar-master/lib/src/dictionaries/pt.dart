@@ -1,7 +1,7 @@
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class Pt {
-  static Map fullMonthNames = const {
+  static Map<String, Map<CalendarType, List<String>>> fullMonthNames = const {
     'pt': {
       CalendarType.JALALI: [
         'Farvardin',
@@ -33,7 +33,7 @@ class Pt {
       ],
     },
   };
-  static Map shortMonthNames = const {
+  static Map<String, Map<CalendarType, List<String>>> shortMonthNames = const {
     'pt': {
       CalendarType.JALALI: [
         'Far',
@@ -66,7 +66,7 @@ class Pt {
     },
   };
 
-  static Map fullDayNames = const {
+  static Map<String, Map<CalendarType, List<String>>> fullDayNames = const {
     'pt': {
       CalendarType.JALALI: [
         'Sábado',
@@ -88,13 +88,13 @@ class Pt {
       ],
     },
   };
-  static Map shortDayNames = const {
+  static Map<String, Map<CalendarType, List<String>>> shortDayNames = const {
     'pt': {
       CalendarType.JALALI: ['Sab', 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
       CalendarType.GREGORIAN: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
     },
   };
-  static Map titles = const {
+  static Map<String, Map<String, String>> titles = const {
     'pt': {
       'empty': 'Vazio',
       'month_selector': 'Escolha um mês',
@@ -102,5 +102,5 @@ class Pt {
     },
   };
 
-  static Map directionIsRTL = {'pt': false};
+  static Map<String, bool> directionIsRTL = {'pt': false};
 }

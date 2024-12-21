@@ -5,8 +5,8 @@ class Event {
   Event({
     required this.child,
     required this.dateTime,
-    onTap(int listIndex)?,
-    onLongPress,
+    VoidCallback? Function(int listIndex)? onTap,
+    VoidCallback? Function(int listIndex)? onLongPress,
   }) {
     this.onTap = onTap;
     this.onLongPress = onLongPress ??

@@ -14,7 +14,7 @@ typedef CalendarChangeCallback = Function(CalendarDateTime);
 // ignore: must_be_immutable
 class EventCalendar extends StatefulWidget {
   EventCalendar({
-    required calendarType,
+    required CalendarType calendarType,
     GlobalKey? key,
     List<Event>? events,
     CalendarDateTime? dateTime,
@@ -31,7 +31,6 @@ class EventCalendar extends StatefulWidget {
     this.onInit,
     this.onYearChanged,
     this.onChangeViewType,
-    calendarLanguage,
     this.showEvents = true,
   }) : super(key: key) {
     calendarOptions ??= CalendarOptions();
@@ -39,7 +38,7 @@ class EventCalendar extends StatefulWidget {
     eventOptions ??= EventOptions();
     dayOptions ??= DayOptions();
 
-    EventCalendar.calendarType = calendarType ?? CalendarType.GREGORIAN;
+    EventCalendar.calendarType = calendarType;
 
     EventCalendar.calendarProvider = createInstance(calendarType);
 
@@ -48,7 +47,7 @@ class EventCalendar extends StatefulWidget {
       EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
     }
     EventCalendar.calendarType = calendarType ?? CalendarType.GREGORIAN;
-    EventCalendar.calendarLanguage = calendarLanguage ?? 'en';
+    EventCalendar.calendarLanguage = 'en';
     EventCalendar.events = events ?? [];
   }
   static late CalendarProvider calendarProvider;

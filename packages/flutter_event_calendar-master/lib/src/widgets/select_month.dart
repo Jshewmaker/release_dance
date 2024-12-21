@@ -7,7 +7,7 @@ import 'package:flutter_event_calendar/src/models/style/select_month_options.dar
 
 class SelectMonth extends StatelessWidget {
   SelectMonth({required this.onHeaderChanged, this.monthStyle});
-  late List months;
+  late List<String> months;
 
   Function(int selectedMonth) onHeaderChanged;
 
@@ -72,7 +72,7 @@ class SelectMonth extends StatelessWidget {
     );
   }
 
-  List<TableRow> monthsWidgetMaker(context) {
+  List<TableRow> monthsWidgetMaker(BuildContext context) {
     months = Translator.getFullMonthNames();
 
     List<Widget> buildRowCells(int rowIndex) {

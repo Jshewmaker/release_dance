@@ -1,7 +1,7 @@
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class En {
-  static Map fullMonthNames = const {
+  static Map<String, Map<CalendarType, List<String>>> fullMonthNames = const {
     'en': {
       CalendarType.JALALI: [
         'Farvardin',
@@ -33,7 +33,7 @@ class En {
       ],
     },
   };
-  static Map shortMonthNames = const {
+  static Map<String, Map<CalendarType, List<String>>> shortMonthNames = const {
     'en': {
       CalendarType.JALALI: [
         'Far',
@@ -66,7 +66,7 @@ class En {
     },
   };
 
-  static Map fullDayNames = const {
+  static Map<String, Map<CalendarType, List<String>>> fullDayNames = const {
     'en': {
       CalendarType.JALALI: [
         'Saturday',
@@ -88,13 +88,13 @@ class En {
       ],
     },
   };
-  static Map shortDayNames = const {
+  static Map<String, Map<CalendarType, List<String>>> shortDayNames = const {
     'en': {
       CalendarType.JALALI: ['Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr'],
       CalendarType.GREGORIAN: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
     },
   };
-  static Map titles = const {
+  static Map<String, Map<String, String>> titles = const {
     'en': {
       'empty': 'Empty',
       'month_selector': 'Choose a month',
@@ -103,5 +103,5 @@ class En {
     },
   };
 
-  static Map directionIsRTL = {'en': false};
+  static Map<String, bool> directionIsRTL = {'en': false};
 }

@@ -7,7 +7,7 @@ import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 class SelectDay extends StatelessWidget {
   SelectDay({required this.onHeaderChanged, this.dayStyle});
-  late List days;
+  late List<int> days;
 
   Function(int day) onHeaderChanged;
 
@@ -77,7 +77,7 @@ class SelectDay extends StatelessWidget {
     );
   }
 
-  Widget dayWidgetMaker(day, context) {
+  Widget dayWidgetMaker(int day, BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.pop(context);

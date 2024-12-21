@@ -12,9 +12,11 @@ class CalendarMonthly extends StatefulWidget {
   Function onCalendarChanged;
   List<CalendarDateTime> specialDays;
 
-  CalendarMonthly(
-      {Key? key, required this.specialDays, required this.onCalendarChanged,})
-      : super(key: key);
+  CalendarMonthly({
+    Key? key,
+    required this.specialDays,
+    required this.onCalendarChanged,
+  }) : super(key: key);
 
   @override
   State<CalendarMonthly> createState() => _CalendarMonthlyState();
@@ -78,7 +80,10 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
           : TextDirection.ltr,
       children: List.generate(7, (index) {
         final dayName = CalendarMonthlyUtils.getDayNameOfMonth(
-            headersStyle, currMonth, EventCalendar.dateTime!.day,);
+          headersStyle,
+          currMonth,
+          EventCalendar.dateTime!.day,
+        );
         return Expanded(
           child: Center(
             heightFactor: 1,
@@ -90,11 +95,12 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
               child: Text(
                 dayNames[index],
                 style: TextStyle(
-                    color: dayNames[index] == dayName
-                        ? DayOptions.of(context).selectedBackgroundColor
-                        : null,
-                    fontSize: 15,
-                    fontFamily: CalendarOptions.of(context).font,),
+                  color: dayNames[index] == dayName
+                      ? DayOptions.of(context).selectedBackgroundColor
+                      : null,
+                  fontSize: 15,
+                  fontFamily: CalendarOptions.of(context).font,
+                ),
               ),
             ),
           ),
@@ -118,18 +124,30 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             ? TextDirection.rtl
             : TextDirection.ltr,
         child: GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 42,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7, mainAxisExtent: 40, mainAxisSpacing: 5,),
-            itemBuilder: (context, index) => _buildItem(
-                index, firstDayIndex, lastDayIndex, lastMonthLastDay,),),
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 42,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 7,
+            mainAxisExtent: 40,
+            mainAxisSpacing: 5,
+          ),
+          itemBuilder: (context, index) => _buildItem(
+            index,
+            firstDayIndex,
+            lastDayIndex,
+            lastMonthLastDay,
+          ),
+        ),
       ),
     );
   }
 
-  dynamic _buildItem(
-      int index, int firstDayIndex, int lastDayIndex, int lastMonthLastDay,) {
+  Widget _buildItem(
+    int index,
+    int firstDayIndex,
+    int lastDayIndex,
+    int lastMonthLastDay,
+  ) {
     var day = -1;
 
     final isCurrentMonthDays = index >= firstDayIndex && index < lastDayIndex;
@@ -152,15 +170,23 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     return const SizedBox();
   }
 
-  Day buildCurrentMonthDay(day) {
+  Day buildCurrentMonthDay(int day) {
     final curYear = CalendarMonthlyUtils.getYear(currMonth);
 
     final specialDay = CalendarUtils.getFromSpecialDay(
-        widget.specialDays, curYear, currMonth, day,);
+      widget.specialDays,
+      curYear,
+      currMonth,
+      day,
+    );
 
-    final var decoration = StyleProvider.getSpecialDayDecoration(
-        specialDay, curYear, currMonth, day,);
-    final var isBeforeToday =
+    final decoration = StyleProvider.getSpecialDayDecoration(
+      specialDay,
+      curYear,
+      currMonth,
+      day,
+    );
+    final isBeforeToday =
         CalendarUtils.isBeforeThanToday(curYear, currMonth, day);
 
     return Day(
@@ -175,15 +201,15 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       day: day,
       weekDay: '',
       dayStyle: DayStyle(
-          compactMode: DayOptions.of(context).compactMode,
-          enabled: DayOptions.of(context).disableDaysBeforeNow
-              ? !isBeforeToday
-              : specialDay?.isEnableDay ?? true,
-          selected: day == currDay,
-          useDisabledEffect: DayOptions.of(context).disableDaysBeforeNow
-              ? isBeforeToday
-              : false,
-          decoration: decoration,),
+        compactMode: DayOptions.of(context).compactMode,
+        enabled: DayOptions.of(context).disableDaysBeforeNow
+            ? !isBeforeToday
+            : specialDay?.isEnableDay ?? true,
+        selected: day == currDay,
+        useDisabledEffect:
+            DayOptions.of(context).disableDaysBeforeNow ? isBeforeToday : false,
+        decoration: decoration,
+      ),
       onCalendarChanged: () {
         CalendarUtils.goToDay(day);
         widget.onCalendarChanged.call();
@@ -206,10 +232,11 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       weekDay: '',
       dayEvents: eventSelector.getEventsByDayMonthYear(
         CalendarDateTime(
-            year: year,
-            month: month,
-            day: day,
-            calendarType: CalendarUtils.getCalendarType(),),
+          year: year,
+          month: month,
+          day: day,
+          calendarType: CalendarUtils.getCalendarType(),
+        ),
       ),
       dayStyle: DayStyle(
         compactMode: DayOptions.of(context).compactMode,
@@ -238,11 +265,14 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
     return Day(
       day: day,
-      dayEvents: eventSelector.getEventsByDayMonthYear(CalendarDateTime(
+      dayEvents: eventSelector.getEventsByDayMonthYear(
+        CalendarDateTime(
           year: year,
           month: month,
           day: day,
-          calendarType: CalendarUtils.getCalendarType(),),),
+          calendarType: CalendarUtils.getCalendarType(),
+        ),
+      ),
       weekDay: '',
       dayStyle: DayStyle(
         compactMode: true,
