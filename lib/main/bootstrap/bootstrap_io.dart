@@ -11,23 +11,19 @@ import 'package:path_provider/path_provider.dart';
 import 'package:release_dance/firebase_options.dart';
 
 Future<void> bootstrap(
-  Future<Widget> Function(
-    FirebaseFirestore firestore,
-  ) builder,
+  Future<Widget> Function(FirebaseFirestore firestore) builder,
 ) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationSupportDirectory(),
+    storageDirectory: HydratedStorageDirectory(
+      (await getTemporaryDirectory()).path,
+    ),
   );
 
   // Bloc.observer = AppBlocObserver(
   //   analyticsRepository: analyticsRepository,
   // );
 
-  runApp(
-    await builder(FirebaseFirestore.instance),
-  );
+  runApp(await builder(FirebaseFirestore.instance));
 }

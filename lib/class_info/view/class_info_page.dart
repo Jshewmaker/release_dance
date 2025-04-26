@@ -248,9 +248,10 @@ class _SignUpForDropInButton extends StatelessWidget {
         return SizedBox(
           child: Column(
             children: [
+              const SizedBox(height: AppSpacing.md),
               Text(
                 l10n.selectAPackage,
-                style: theme.textTheme.titleLarge
+                style: theme.textTheme.headlineMedium
                     ?.copyWith(color: AppColors.black),
               ),
               Expanded(
@@ -276,16 +277,19 @@ class _SignUpForDropInButton extends StatelessWidget {
                           color: AppColors.black,
                         ),
                       ),
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (context) => ConfirmCheckoutPage(
-                            classId: course.classId,
-                            date: date,
-                            duration: course.durationWeeks,
-                            dropIns: quantity,
+                      onTap: () {
+                        context.pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (context) => ConfirmCheckoutPage(
+                              classId: course.classId,
+                              date: date,
+                              duration: course.durationWeeks,
+                              dropIns: quantity,
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     );
                   },
                 ),

@@ -42,9 +42,10 @@ class ConfirmCheckoutPage extends StatelessWidget {
   }
 }
 
-@visibleForTesting
+/// A redesigned checkout page for confirming class purchase.
+/// Displays class details, editable quantity, order summary, and payment options.
 class ConfirmCheckoutView extends StatelessWidget {
-  ///{@macro confirm_checkout_view}
+  /// {@macro confirm_checkout_view}
   const ConfirmCheckoutView({required this.numberOfClassesBought, super.key});
   final int numberOfClassesBought;
   @override
@@ -61,67 +62,211 @@ class ConfirmCheckoutView extends StatelessWidget {
       ),
       body: BlocConsumer<CheckoutBloc, CheckoutState>(
         listener: (context, state) {
-          if (state is CheckoutSuccess) {
+          if (state.status == CheckoutStatus.success) {
+            // Pop to classes page and show snackbar
             Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(context.l10n.successfullyRegisteredForClass)),
+            );
           }
         },
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(8),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  BlocBuilder<CheckoutBloc, CheckoutState>(
-                    builder: (context, state) {
-                      if (state is CheckoutCourseLoaded) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+          if (state.status == CheckoutStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state.status == CheckoutStatus.error) {
+            return Center(child: Text(l10n.errorLoadingClassData));
+          }
+          final course = state.releaseClass;
+          final quantity = state.quantity ?? numberOfClassesBought;
+          final pricePerClass = 20.0; // TODO: Get from course or pricing logic
+          final subtotal = pricePerClass * quantity;
+          final tax = subtotal * 0.06;
+          final total = subtotal + tax;
+          return AbsorbPointer(
+            absorbing: state.isProcessing,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (course != null)
+                      ReleaseClassCard(
+                        id: course.id,
+                        title: course.name,
+                        subtitle:
+                            '${course.startTime.hour}:${course.startTime.minute.toString().padLeft(2, '0')} - '
+                            '${course.endTime.hour}:${course.endTime.minute.toString().padLeft(2, '0')}',
+                        location: course.instructor,
+                        active: true,
+                        background: 'assets/images/release_studio.jpg',
+                        onTap: null,
+                      ),
+                    const SizedBox(height: 16),
+                    Text(l10n.orderSummary, style: theme.textTheme.titleLarge),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(l10n.numberOfClasses),
+                        Row(
                           children: [
-                            ListTile(
-                              leading: Text(
-                                l10n.course,
-                                style: theme.textTheme.displaySmall?.copyWith(
-                                  color: AppColors.black,
-                                ),
-                              ),
-                              trailing: Text(
-                                state.releaseClass.name,
-                                style: theme.textTheme.displaySmall?.copyWith(
-                                  color: AppColors.black,
-                                ),
-                              ),
+                            IconButton(
+                              icon: const Icon(Icons.remove),
+                              onPressed: quantity > 1 && !state.isProcessing
+                                  ? () => context.read<CheckoutBloc>().add(
+                                        CheckoutQuantityChanged(quantity - 1),
+                                      )
+                                  : null,
+                            ),
+                            Text('$quantity',
+                                style: theme.textTheme.titleMedium),
+                            IconButton(
+                              icon: const Icon(Icons.add),
+                              onPressed: quantity < 10 && !state.isProcessing
+                                  ? () => context.read<CheckoutBloc>().add(
+                                        CheckoutQuantityChanged(quantity + 1),
+                                      )
+                                  : null,
                             ),
                           ],
-                        );
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 70,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.greyTernary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
                         ),
-                      ),
-                      onPressed: () => context.read<CheckoutBloc>().add(
-                            CheckoutEventBoughtDropIns(
-                              numberOfClassesBought: numberOfClassesBought,
-                            ),
-                          ),
-                      child: const Text('Confirm'),
+                      ],
                     ),
-                  ),
-                ],
+                    const Divider(),
+                    _OrderSummaryRow(
+                        label: l10n.pricePerClass,
+                        value: formatCurrency.format(pricePerClass)),
+                    _OrderSummaryRow(
+                        label: l10n.subtotalLabel,
+                        value: formatCurrency.format(subtotal)),
+                    _OrderSummaryRow(
+                        label: l10n.taxLabel,
+                        value: formatCurrency.format(tax)),
+                    _OrderSummaryRow(
+                        label: l10n.totalLabel,
+                        value: formatCurrency.format(total),
+                        isTotal: true),
+                    const SizedBox(height: 24),
+                    Text(l10n.paymentMethod, style: theme.textTheme.titleLarge),
+                    const SizedBox(height: 8),
+                    if (state.paymentError != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(state.paymentError!,
+                            style: const TextStyle(color: Colors.red)),
+                      ),
+                    _CheckoutButton(
+                      label: l10n.payWithCreditDebit,
+                      icon: Icons.credit_card,
+                      loading: state.isProcessing,
+                      onPressed: !state.isProcessing
+                          ? () => context.read<CheckoutBloc>().add(
+                                CheckoutPaymentStarted(
+                                  method: 'Credit/Debit',
+                                  numberOfClassesBought: quantity,
+                                ),
+                              )
+                          : null,
+                    ),
+                    _CheckoutButton(
+                      label: l10n.payWithApplePay,
+                      icon: Icons.phone_iphone,
+                      loading: state.isProcessing,
+                      onPressed: !state.isProcessing
+                          ? () => context.read<CheckoutBloc>().add(
+                                CheckoutPaymentStarted(
+                                  method: 'Apple Pay',
+                                  numberOfClassesBought: quantity,
+                                ),
+                              )
+                          : null,
+                    ),
+                    _CheckoutButton(
+                      label: l10n.payWithGooglePay,
+                      icon: Icons.android,
+                      loading: state.isProcessing,
+                      onPressed: !state.isProcessing
+                          ? () => context.read<CheckoutBloc>().add(
+                                CheckoutPaymentStarted(
+                                  method: 'Google Pay',
+                                  numberOfClassesBought: quantity,
+                                ),
+                              )
+                          : null,
+                    ),
+                  ],
+                ),
               ),
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+// Helper widget for order summary rows.
+class _OrderSummaryRow extends StatelessWidget {
+  const _OrderSummaryRow({
+    required this.label,
+    required this.value,
+    this.isTotal = false,
+  });
+  final String label;
+  final String value;
+  final bool isTotal;
+  @override
+  Widget build(BuildContext context) {
+    final style = isTotal
+        ? Theme.of(context)
+            .textTheme
+            .titleLarge
+            ?.copyWith(fontWeight: FontWeight.bold)
+        : Theme.of(context).textTheme.bodyLarge;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [Text(label, style: style), Text(value, style: style)],
+      ),
+    );
+  }
+}
+
+// Helper widget for payment buttons.
+class _CheckoutButton extends StatelessWidget {
+  const _CheckoutButton({
+    required this.label,
+    required this.icon,
+    required this.onPressed,
+    this.loading = false,
+  });
+  final String label;
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final bool loading;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.greyTernary,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          minimumSize: const Size.fromHeight(48),
+        ),
+        onPressed: loading ? null : onPressed,
+        icon: loading
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : Icon(icon),
+        label: Text(label),
       ),
     );
   }

@@ -334,5 +334,65 @@
     "description": "Confirm registration button label",
     "type": "text",
     "placeholders": {}
+  },
+  "orderSummary": "Order Summary",
+  "@orderSummary": {
+    "description": "Order summary label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "numberOfClasses": "Number of Classes",
+  "@numberOfClasses": {
+    "description": "Number of classes label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pricePerClass": "Price per Class",
+  "@pricePerClass": {
+    "description": "Price per class label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "subtotalLabel": "Subtotal",
+  "@subtotalLabel": {
+    "description": "Subtotal label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "taxLabel": "Tax",
+  "@taxLabel": {
+    "description": "Tax label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "totalLabel": "Total",
+  "@totalLabel": {
+    "description": "Total label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "paymentMethod": "Payment Method",
+  "@paymentMethod": {
+    "description": "Payment method label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "payWithCreditDebit": "Pay with Credit/Debit",
+  "@payWithCreditDebit": {
+    "description": "Pay with credit/debit button label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "payWithApplePay": "Pay with Apple Pay",
+  "@payWithApplePay": {
+    "description": "Pay with Apple Pay button label on checkout screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "payWithGooglePay": "Pay with Google Pay",
+  "@payWithGooglePay": {
+    "description": "Pay with Google Pay button label on checkout screen",
+    "type": "text",
+    "placeholders": {}
   }
 }

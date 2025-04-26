@@ -8,10 +8,11 @@ part 'checkout_state.dart';
 class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   CheckoutBloc({required ReleaseProfileRepository releaseProfileRepository})
       : _releaseProfileRepository = releaseProfileRepository,
-        super(CheckoutInitial()) {
+        super(const CheckoutState()) {
     on<CheckoutEventStarted>(_onCheckOut);
-    on<CheckoutEventEnrolledInDropIn>(_onCheckOutFinished);
-    on<CheckoutEventBoughtDropIns>(_onDropInPackageBought);
+    // on<CheckoutEventEnrolledInDropIn>(_onCheckOutFinished);
+    on<CheckoutQuantityChanged>(_onQuantityChanged);
+    on<CheckoutPaymentStarted>(_onPaymentStarted);
   }
 
   final ReleaseProfileRepository _releaseProfileRepository;
@@ -20,45 +21,61 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     CheckoutEventStarted event,
     Emitter<CheckoutState> emit,
   ) async {
-    emit(CheckoutCourseLoading());
+    emit(
+      state.copyWith(
+        status: CheckoutStatus.loading,
+        isProcessing: false,
+        paymentError: null,
+      ),
+    );
     try {
       final course = await _releaseProfileRepository.getSingleClass(
         event.classId,
         event.date,
       );
-      emit(CheckoutCourseLoaded(releaseClass: course));
+      emit(state.copyWith(releaseClass: course, status: CheckoutStatus.loaded));
     } catch (e) {
-      emit(CheckoutError(e));
+      emit(state.copyWith(status: CheckoutStatus.error));
     }
   }
 
-  Future<void> _onCheckOutFinished(
-    CheckoutEventEnrolledInDropIn event,
+  // Future<void> _onCheckOutFinished(
+  //   CheckoutEventEnrolledInDropIn event,
+  //   Emitter<CheckoutState> emit,
+  // ) async {
+  //   emit(state.copyWith(isProcessing: true, paymentError: null));
+  //   try {
+  //     await Future<void>.delayed(const Duration(seconds: 1));
+  //     await _releaseProfileRepository.enrollInClass(
+  //       event.classId,
+  //       event.dropInsUsed,
+  //     );
+  //     emit(CheckoutSuccess());
+  //   } catch (e) {
+  //     emit(CheckoutError(e));
+  //   }
+  // }
+
+  void _onQuantityChanged(
+    CheckoutQuantityChanged event,
     Emitter<CheckoutState> emit,
-  ) async {
-    emit(CheckoutCourseLoading());
-    try {
-      await Future<void>.delayed(const Duration(seconds: 1));
-      await _releaseProfileRepository.enrollInClass(
-        event.classId,
-        event.dropInsUsed,
-      );
-      emit(CheckoutSuccess());
-    } catch (e) {
-      emit(CheckoutError(e));
-    }
+  ) {
+    emit(state.copyWith(quantity: event.quantity, paymentError: null));
   }
 
-  Future<void> _onDropInPackageBought(
-    CheckoutEventBoughtDropIns event,
+  Future<void> _onPaymentStarted(
+    CheckoutPaymentStarted event,
     Emitter<CheckoutState> emit,
   ) async {
-    emit(CheckoutCourseLoading());
+    emit(state.copyWith(isProcessing: true, paymentError: null));
+    // Simulate payment delay
     try {
       await _releaseProfileRepository.buyDropIns(event.numberOfClassesBought);
-      emit(CheckoutSuccess());
-    } catch (e) {
-      emit(CheckoutError(e));
+      await Future<void>.delayed(const Duration(seconds: 2));
+      // For now, always succeed
+      emit(state.copyWith(status: CheckoutStatus.success));
+    } on Exception catch (e) {
+      emit(state.copyWith(isProcessing: false, paymentError: e.toString()));
     }
   }
 }

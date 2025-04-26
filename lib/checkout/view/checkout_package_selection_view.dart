@@ -55,7 +55,7 @@ class _CheckoutPackageSelectionViewState
     final l10n = context.l10n;
     return BlocBuilder<CheckoutBloc, CheckoutState>(
       builder: (context, state) {
-        if (state is CheckoutCourseLoaded) {
+        if (state.status == CheckoutStatus.success) {
           final course = state.releaseClass;
           return SafeArea(
             child: Scaffold(
@@ -63,7 +63,7 @@ class _CheckoutPackageSelectionViewState
               body: Column(
                 children: [
                   ReleaseClassCard(
-                    title: course.name,
+                    title: course!.name,
                     subtitle:
                         '${course.startTime.hour}-${course.endTime.hour} ',
                     location: course.date,

@@ -47,3 +47,31 @@ class CheckoutEventBoughtDropIns extends CheckoutEvent {
   @override
   List<Object> get props => [numberOfClassesBought];
 }
+
+// Event for changing the quantity of classes
+class CheckoutQuantityChanged extends CheckoutEvent {
+  const CheckoutQuantityChanged(this.quantity);
+  final int quantity;
+  @override
+  List<Object> get props => [quantity];
+}
+
+// Event for starting a payment
+class CheckoutPaymentStarted extends CheckoutEvent {
+  const CheckoutPaymentStarted({
+    required this.method,
+    required this.numberOfClassesBought,
+  });
+  final String method;
+  final int numberOfClassesBought;
+  @override
+  List<Object> get props => [method, numberOfClassesBought];
+}
+
+// Event for payment result (success/failure)
+class CheckoutPaymentResult extends CheckoutEvent {
+  const CheckoutPaymentResult({this.error});
+  final String? error;
+  @override
+  List<Object> get props => [error ?? ''];
+}

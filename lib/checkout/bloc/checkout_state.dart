@@ -1,36 +1,54 @@
 part of 'checkout_bloc.dart';
 
-sealed class CheckoutState extends Equatable {
-  const CheckoutState();
-
-  @override
-  List<Object> get props => [];
+enum CheckoutStatus {
+  loading,
+  loaded,
+  processing,
+  success,
+  error,
 }
 
-final class CheckoutInitial extends CheckoutState {}
+class CheckoutState extends Equatable {
+  const CheckoutState({
+    this.status = CheckoutStatus.loading,
+    this.releaseClass,
+    this.quantity,
+    this.isProcessing = false,
+    this.paymentError,
+    this.error,
+  });
 
-final class CheckoutCourseLoading extends CheckoutState {}
-
-final class CheckoutCourseLoaded extends CheckoutState {
-  const CheckoutCourseLoaded({required this.releaseClass});
-
-  final ReleaseClass releaseClass;
-
+  final CheckoutStatus status;
+  final ReleaseClass? releaseClass;
+  final int? quantity;
+  final bool isProcessing;
+  final String? paymentError;
+  final String? error;
   @override
-  List<Object> get props => [releaseClass];
-}
+  List<Object?> get props => [
+        status,
+        releaseClass,
+        quantity,
+        isProcessing,
+        paymentError,
+        error,
+      ];
 
-final class CheckoutRegisteredLoading extends CheckoutState {}
-
-final class CheckoutRegisteredLoaded extends CheckoutState {}
-
-final class CheckoutSuccess extends CheckoutState {}
-
-final class CheckoutError extends CheckoutState {
-  const CheckoutError(this.error);
-
-  final Object error;
-
-  @override
-  List<Object> get props => [error];
+  CheckoutState copyWith({
+    CheckoutStatus? status,
+    ReleaseClass? releaseClass,
+    int? quantity,
+    bool? isProcessing,
+    String? paymentError,
+    String? error,
+  }) {
+    return CheckoutState(
+      status: status ?? this.status,
+      releaseClass: releaseClass ?? this.releaseClass,
+      quantity: quantity ?? this.quantity,
+      isProcessing: isProcessing ?? this.isProcessing,
+      paymentError: paymentError ?? this.paymentError,
+      error: error ?? this.error,
+    );
+  }
 }
