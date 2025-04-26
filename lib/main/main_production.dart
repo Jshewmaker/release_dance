@@ -24,9 +24,10 @@ void main() {
           CloudFirestoreClient(firebaseFirestore: firebaseFirestore);
       final userRepository =
           UserRepository(authenticationClient: authenticationClient);
+      final user = await userRepository.user.first;
       final releaseProfileRepository = ReleaseProfileRepository(
         cloudFirestoreClient: cloudFirestoreClient,
-        firebaseAuthenticationClient: authenticationClient,
+        user: user,
       );
       final firebaseMessaging = FirebaseMessaging.instance;
 
@@ -39,7 +40,6 @@ void main() {
 
       final appConfigRepository = FakeAppConfigRepository();
 
-      final user = await userRepository.user.first;
       await notificationRepository.initialize();
 
       return App(

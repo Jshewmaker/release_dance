@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:equatable/equatable.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
 

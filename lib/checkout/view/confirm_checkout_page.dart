@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:release_dance/checkout/checkout.dart';
+import 'package:release_dance/generated/assets.gen.dart';
+import 'package:release_dance/home/home.dart';
 import 'package:release_dance/l10n/l10n.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
 
@@ -16,13 +18,11 @@ class ConfirmCheckoutPage extends StatelessWidget {
   ///{@macro checkout_page}
   const ConfirmCheckoutPage({
     required this.classId,
-    required this.date,
     required this.duration,
     required this.dropIns,
     super.key,
   });
 
-  final String date;
   final String classId;
   final int dropIns;
   final int duration;
@@ -33,7 +33,7 @@ class ConfirmCheckoutPage extends StatelessWidget {
       create: (context) => CheckoutBloc(
         releaseProfileRepository: context.read<ReleaseProfileRepository>(),
       )..add(
-          CheckoutEventStarted(classId: classId, date: date),
+          CheckoutEventStarted(classId: classId),
         ),
       child: ConfirmCheckoutView(
         numberOfClassesBought: dropIns,
@@ -52,7 +52,7 @@ class ConfirmCheckoutView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-
+    final isDropIn = context.read<CheckoutBloc>().state.releaseClass!.canDropIn;
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -64,6 +64,7 @@ class ConfirmCheckoutView extends StatelessWidget {
         listener: (context, state) {
           if (state.status == CheckoutStatus.success) {
             // Pop to classes page and show snackbar
+            context.read<UserBloc>().add(UserRequested());
             Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -81,7 +82,7 @@ class ConfirmCheckoutView extends StatelessWidget {
           final course = state.releaseClass;
           final quantity = state.quantity ?? numberOfClassesBought;
           final pricePerClass = 20.0; // TODO: Get from course or pricing logic
-          final subtotal = pricePerClass * quantity;
+          final subtotal = isDropIn ? pricePerClass * quantity : 160.0;
           final tax = subtotal * 0.06;
           final total = subtotal + tax;
           return AbsorbPointer(
@@ -101,44 +102,89 @@ class ConfirmCheckoutView extends StatelessWidget {
                             '${course.endTime.hour}:${course.endTime.minute.toString().padLeft(2, '0')}',
                         location: course.instructor,
                         active: true,
-                        background: 'assets/images/release_studio.jpg',
+                        background: Assets.images.releaseStudio.path,
                         onTap: null,
                       ),
                     const SizedBox(height: 16),
                     Text(l10n.orderSummary, style: theme.textTheme.titleLarge),
                     const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(l10n.numberOfClasses),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: quantity > 1 && !state.isProcessing
-                                  ? () => context.read<CheckoutBloc>().add(
-                                        CheckoutQuantityChanged(quantity - 1),
-                                      )
-                                  : null,
+                    if (isDropIn)
+                      ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 8),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: DROP_IN_PACKAGES.length,
+                        itemBuilder: (context, index) {
+                          final price =
+                              DROP_IN_PACKAGES.values.elementAt(index);
+                          final packageQuantity =
+                              DROP_IN_PACKAGES.keys.elementAt(index);
+                          final isSelected = quantity == packageQuantity;
+                          return ListTile(
+                            title: Text(
+                              l10n.quantityClassPack(packageQuantity),
+                              style: theme.textTheme.labelMedium,
                             ),
-                            Text('$quantity',
-                                style: theme.textTheme.titleMedium),
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: quantity < 10 && !state.isProcessing
-                                  ? () => context.read<CheckoutBloc>().add(
-                                        CheckoutQuantityChanged(quantity + 1),
-                                      )
-                                  : null,
+                            subtitle: Text(
+                              l10n.oneMonthExpiration,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: AppColors.black,
+                              ),
                             ),
-                          ],
+                            trailing: Text(
+                              formatCurrency.format(price),
+                              style: theme.textTheme.labelMedium!.copyWith(
+                                color: AppColors.black,
+                              ),
+                            ),
+                            tileColor: isSelected
+                                ? theme.colorScheme.primary.withOpacity(0.1)
+                                : null,
+                            selected: isSelected,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            onTap: () => context.read<CheckoutBloc>().add(
+                                  CheckoutPackageSelected(packageQuantity),
+                                ),
+                          );
+                        },
+                      )
+                    else
+                      ListTile(
+                        title: Text(
+                          l10n.course,
+                          style: theme.textTheme.labelMedium,
                         ),
-                      ],
-                    ),
-                    const Divider(),
-                    _OrderSummaryRow(
-                        label: l10n.pricePerClass,
-                        value: formatCurrency.format(pricePerClass)),
+                        subtitle: Text(
+                          l10n.courseDuration(8),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: AppColors.black,
+                          ),
+                        ),
+                        trailing: Text(
+                          formatCurrency.format(160),
+                          style: theme.textTheme.labelMedium!.copyWith(
+                            color: AppColors.black,
+                          ),
+                        ),
+                        selectedTileColor:
+                            theme.colorScheme.primary.withValues(alpha: 0.8),
+                        selected: true,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        onTap: () => context.read<CheckoutBloc>().add(
+                              const CheckoutPackageSelected(1),
+                            ),
+                      ),
+                    const SizedBox(height: 16),
+                    // --- Order Summary ---
+                    Text(l10n.orderSummary, style: theme.textTheme.titleLarge),
+                    const SizedBox(height: 8),
+                    if (isDropIn)
+                      _OrderSummaryRow(
+                          label: l10n.pricePerClass,
+                          value: formatCurrency.format(pricePerClass)),
                     _OrderSummaryRow(
                         label: l10n.subtotalLabel,
                         value: formatCurrency.format(subtotal)),

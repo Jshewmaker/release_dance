@@ -11,12 +11,15 @@ class CloudFirestoreClient {
   }) : _firestore = firebaseFirestore;
   final FirebaseFirestore _firestore;
 
-  /// Get user data from Firestore.
-  Future<Map<String, dynamic>> getUser(String userId) async {
-    try {
-      final doc = await _firestore.collection('users').doc(userId).get();
+  CollectionReference<Map<String, dynamic>> get _usersCollection =>
+      _firestore.collection('users');
 
-      return doc.data() ?? {};
+  /// Get user data from Firestore.
+  Stream<ReleaseUser> getUser(String userId) {
+    try {
+      return _usersCollection.doc(userId).snapshots().map(
+            (e) => ReleaseUser.fromJson(e.data()!),
+          );
     } on Exception catch (e) {
       throw Exception('Error getting user: $e');
     }
@@ -48,15 +51,11 @@ class CloudFirestoreClient {
   }
 
   /// Get class information from specific class id.
-  Future<Class> getSingleClass(
-    String classId,
-    String date,
-  ) async {
+  Future<Class> getSingleClass(String classId) async {
     try {
       final doc = await _firestore
           .collection('classes')
           .where('id', isEqualTo: classId)
-          .where('date', isEqualTo: date)
           .get();
 
       return Class.fromJson(doc.docs.first.data());

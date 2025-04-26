@@ -275,9 +275,21 @@
     "type": "text",
     "placeholders": {}
   },
+  "buyMorePasses": "Buy More Passes",
+  "@buyMorePasses": {
+    "description": "Button text for buying more passes",
+    "type": "text",
+    "placeholders": {}
+  },
   "noNetworkConnectionText": "No Network Connection.",
   "@noNetworkConnectionText": {
     "description": "No Network Connection text shown on the bottom OverlayEntry when connectivity is offline",
+    "type": "text",
+    "placeholders": {}
+  },
+  "usePass": "Use Pass",
+  "@usePass": {
+    "description": "Button text for using a pass",
     "type": "text",
     "placeholders": {}
   },
@@ -291,7 +303,7 @@
             }
         }
     },
-    "thisWillUseDropInClass": "This will use one of your drop-in classes. You will have {dropInClasses} left.",
+    "thisWillUseDropInClass": "This will use one of your passes. You will have {dropInClasses} passes left.",
     "@thisWillUseDropInClass": {
         "description": "Message letting user know that this class will use a drop-in class. Also tells user how many drop-in classes they have left.",
         "placeholders": {

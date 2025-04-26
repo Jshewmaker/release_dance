@@ -8,3 +8,10 @@ sealed class UserEvent extends Equatable {
 }
 
 final class UserRequested extends UserEvent {}
+
+final class UserUpdated extends UserEvent {
+  const UserUpdated(this.user);
+  final ReleaseUser user;
+  @override
+  List<Object> get props => [user];
+}

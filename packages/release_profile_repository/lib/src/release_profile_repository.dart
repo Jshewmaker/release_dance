@@ -1,7 +1,6 @@
+import 'package:authentication_client/authentication_client.dart';
 import 'package:cloud_firestore_client/cloud_firestore_client.dart';
-import 'package:firebase_authentication_client/firebase_authentication_client.dart';
 import 'package:intl/intl.dart';
-import 'package:release_profile_repository/release_profile_repository.dart';
 
 /// {@template release_profile_repository}
 /// Repository for gathering data about a release user.
@@ -10,18 +9,16 @@ class ReleaseProfileRepository {
   /// {@macro release_profile_repository}
   const ReleaseProfileRepository({
     required CloudFirestoreClient cloudFirestoreClient,
-    required FirebaseAuthenticationClient firebaseAuthenticationClient,
+    required User user,
   })  : _cloudFirestoreClient = cloudFirestoreClient,
-        _firebaseAuthenticationClient = firebaseAuthenticationClient;
+        _user = user;
 
   final CloudFirestoreClient _cloudFirestoreClient;
-  final FirebaseAuthenticationClient _firebaseAuthenticationClient;
+  final User _user;
 
   /// Get the user's profile data.
-  Future<ReleaseUser> getUserProfile() async {
-    final user = await _firebaseAuthenticationClient.user.first;
-    final json = await _cloudFirestoreClient.getUser(user.id);
-    return ReleaseUser.fromJson(json);
+  Stream<ReleaseUser> getUserProfile() {
+    return _cloudFirestoreClient.getUser(_user.id);
   }
 
   /// Get this months classes.
@@ -43,11 +40,8 @@ class ReleaseProfileRepository {
   }
 
   /// Get class information from specific class id.
-  Future<ReleaseClass> getSingleClass(
-    String classId,
-    String date,
-  ) async {
-    final response = await _cloudFirestoreClient.getSingleClass(classId, date);
+  Future<ReleaseClass> getSingleClass(String classId) async {
+    final response = await _cloudFirestoreClient.getSingleClass(classId);
     return ReleaseClass.fromClient(response);
   }
 
@@ -56,9 +50,8 @@ class ReleaseProfileRepository {
   /// [classId] is the id of the class to enroll in.
   /// [numberOfDropIns] is the number of drop-ins to use.
   Future<void> enrollInClass(String classId, int numberOfDropIns) async {
-    final user = await _firebaseAuthenticationClient.user.first;
     await _cloudFirestoreClient.enrollInDropInClass(
-      user.id,
+      _user.id,
       classId,
       numberOfDropIns,
     );
@@ -68,16 +61,14 @@ class ReleaseProfileRepository {
   ///
   /// [classId] is the id of the class to enroll in.
   Future<void> enrollInCourse(String classId) async {
-    final user = await _firebaseAuthenticationClient.user.first;
     await _cloudFirestoreClient.enrollInCourse(
-      user.id,
+      _user.id,
       classId,
     );
   }
 
   /// Buy drop-ins for the user.
   Future<void> buyDropIns(int numberOfDropIns) async {
-    final user = await _firebaseAuthenticationClient.user.first;
-    await _cloudFirestoreClient.buyDropIns(user.id, numberOfDropIns);
+    await _cloudFirestoreClient.buyDropIns(_user.id, numberOfDropIns);
   }
 }

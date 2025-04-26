@@ -152,29 +152,16 @@ class _SignUpForDropInButton extends StatelessWidget {
         ),
       ),
       onPressed: () async {
-        if (dropIns > 0 && classInfo.isDropIn) {
-          await _useDropInBottomSheet(
-            context,
-            dropIns,
-          );
-        } else {
-          await _buyDropInBottomSheet(
-            context,
-            classInfo,
-          );
-        }
+        await _dropInBottomSheet(
+          context,
+          dropIns,
+        );
       },
-      child: (dropIns > 0)
-          ? Text(l10n.registerForClass)
-          : Text(
-              '${l10n.joinClassLabel} ${formatCurrency.format(
-                classInfo.price,
-              )}',
-            ),
+      child: Text(l10n.registerForClass),
     );
   }
 
-  Future<void> _useDropInBottomSheet(
+  Future<void> _dropInBottomSheet(
     BuildContext context,
     int dropInClasses,
   ) async {
@@ -208,6 +195,7 @@ class _SignUpForDropInButton extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.md),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -224,77 +212,39 @@ class _SignUpForDropInButton extends StatelessWidget {
 
                         Navigator.pop(context);
                       },
-                      child: Text(l10n.confirmRegisterLabel),
+                      child: Text(l10n.usePass),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _buyDropInBottomSheet(
-    BuildContext context,
-    ClassInfo course,
-  ) async {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    await showModalBottomSheet<void>(
-      context: context,
-      builder: (_) {
-        return SizedBox(
-          child: Column(
-            children: [
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                l10n.selectAPackage,
-                style: theme.textTheme.headlineMedium
-                    ?.copyWith(color: AppColors.black),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: DROP_IN_PACKAGES.length,
-                  itemBuilder: (context, index) {
-                    final price = DROP_IN_PACKAGES.values.elementAt(index);
-                    final quantity = DROP_IN_PACKAGES.keys.elementAt(index);
-                    return ListTile(
-                      title: Text(
-                        l10n.quantityClassPack(quantity),
-                        style: theme.textTheme.labelMedium,
-                      ),
-                      subtitle: Text(
-                        l10n.oneMonthExpiration,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: AppColors.black,
+                  const SizedBox(height: AppSpacing.lg),
+                  const SizedBox(height: AppSpacing.lg),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.greyTernary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      trailing: Text(
-                        formatCurrency.format(price),
-                        style: theme.textTheme.labelMedium!.copyWith(
-                          color: AppColors.black,
-                        ),
-                      ),
-                      onTap: () {
+                      onPressed: () {
                         context.pop();
                         Navigator.of(context).push(
                           MaterialPageRoute<void>(
                             builder: (context) => ConfirmCheckoutPage(
-                              classId: course.classId,
-                              date: date,
-                              duration: course.durationWeeks,
-                              dropIns: quantity,
+                              classId: classInfo.classId,
+                              duration: classInfo.durationWeeks,
+                              dropIns: 1,
                             ),
                           ),
                         );
                       },
-                    );
-                  },
-                ),
+                      child: Text(l10n.buyMorePasses),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
@@ -317,8 +267,17 @@ class _SignUpForCourseButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      onPressed: () async {
-        context.read<ClassInfoBloc>().add(CourseSignUp(classInfo.classId));
+      onPressed: () {
+        context.pop();
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (context) => ConfirmCheckoutPage(
+              classId: classInfo.classId,
+              duration: classInfo.durationWeeks,
+              dropIns: 1,
+            ),
+          ),
+        );
       },
       child: Text(
         '${l10n.joinCourseLabel} ${formatCurrency.format(

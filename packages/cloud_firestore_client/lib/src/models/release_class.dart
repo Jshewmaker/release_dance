@@ -1,5 +1,4 @@
 import 'package:cloud_firestore_client/cloud_firestore_client.dart';
-import 'package:release_profile_repository/release_profile_repository.dart';
 
 /// {@template class}
 /// A class that represents a dance class.

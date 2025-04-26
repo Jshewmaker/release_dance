@@ -39,7 +39,7 @@ void main() {
 
       final releaseUserRepository = ReleaseProfileRepository(
         cloudFirestoreClient: cloudFirestoreClient,
-        firebaseAuthenticationClient: authenticationClient,
+        user: user,
       );
       final appConfigRepository = FakeAppConfigRepository();
 

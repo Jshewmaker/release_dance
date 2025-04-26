@@ -8,19 +8,12 @@ sealed class CheckoutEvent extends Equatable {
 }
 
 class CheckoutEventStarted extends CheckoutEvent {
-  const CheckoutEventStarted({
-    required this.classId,
-    required this.date,
-  });
+  const CheckoutEventStarted({required this.classId});
 
-  final String date;
   final String classId;
 
   @override
-  List<Object> get props => [
-        classId,
-        date,
-      ];
+  List<Object> get props => [classId];
 }
 
 class CheckoutEventEnrolledInDropIn extends CheckoutEvent {
@@ -51,6 +44,14 @@ class CheckoutEventBoughtDropIns extends CheckoutEvent {
 // Event for changing the quantity of classes
 class CheckoutQuantityChanged extends CheckoutEvent {
   const CheckoutQuantityChanged(this.quantity);
+  final int quantity;
+  @override
+  List<Object> get props => [quantity];
+}
+
+// Event for selecting a package (number of classes)
+class CheckoutPackageSelected extends CheckoutEvent {
+  const CheckoutPackageSelected(this.quantity);
   final int quantity;
   @override
   List<Object> get props => [quantity];

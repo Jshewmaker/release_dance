@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore_client/cloud_firestore_client.dart';
 import 'package:equatable/equatable.dart';
 import 'package:release_profile_repository/release_profile_repository.dart';
 
@@ -12,6 +13,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     on<CheckoutEventStarted>(_onCheckOut);
     // on<CheckoutEventEnrolledInDropIn>(_onCheckOutFinished);
     on<CheckoutQuantityChanged>(_onQuantityChanged);
+    on<CheckoutPackageSelected>(_onPackageSelected);
     on<CheckoutPaymentStarted>(_onPaymentStarted);
   }
 
@@ -29,10 +31,8 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       ),
     );
     try {
-      final course = await _releaseProfileRepository.getSingleClass(
-        event.classId,
-        event.date,
-      );
+      final course =
+          await _releaseProfileRepository.getSingleClass(event.classId);
       emit(state.copyWith(releaseClass: course, status: CheckoutStatus.loaded));
     } catch (e) {
       emit(state.copyWith(status: CheckoutStatus.error));
@@ -58,6 +58,13 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
 
   void _onQuantityChanged(
     CheckoutQuantityChanged event,
+    Emitter<CheckoutState> emit,
+  ) {
+    emit(state.copyWith(quantity: event.quantity, paymentError: null));
+  }
+
+  void _onPackageSelected(
+    CheckoutPackageSelected event,
     Emitter<CheckoutState> emit,
   ) {
     emit(state.copyWith(quantity: event.quantity, paymentError: null));
